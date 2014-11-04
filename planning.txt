@@ -1,9 +1,22 @@
-To do
-- Load in data, look at polite/impolite sentences
-
-
 Classifier features:
 - Bag-of-words
 - Sentiment
 - Annotaties
 - Iets met treees
+
+
+Data-analyis
+- Maybe leave out sentences for which five very different ratings were given?
+- Maybe try to detect "outturks" that misclassify politeness?
+- Maybe normalize the score a Turk gives, such that all Turks give scores with the same mean and standard deviation?
+
+Bag-of-words:
+- Create dictionary d such that d[word] gives expected politeness of words, computed by taking all sentences containing the word and taking the mean score
+- Maybe do the same for sequences of words instead of single words
+- Maybe do the same for (word, poisition) pairs
+- Maybe add POS tags
+
+Visualisation/testing:
+- Train and eveluate classifier
+- Give colors to word(sequences) based on learned Bag-of-Words model
+- Give suggestions based on POS tag/syntactical compatibility and learned probabilities
