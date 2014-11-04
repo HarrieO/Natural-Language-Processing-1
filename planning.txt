@@ -1,0 +1,9 @@
+To do
+- Load in data, look at polite/impolite sentences
+
+
+Classifier features:
+- Bag-of-words
+- Sentiment
+- Annotaties
+- Iets met treees
