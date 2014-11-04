@@ -13,10 +13,11 @@ Data-analyis
 Bag-of-words:
 - Create dictionary d such that d[word] gives expected politeness of words, computed by taking all sentences containing the word and taking the mean score
 - Maybe do the same for sequences of words instead of single words
-- Maybe do the same for (word, poisition) pairs
+- Maybe do the same for (word, position) pairs
 - Maybe add POS tags
+- Maybe use Data Oriented Parsing
 
 Visualisation/testing:
-- Train and eveluate classifier
+- Train and evaluate classifier
 - Give colors to word(sequences) based on learned Bag-of-Words model
 - Give suggestions based on POS tag/syntactical compatibility and learned probabilities
