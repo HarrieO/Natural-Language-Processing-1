@@ -10,6 +10,7 @@ Voor vrijdag precies weten wat we willen doen.
 
 Carla
 - bag of words
+- n-grams (hmm?)
 
 Harrie
 - parse trees onderzoeken
@@ -20,3 +21,4 @@ Joost
 
 Ties
 - visualisatie bedenken
+- Data Oriented Parsing
