@@ -2,22 +2,30 @@ Classifier features:
 - Bag-of-words
 - Sentiment
 - Annotaties
-- Iets met treees
+- Iets met trees
 
 
 Data-analyis
 - Maybe leave out sentences for which five very different ratings were given?
 - Maybe try to detect "outturks" that misclassify politeness?
-- Maybe normalize the score a Turk gives, such that all Turks give scores with the same mean and standard deviation?
+- Maybe normalise the score a Turk gives, such that all Turks give scores with the same mean and standard deviation?
 
 Bag-of-words:
 - Create dictionary d such that d[word] gives expected politeness of words, computed by taking all sentences containing the word and taking the mean score
 - Maybe do the same for sequences of words instead of single words
 - Maybe do the same for (word, position) pairs
 - Maybe add POS tags
-- Maybe use Data Oriented Parsing
+- N-grams (with pos tags)
 
 Visualisation/testing:
 - Train and evaluate classifier
-- Give colors to word(sequences) based on learned Bag-of-Words model
+- Give colours to word(sequences) based on learned Bag-of-Words model
 - Give suggestions based on POS tag/syntactical compatibility and learned probabilities
+
+Recognising important words:
+- Use decision stumps to evaluate the importance of individual words
+  to remove indiscriminate words
+
+Structure of sentence:
+- Probabilities of subtrees in (im)polite language
+- Maybe use Data Oriented Parsing
