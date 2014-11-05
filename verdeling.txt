@@ -1,0 +1,22 @@
+- bag of words
+- vocabulary (deci trees)
+- Pos tags
+- parse trees toevoegen
+- visualisatie
+
+
+Voor vrijdag precies weten wat we willen doen.
+
+
+Carla
+- bag of words
+
+Harrie
+- parse trees onderzoeken
+- Data Oriented Parsing
+
+Joost
+- Data Oriented Parsing
+
+Ties
+- visualisatie bedenken
