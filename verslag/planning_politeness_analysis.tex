@@ -1,0 +1,58 @@
+% Voor Engelse tekst, gebruik de optie english.
+\documentclass[11pt, english]{article}
+\usepackage[english]{babel}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+\usepackage{caption}
+\usepackage{lipsum}
+\addtolength{\oddsidemargin}{-1.5cm} 		%linkermarge verkleinen
+\addtolength{\textwidth}{3cm}
+\addtolength{\topmargin}{-1.5cm}
+\addtolength{\textheight}{3.5cm}
+\usepackage{chngcntr}
+\usepackage[all]{xy}
+\usepackage{amsmath}
+\usepackage{bbm} 
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{amssymb}  
+\usepackage{amsthm}     
+\usepackage{enumerate}
+\usepackage{url}
+\graphicspath{ {./plaatjes/} }
+\title{Politeness analysis: Planning}
+\author{Carla Groenland (10208429), Harrie Oosterhuis (10196129), \\
+Ties, Joost}
+%
+% Wiskunde-omgevingen
+%
+\newcommand{\field}[1]{\mathbb{#1}}
+\newcommand{\R}{\field{R}} % reele getalen
+\newcommand{\N}{\field{N}} % natuurlijke getallen
+\newcommand{\C}{\field{C}} % complexe getallen
+\newcommand{\Z}{\field{Z}} % gehele getallen
+\newcommand{\Hom}{\text{Hom}}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\Ker}{Ker}
+\usepackage[usenames, pdftex]{color}
+\definecolor{OliveGreen}{rgb}{0,0.6,0}
+\lstset{
+    language=matlab,
+    basicstyle=\ttfamily\small,
+    commentstyle=\color{OliveGreen}}
+\begin{document}
+\maketitle
+The assignment of our group consists of two parts:
+\begin{itemize}
+\item Find discriminative features for politeness and build a classifier based on the given data sets
+\item Make a visualization system that highlights polite and impolite parts of a sentence. If time allows, let the system give suggestions to make the sentence more polite.
+\end{itemize}
+We have split the given data in a test and train set. We will evaluate the system based on the performance on the (unseen) test set.
+In order to build a good classifier for politeness, we propose to compare the following:
+\begin{itemize}
+\item Baseline: represent sentences by a histogram of word frequencies. Use the training data to give a score to each individual word (by taking the mean score of all sentences it occurs in). Use these scores to score new sentences. 
+\item Simple improvements on baseline: use a different type of classification system on the histogram of frequencies. Add POS tag information to the histogram. Add information about POS tag sequences to the histogram (attach to a word $w_n$ the POS tags of $w_{n-1},w_n,w_{n+1}$).
+\item Data preprocessing: many words, such as technical words, may have no influence on the politeness of the sentence. We can try to filter these by building decision stumps for single words and measuring the entropy and only keep words in the histogram that gave a sufficient amount of information gain.
+\end{itemize}
+\end{document}
