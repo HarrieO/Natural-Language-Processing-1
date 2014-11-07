@@ -1,24 +1,41 @@
-- bag of words
-- vocabulary (deci trees)
-- Pos tags
-- parse trees toevoegen
-- visualisatie
+Harrie:
+	DOP
+	- Feature extraction
+	- Data preprocessing
+	- Classification
+
+	Evaluation
+	- optimizing classification
+	- interpreting results
 
 
-Voor vrijdag precies weten wat we willen doen.
+Carla:
+	Bag of Words
+	- Dimensionality reduction
+	- Data preprocessing
+	- Feature extracting
+	- Classification
 
+	Evaluation
+	- optimizing classification
+	- interpreting results
 
-Carla
-- bag of words
-- n-grams (hmm?)
+Ties:
+	Visualisation
+	- displaying sentences
+	- correction suggestions
 
-Harrie
-- parse trees onderzoeken
-- Data Oriented Parsing
+	DOP
+	- Feature extraction
+	- Data preprocessing
 
-Joost
-- Data Oriented Parsing
+Joost:
+	Bag of Words
+	- Dimensionality reduction
+	- Data preprocessing
+	- Feature extracting
+	- Classification
 
-Ties
-- visualisatie bedenken
-- Data Oriented Parsing
+	Visualisation
+	- displaying sentences
+	- correction suggestions
