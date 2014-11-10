@@ -1,3 +1,4 @@
+import numpy as np
 class TagExtractor:
 
 	unigrams = dict()
@@ -60,35 +61,56 @@ class TagExtractor:
 		print self.tagFrequencies
 		print "Total tokens"
 		print self.N
-	def calculateProbabilities(self):
 		self.tags = self.tagFrequencies.keys()
+		self.setMissingToZero()
+	def calculateProbabilities(self):
 		for tag in self.tags:
 			# Estimate Unigram probability
 			self.unigrams[tag] = float(self.tagFrequencies[tag])/float(self.N)
 			for tag2 in self.tags:
 				# Estimate Bigram probability
-				if (tag2+","+tag) in self.tagFrequencies2:
-					self.bigrams[tag+"|"+tag2] = float(self.tagFrequencies2[tag2+","+tag])/float(self.tagFrequencies[tag])
-				else:
-					self.bigrams[tag+"|"+tag2] = 0
+				self.bigrams[tag+"|"+tag2] = float(self.tagFrequencies2[tag2+","+tag])/float(self.tagFrequencies[tag])
 				for tag1 in self.tags:
 					# Estimate Trigram probability
-					if (tag1+","+tag2) in self.tagFrequencies2 and (tag1+","+tag2+","+tag) in self.tagFrequencies3:
+					if self.tagFrequencies2[tag1+","+tag2] != 0:
 						self.trigrams[tag+"|"+tag1+","+tag2] = float(self.tagFrequencies3[tag1+","+tag2+","+tag])/float(self.tagFrequencies2[tag1+","+tag2])
 					else:
 						self.trigrams[tag+"|"+tag1+","+tag2] = 0
 			for word in self.words:
 				# Estimate Lexical probability
-				if (word+","+tag) not in self.frequencies:
-					self.frequencies[word+","+tag] = 0
 				self.lexical[word+"|"+tag] = float(self.frequencies[word+","+tag])/float(self.tagFrequencies[tag])
 		print "Unigrams"
 		print self.unigrams
+	def setMissingToZero(self):
+		for tag1 in self.tags:
+			for tag2 in self.tags:
+				if (tag1+","+tag2) not in self.tagFrequencies2:
+					self.tagFrequencies2[tag1+","+tag2] = 0
+				for tag3 in self.tags:
+					if (tag1+","+tag2+","+tag3) not in self.tagFrequencies3:
+						self.tagFrequencies3[tag1+","+tag2+","+tag3] = 0
+			for word in self.words:
+				if (word+","+tag1) not in self.frequencies:
+					self.frequencies[word+","+tag1] = 0
 	def estimateTrigrams(self):
-		for key, freq in tagFrequencies3:
-			lambda1 = 0
-			lambda2 = 0
-			lambda3 = 0
+		lambda1 = 0
+		lambda2 = 0
+		lambda3 = 0
+		old_err_state = np.seterr(divide='ignore') # Ignore divide by zero as it is expected behaviour
+		for tag1 in self.tags:
+			for tag2 in self.tags:
+				for tag3 in self.tags:
+					ind = np.argmax([np.divide(self.tagFrequencies3[tag1+","+tag2+","+tag3]-1,self.tagFrequencies2[tag1+","+tag2]-1),
+							np.divide(self.tagFrequencies2[tag2+","+tag3]-1,self.tagFrequencies[tag2]-1),
+							np.divide(self.tagFrequencies[tag1]-1,self.N-1)])
+					if ind == 2:
+						lambda1 = lambda1 + self.tagFrequencies3[tag1+","+tag2+","+tag3]
+					elif ind == 1:
+						lambda2 = lambda2 + self.tagFrequencies3[tag1+","+tag2+","+tag3]
+					else:
+						lambda3 = lambda3 + self.tagFrequencies3[tag1+","+tag2+","+tag3]
+		np.seterr(**old_err_state)
+		return lambda1, lambda2, lambda3
 	def recordTag(self, word, tag):
 		# Store the tag counts
 		self.incrFreq(tag, self.tagFrequencies)
@@ -117,3 +139,4 @@ class TagExtractor:
 
 extractor = TagExtractor('../datasets/data for tagging/WSJ02-21.pos')
 extractor.calculateProbabilities()
+extractor.estimateTrigrams()
