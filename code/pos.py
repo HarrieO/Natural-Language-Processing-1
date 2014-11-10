@@ -3,6 +3,7 @@ class TagExtractor:
 	unigrams = dict()
 	bigrams = dict()
 	trigrams = dict()
+	trigramsEst = dict()
 	lexical = dict()
 
 	frequencies = dict()
@@ -66,16 +67,16 @@ class TagExtractor:
 			self.unigrams[tag] = float(self.tagFrequencies[tag])/float(self.N)
 			for tag2 in self.tags:
 				# Estimate Bigram probability
-				if (tag2+","+tag) not in self.tagFrequencies2:
-					self.tagFrequencies2[tag2+","+tag] = 0.01 # To avoid devide by zero
-				self.bigrams[tag+"|"+tag2] = float(self.tagFrequencies2[tag2+","+tag])/float(self.tagFrequencies[tag])
+				if (tag2+","+tag) in self.tagFrequencies2:
+					self.bigrams[tag+"|"+tag2] = float(self.tagFrequencies2[tag2+","+tag])/float(self.tagFrequencies[tag])
+				else:
+					self.bigrams[tag+"|"+tag2] = 0
 				for tag1 in self.tags:
 					# Estimate Trigram probability
-					if (tag1+","+tag2+","+tag) not in self.tagFrequencies3:
-						self.tagFrequencies3[tag1+","+tag2+","+tag] = 0.01 # To avoid devide by zero
-					if (tag1+","+tag2) not in self.tagFrequencies2:
-						self.tagFrequencies2[tag1+","+tag2] = 0.01 # To avoid devide by zero
-					self.trigrams[tag+"|"+tag1+","+tag2] = float(self.tagFrequencies3[tag1+","+tag2+","+tag])/float(self.tagFrequencies2[tag1+","+tag2])
+					if (tag1+","+tag2) in self.tagFrequencies2 and (tag1+","+tag2+","+tag) in self.tagFrequencies3:
+						self.trigrams[tag+"|"+tag1+","+tag2] = float(self.tagFrequencies3[tag1+","+tag2+","+tag])/float(self.tagFrequencies2[tag1+","+tag2])
+					else:
+						self.trigrams[tag+"|"+tag1+","+tag2] = 0
 			for word in self.words:
 				# Estimate Lexical probability
 				if (word+","+tag) not in self.frequencies:
@@ -83,6 +84,11 @@ class TagExtractor:
 				self.lexical[word+"|"+tag] = float(self.frequencies[word+","+tag])/float(self.tagFrequencies[tag])
 		print "Unigrams"
 		print self.unigrams
+	def estimateTrigrams(self):
+		for key, freq in tagFrequencies3:
+			lambda1 = 0
+			lambda2 = 0
+			lambda3 = 0
 	def recordTag(self, word, tag):
 		# Store the tag counts
 		self.incrFreq(tag, self.tagFrequencies)
