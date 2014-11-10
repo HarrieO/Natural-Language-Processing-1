@@ -70,21 +70,25 @@ We divided the work as follows:
 
 \item \textbf{Data Oriented Processing} \emph{Harrie and Ties}
 	\begin{itemize}
-		\item Feature extraction
-		\item Data preprocessing
-		\item Classification
+		\item Using existing DOP library (Disco-DOP)
+		\item Make parser for data (sentences -> subtree) feature space will be subtrees of sentence
+		\item Process all the data once and save efficiently
+		\item Build classifier for DOP processed data, (try out multiple with existing libraries to pick a learning algorithm, implement the best one ourselves)
 	\end{itemize}
 
 \item \textbf{Evaluation} \emph{Carla and Harrie}
 	\begin{itemize}
-		\item optimizing classification
-		\item interpreting results
+		\item Combine BOG and DOP classifiers
+		\item Interpret results, to recognize what words make sentence (im)polite, or what sentence structures make the sentence (im)polite
+		\item Think of method that can generate suggestions which increase the politeness of the sentence
 	\end{itemize}
 
 \item \textbf{Visualization} \emph{Joost and Ties}
 	\begin{itemize}
-		\item displaying sentences
-		\item correction suggestions
+		\item Finding a interface which can communicate with the classifiers
+		\item Displaying sentences, and DOP trees, which trees/words cause (im)politeness
+		\item Display expected politeness comprehensively
+		\item Find a way to display suggestions
 	\end{itemize}
 
 \end{itemize}
