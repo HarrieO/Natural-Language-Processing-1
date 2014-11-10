@@ -60,16 +60,16 @@ Using entropy measures, we can try to find discriminative subtrees and words for
 If time allows, we may also give suggestions for changes to the sentence by generating changes to the sentences, classifying the new sentences and give the most polite change as suggestion to the user.
 
 \subsection*{Planning}
-In the first half of the project, Carla and Joost will work on everything concerned with Bag-of-words (feature extraction, dimensionality reduction, classification) and Harrie and Ties will work on DOP (feature extraction, classification). In the second half, Harrie and Carla will improve the classifiers and interpret the results, whereas Ties and Joost will work on the visualization task and create suggestions.  
+In the first half of the project (week 3/4), Carla and Joost will work on everything concerned with Bag-of-words (feature extraction, dimensionality reduction, classification) and Harrie and Ties will work on DOP (feature extraction, classification). In the second half (week 5/6), Harrie and Carla will improve the classifiers and interpret the results, whereas Ties and Joost will work on the visualization task and create suggestions.  
 
 We divided the work as follows:
 \begin{itemize}
 \item \textbf{Bag of Words} \emph{Carla and Joost}
 	\begin{itemize}
-		\item Dimensionality reduction
-		\item Data preprocessing
-		\item Feature extracting
-		\item Classification
+		\item Build a POS tagger based on Hidden Markov Models
+		\item Build a feature extractor which produces histograms of word, tag combinations
+		\item Dimensionality reduction: Measure information gain for each feature, and drop least informative features
+		\item Build BOG classifier
 	\end{itemize}
 
 \item \textbf{Data Oriented Processing} \emph{Harrie and Ties}
