@@ -56,5 +56,37 @@ In order to build a good classifier for politeness, we propose to compare the fo
 \item Extract parse subtrees using DOP and use these as features. The subtrees that appear only once or twice are left out. 
 \end{itemize}
 Using entropy measures, we can try to find discriminative subtrees and words for politeness and use these to highlight polite or impolite sentences. 
-If time allows, we may also give suggestions for changes to the sentence by generating changes to the sentences, classifying the new sentences and give the most polite change as suggestion to the user.  
+If time allows, we may also give suggestions for changes to the sentence by generating changes to the sentences, classifying the new sentences and give the most polite change as suggestion to the user.\\
+
+We divided the work as follows:
+\begin{itemize}
+\item \textbf{Bag of Words} \emph{Carla and Joost}
+	\begin{itemize}
+		\item Dimensionality reduction
+		\item Data preprocessing
+		\item Feature extracting
+		\item Classification
+	\end{itemize}
+
+\item \textbf{Data Oriented Processing} \emph{Harrie and Ties}
+	\begin{itemize}
+		\item Feature extraction
+		\item Data preprocessing
+		\item Classification
+	\end{itemize}
+
+\item \textbf{Evaluation} \emph{Carla and Harrie}
+	\begin{itemize}
+		\item optimizing classification
+		\item interpreting results
+	\end{itemize}
+
+\item \textbf{Visualization} \emph{Joost and Ties}
+	\begin{itemize}
+		\item displaying sentences
+		\item correction suggestions
+	\end{itemize}
+
+\end{itemize}
+
 \end{document}
