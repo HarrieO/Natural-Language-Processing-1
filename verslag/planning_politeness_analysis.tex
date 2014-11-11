@@ -23,8 +23,7 @@
 \graphicspath{ {./plaatjes/} }
 \title{Politeness analysis: Planning}
 \author{Carla Groenland (10208429), Harrie Oosterhuis (10196129), \\
-Ties, Joost}
-%
+Joost van Doorn (10805176), Ties van Rozendaal (10077391)}
 % Wiskunde-omgevingen
 %
 \newcommand{\field}[1]{\mathbb{#1}}
@@ -43,7 +42,7 @@ Ties, Joost}
     commentstyle=\color{OliveGreen}}
 \begin{document}
 \maketitle
-The assignment of our group consists of two parts:
+\noindent The assignment of our group consists of two parts:
 \begin{itemize}
 \item Find discriminative features for politeness and build a classifier based on the given data sets
 \item Make a visualization system that highlights polite and impolite parts of a sentence. If time allows, let the system give suggestions to make the sentence more polite.
@@ -54,5 +53,11 @@ In order to build a good classifier for politeness, we propose to compare the fo
 \item Baseline: represent sentences by a histogram of word frequencies. Use the training data to give a score to each individual word (by taking the mean score of all sentences it occurs in). Use these scores to score new sentences. 
 \item Simple improvements on baseline: use a different type of classification system on the histogram of frequencies. Add POS tag information to the histogram. Add information about POS tag sequences to the histogram (attach to a word $w_n$ the POS tags of $w_{n-1},w_n,w_{n+1}$).
 \item Data preprocessing: many words, such as technical words, may have no influence on the politeness of the sentence. We can try to filter these by building decision stumps for single words and measuring the entropy and only keep words in the histogram that gave a sufficient amount of information gain.
+\item Extract parse subtrees using DOP and use these as features. The subtrees that appear only once or twice are left out. 
 \end{itemize}
+Using entropy measures, we can try to find discriminative subtrees and words for politeness and use these to highlight polite or impolite sentences. 
+If time allows, we may also give suggestions for changes to the sentence by generating changes to the sentences, classifying the new sentences and give the most polite change as suggestion to the user.
+
+\subsection*{Planning}
+In the first half of the project, Carla and Joost will work on everything concerned with Bag-of-words (feature extraction, dimensionality reduction, classification) and Harrie and Ties will work on DOP (feature extraction, classification). In the second half, Harrie and Carla will improve the classifiers and interpret the results, whereas Ties and Joost will work on the visualization task and create suggestions.  
 \end{document}
