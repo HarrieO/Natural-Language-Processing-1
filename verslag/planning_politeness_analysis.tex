@@ -56,8 +56,45 @@ In order to build a good classifier for politeness, we propose to compare the fo
 \item Extract parse subtrees using DOP and use these as features. The subtrees that appear only once or twice are left out. 
 \end{itemize}
 Using entropy measures, we can try to find discriminative subtrees and words for politeness and use these to highlight polite or impolite sentences. 
+
 If time allows, we may also give suggestions for changes to the sentence by generating changes to the sentences, classifying the new sentences and give the most polite change as suggestion to the user.
 
 \subsection*{Planning}
-In the first half of the project, Carla and Joost will work on everything concerned with Bag-of-words (feature extraction, dimensionality reduction, classification) and Harrie and Ties will work on DOP (feature extraction, classification). In the second half, Harrie and Carla will improve the classifiers and interpret the results, whereas Ties and Joost will work on the visualization task and create suggestions.  
+In the first half of the project (week 3/4), Carla and Joost will work on everything concerned with Bag-of-words (feature extraction, dimensionality reduction, classification) and Harrie and Ties will work on DOP (feature extraction, classification). In the second half (week 5/6), Harrie and Carla will improve the classifiers and interpret the results, whereas Ties and Joost will work on the visualization task and create suggestions.  
+
+We divided the work as follows:
+\begin{itemize}
+\item \textbf{Bag of Words} \emph{Carla and Joost}
+	\begin{itemize}
+		\item Build a POS tagger based on Hidden Markov Models
+		\item Build a feature extractor which produces histograms of word, tag combinations
+		\item Dimensionality reduction: Measure information gain for each feature, and drop least informative features
+		\item Build BOG classifier
+	\end{itemize}
+
+\item \textbf{Data Oriented Processing} \emph{Harrie and Ties}
+	\begin{itemize}
+		\item Using existing DOP library (Disco-DOP)
+		\item Make parser for data (sentences $\rightarrow$ subtree) feature space will be subtrees of sentence
+		\item Process all the data once and save efficiently
+		\item Build classifier for DOP processed data, (try out multiple with existing libraries to pick a learning algorithm, implement the best one ourselves)
+	\end{itemize}
+
+\item \textbf{Evaluation} \emph{Carla and Harrie}
+	\begin{itemize}
+		\item Combine BOG and DOP classifiers
+		\item Interpret results, to recognize what words make sentence (im)polite, or what sentence structures make the sentence (im)polite
+		\item Think of method that can generate suggestions which increase the politeness of the sentence
+	\end{itemize}
+
+\item \textbf{Visualization} \emph{Joost and Ties}
+	\begin{itemize}
+		\item Finding a interface which can communicate with the classifiers
+		\item Displaying sentences, and DOP trees, which trees/words cause (im)politeness
+		\item Display expected politeness comprehensively
+		\item Find a way to display suggestions
+	\end{itemize}
+
+\end{itemize}
+
 \end{document}
