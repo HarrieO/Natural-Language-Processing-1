@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 # coding=utf-8
-
+import pkgutil
 import discodop
 
 def load_all(directory):
@@ -11,6 +11,6 @@ def load_all(directory):
 if __name__ == '__main__':
 	print 'Discodop test!!'
 
-	load_all(discodop)
+	load_all("discodop")
 
 	dir(discodop)
