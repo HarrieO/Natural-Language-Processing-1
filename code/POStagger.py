@@ -10,23 +10,23 @@ def specialDivide(x,y):
 		return x/y 
 
 class TagExtractor:
-	unigrams = col.Counter()
-	bigrams = col.Counter()
-	trigrams = col.Counter()
-	trigramsEst = col.Counter() # smoothed version
+	unigrams 	 = col.Counter()
+	bigrams 	 = col.Counter()
+	trigrams 	 = col.Counter()
+	trigramsEst  = col.Counter() # smoothed version
 	wordGivenTag =  dict()
-	suffixProb = dict() # reversed suffices
+	suffixProb 	 = dict() # reversed suffices
 
-	lexical = col.Counter() # word counts
+	lexical 	 = col.Counter() # word counts
 	lexicalSmall = col.Counter() # word counts for words with count <= 10
 
-	frequencies = col.Counter()
-	tagFrequencies = col.Counter()
+	frequencies 	= col.Counter()
+	tagFrequencies 	= col.Counter()
 	tagFrequencies2 = col.Counter()
 	tagFrequencies3 = col.Counter()
 
 	tagSuffFrequencies = dict()
-	suffFrequencies = col.Counter()
+	suffFrequencies 	= col.Counter()
 
 	theta = 0.1
 
@@ -74,6 +74,9 @@ class TagExtractor:
 									self.recordTag(w, t)
 									self.N = self.N + 1
 							i = i + 1
+
+					''' Kan je hier nog een keer naar kijken? '''
+					#volgens mij moet het zijn if i>98318340001010001010100,122345685492 + pi
 					if i>10000000000000000000000:
 						break
 		print self.tagFrequencies
