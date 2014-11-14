@@ -74,11 +74,6 @@ class TagExtractor:
 									self.recordTag(w, t)
 									self.N = self.N + 1
 							i = i + 1
-
-					''' Kan je hier nog een keer naar kijken? '''
-					#volgens mij moet het zijn if i>98318340001010001010100,122345685492 + pi
-					if i>10000000000000000000000:
-						break
 		print self.tagFrequencies
 		print "Total tokens: ", self.N
 		self.tags = self.tagFrequencies.keys()
