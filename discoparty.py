@@ -1,7 +1,9 @@
 #!/usr/bin/env python2
 # coding=utf-8
-import pkgutil
-import discodop
+import glob, pkgutil
+from discodop import treebank, treetransforms, fragments
+from sklearn import linear_model, preprocessing, feature_extraction, cross_validation
+vectorizer = feature_extraction.DictVectorizer(sparse=True)
 
 def load_all(directory):
     for loader, name, ispkg in pkgutil.walk_packages([directory]):
@@ -14,3 +16,5 @@ if __name__ == '__main__':
 	load_all("discodop")
 
 	dir(discodop)
+
+	demos
