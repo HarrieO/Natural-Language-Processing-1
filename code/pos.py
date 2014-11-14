@@ -160,6 +160,10 @@ class TagExtractor:
 						lambda2 = lambda2 + self.tagFrequencies3[tag1+","+tag2+","+tag3]
 					else:
 						lambda3 = lambda3 + self.tagFrequencies3[tag1+","+tag2+","+tag3]
+		lambdaSum = lambda1+lambda2+lambda3
+		lambda1 = lambda1/lambdaSum
+		lambda2 = lambda2/lambdaSum
+		lambda3 = lambda3/lambdaSum
 		# Linear interpolation:
 		for tag1 in self.tags:
 			for tag2 in self.tags:
