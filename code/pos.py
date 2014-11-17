@@ -74,16 +74,10 @@ class TagExtractor:
 									self.recordTag(w, t)
 									self.N = self.N + 1
 							i = i + 1
-
-					''' Kan je hier nog een keer naar kijken? '''
-					#volgens mij moet het zijn if i>98318340001010001010100,122345685492 + pi
-					if i>10000000000000000000000:
-						break
 		print self.tagFrequencies
 		print "Total tokens: ", self.N
 		self.tags = self.tagFrequencies.keys()
 		f.close()
-		#self.setMissingToZero()
 	def calculateProbabilities(self):
 		for tag in self.tags:
 			# Estimate Unigram probability
@@ -138,17 +132,6 @@ class TagExtractor:
 			for suff in self.suffixProb[tag].keys():
 				self.suffixProb[tag][suff] =float(self.suffFrequencies[suff])/float(self.tagFrequencies[tag])*self.suffixProb[tag][suff]  
 
-	def setMissingToZero(self):
-		for tag1 in self.tags:
-			for tag2 in self.tags:
-				if (tag1+","+tag2) not in self.tagFrequencies2:
-					self.tagFrequencies2[tag1+","+tag2] = 0
-				for tag3 in self.tags:
-					if (tag1+","+tag2+","+tag3) not in self.tagFrequencies3:
-						self.tagFrequencies3[tag1+","+tag2+","+tag3] = 0
-			for word in self.words:
-				if (word+","+tag1) not in self.frequencies:
-					self.frequencies[word+","+tag1] = 0
 	def estimateTrigrams(self):
 		lambda1 = 0
 		lambda2 = 0
@@ -165,6 +148,10 @@ class TagExtractor:
 						lambda2 = lambda2 + self.tagFrequencies3[tag1+","+tag2+","+tag3]
 					else:
 						lambda3 = lambda3 + self.tagFrequencies3[tag1+","+tag2+","+tag3]
+		lambdaSum = lambda1+lambda2+lambda3
+		lambda1 = lambda1/lambdaSum
+		lambda2 = lambda2/lambdaSum
+		lambda3 = lambda3/lambdaSum
 		# Linear interpolation:
 		for tag1 in self.tags:
 			for tag2 in self.tags:
