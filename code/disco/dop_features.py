@@ -31,6 +31,11 @@ for n,datapoint in enumerate(contents):
 #Display statistics
 print 'Datapoints: {0} \n Sentences: {1}'.format(len(n_sents),sum(n_sents))
 
+# store the indices
+file = open("indices.txt", "w")
+[file.write(str(i) +' \n') for i,n in enumerate(n_sents) for _ in range(n)  ]
+file.close()
+
 #Store the sentences
 file = open("sentences.txt", "w")
 [file.write('<s> ' + sent + ' </s>\n') for sent in sentences]
