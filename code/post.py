@@ -9,7 +9,7 @@ class Post(object):
 		self.community = community
 
 
-maxInt = int(sys.maxsize/(10**10))
+maxInt = int(2**31-1)
 csv.field_size_limit(maxInt)
 
 def read_column(colNr, fileName):
