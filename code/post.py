@@ -24,7 +24,6 @@ def read_column(colNr, fileName):
 if __name__ == '__main__':
 	contents = read_column(0,'train.csv')
 	scores = read_column(1,'train.csv')
-=======
 
 def read_posts(fileName):
 	with open(fileName) as csvfile:
