@@ -12,7 +12,19 @@ sys.path.append('..')
 import post 
 
 #The tokenizer which splits sentences
-def split_sentences(txt): return (re.findall(r'(?ms)\s*(.*?(?:\.|\?|!))', txt))  # split sentences
+def split_sentences(txt): return (re.findall(r'(?ms)\s*(.*?(?:\.|\?|!|$))', txt))  # split sentences
+
+know_issues = [(".NET", "NET"), (".org","org"), (".com","com")]
+def replace_know_issues(txt):
+	for wi, wo in know_issues:
+		txt = (" " + wo + " ").join(txt.split(wi))
+	return txt
+
+def replace_urls(txt):
+	urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', txt)
+	for url in urls:
+		txt = " <url> ".join(txt.split(url))
+	return txt
 
 # Read the comments in.
 contents    = post.read_column(0,'../train.csv')
@@ -24,6 +36,9 @@ sentences = list();
 #for each datapoint split the datapoint, add to the file and store the number of sentences
 for n,datapoint in enumerate(contents):
 
+	# clean data of URLs and sorts
+	datapoint = replace_urls(datapoint)
+	datapoint = replace_know_issues(datapoint)
 	#add the list of sents to the list of sentences and store the number of sents
 	splitsents = split_sentences(datapoint)
 	corsents = []
@@ -33,7 +48,7 @@ for n,datapoint in enumerate(contents):
 				corsents[0] += s
 			else:
 				corsents = [s]
-		else:
+		elif len(s) > 0:
 			corsents.append(s)
 	sentences.extend(corsents);
 	n_sents[n] = len(corsents)
