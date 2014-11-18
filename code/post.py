@@ -26,9 +26,10 @@ def read_column(colNr, fileName):
 				counter = counter+1
 		return column
 
-contents = read_column(0,'train.csv')
-scores = read_column(1,'train.csv')
-communities = read_column(2,'train.csv')
-print contents[0:2]
-print scores[0:2]
-print communities[0:2]
+if __name__ == '__main__':
+	contents = read_column(0,'train.csv')
+	scores = read_column(1,'train.csv')
+	communities = read_column(2,'train.csv')
+	print contents[0:2]
+	print scores[0:2]
+	print communities[0:2]
