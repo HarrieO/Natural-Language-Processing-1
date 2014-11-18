@@ -50,17 +50,13 @@ def read_table(fileName):
 if __name__ == "__main__":
 	contents    = read_column(0,'train.csv')
 	scores      = read_column(1,'train.csv')
->>>>>>> 1739f800f38f0648cd4e053db4abc50cfb664130
 	communities = read_column(2,'train.csv')
 	print contents[0:2]
 	print scores[0:2]
 	print communities[0:2]
-<<<<<<< HEAD
-=======
 
 	for post in read_posts('train.csv'):
 		print post.content, post.score, post.community
 
 	print read_table('train.csv')
 
->>>>>>> 1739f800f38f0648cd4e053db4abc50cfb664130
