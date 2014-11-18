@@ -5,6 +5,7 @@ class DecisionStumps:
 
 	classCount 		= dict()
 	wordCount 		= dict()
+	totalScores		= dict()
 	classes			= ['negative','neutral','positive']
 	classCutOff		= [-0.5,0.5]
 
@@ -27,7 +28,10 @@ class DecisionStumps:
 			words = line.split(" ")
 			for word in words:
 				wordClass = self.getClass(scores[i])
+				if wordClass == 'neutral':
+					continue
 				self.registerCount(word, wordClass)
+				self.registerScore(word, scores[i])
 			i = i + 1
 
 	def getClass(self,score):
@@ -36,6 +40,11 @@ class DecisionStumps:
 			if cutOff < score:
 				i = i + 1
 		return self.classes[i]
+
+	def registerScore(self,word,score):
+		if word not in self.totalScores:
+			self.totalScores[word] = 0
+		self.totalScores[word] = self.totalScores[word] + score
 
 	def registerCount(self,word,wordClass):
 		if word not in self.wordCount:
@@ -46,10 +55,16 @@ class DecisionStumps:
 	def emptyClassCount(self):
 		classCount = dict()
 		for className in self.classes:
+			if className == 'neutral':
+				continue
 			classCount[className] = 0.0001 #NaN fix
 		return classCount
 
-
+def average_scores(totalScores, wordClassCount):
+	scores = dict()
+	for word, score in totalScores.iteritems():
+		scores[word] = score/sum([count[1] for count in wordClassCount[word].items()])
+	return scores
 
 def word_entropy(classCount, wordClassCount):
 	# classCount = dictionary containing counts per class
@@ -79,3 +94,11 @@ def entropy(countPerClass):
 
 decisionStumps = DecisionStumps('train.csv')
 counts = word_entropy(decisionStumps.classCount, decisionStumps.wordCount)
+scores = average_scores(decisionStumps.totalScores, decisionStumps.wordCount)
+ordered = sorted(counts, key=counts.get)
+orderList=  ordered[-40:]
+scoreList=  [scores[word] for word in ordered[-40:]]
+print zip(orderList,scoreList)
+orderList=  ordered[:40]
+scoreList=  [scores[word] for word in ordered[:40]]
+print zip(orderList,scoreList)
