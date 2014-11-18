@@ -49,7 +49,6 @@ class TagExtractor:
 		"""
 		Extracts tags and words from an input file
 		"""
-		i = 0
 		f = open(self.inputfile, 'r')
 		# Read the file line by line
 		for line in f:
@@ -73,7 +72,6 @@ class TagExtractor:
 									# Record the frequencies
 									self.recordTag(w, t)
 									self.N = self.N + 1
-							i = i + 1
 		print self.tagFrequencies
 		print "Total tokens: ", self.N
 		self.tags = self.tagFrequencies.keys()
