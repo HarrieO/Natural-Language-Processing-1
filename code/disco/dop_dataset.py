@@ -19,23 +19,6 @@ def write_csv(data,fileName):
         for row in data:
             writerObject.writerow(row)
 
-with open('trees.txt') as f1:
-    with open('sentences.txt') as f2:
-        spaces = 3
-        for line in f2:
-            # there are never more than 3 newlines in the file
-            # so this is a check for EoF
-            while spaces > 0:
-                toAdd = f1.readline()
-                if toAdd[:1] == "(":
-                    print line, toAdd
-                    print
-                    break
-                elif toAdd == "":
-                    spaces -= 1
-
-exit()
-
 treeList = []
 with open('trees.txt') as f1:
     with open('indices.txt') as f2:
