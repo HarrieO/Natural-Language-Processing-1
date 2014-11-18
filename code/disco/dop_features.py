@@ -44,10 +44,10 @@ file.close()
 #copy the sentences file into the parser folder:
 BLLIP_PATH = '/users/tiesvanrozendaal/NLP/Project/libraries/bllip-parser-BLLIP_ON_MAVERICKS'
 MAIN_PATH = os.getcwd()
-shutil.copy2('sent_counts.txt', BLLIP_PATH + '/sample-text')
+shutil.copy2('sentences.txt', BLLIP_PATH + '/sample-text')
 #run the parser
 os.chdir(BLLIP_PATH)
-call([ './parse.sh', 'sample-text/sample-data.txt'])
+call([ './parse.sh', 'sample-text/sentences.txt'])
 os.chdir(MAIN_PATH)
 
 
