@@ -1,4 +1,5 @@
 import post
+import numpy as np
 
 class DecisionStumps:
 
@@ -45,7 +46,36 @@ class DecisionStumps:
 	def emptyClassCount(self):
 		classCount = dict()
 		for className in self.classes:
-			classCount[className] = 0
+			classCount[className] = 0.0001 #NaN fix
 		return classCount
 
-DecisionStumps('train.csv')
+
+
+def word_entropy(classCount, wordClassCount):
+	# classCount = dictionary containing counts per class
+	# wordClassCount = dictionary containing dictionaries per word containing counts per class
+	classes = classCount.keys()
+	numClasses = len(classes)
+	countPerClass = np.zeros(numClasses)
+	for i in range(numClasses):
+		countPerClass[i]= classCount[classes[i]]
+	totalSentences = np.sum(countPerClass)
+	initialEntropy = entropy(countPerClass)
+
+	wordGain = dict() # information gain when splitting on the word
+	words = wordClassCount.keys()
+	for word in words:
+		countWordPerClass = np.zeros(numClasses)
+		for i in range(numClasses):
+			countWordPerClass[i]= wordClassCount[word][classes[i]]
+		probWord = np.sum(countWordPerClass)/totalSentences
+		wordEntropy= entropy(countWordPerClass)*probWord +(1.0-probWord) *entropy(countPerClass-countWordPerClass)
+		wordGain[word] = initialEntropy-wordEntropy 
+	return wordGain
+
+def entropy(countPerClass):
+	probs = countPerClass/np.sum(countPerClass)
+	return -np.sum(probs*np.log(probs))
+
+decisionStumps = DecisionStumps('train.csv')
+counts = word_entropy(decisionStumps.classCount, decisionStumps.wordCount)
