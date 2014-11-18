@@ -21,7 +21,6 @@ def read_column(colNr, fileName):
 			column.append(row[colNr])
 		return column
 
-<<<<<<< HEAD
 if __name__ == '__main__':
 	contents = read_column(0,'train.csv')
 	scores = read_column(1,'train.csv')
