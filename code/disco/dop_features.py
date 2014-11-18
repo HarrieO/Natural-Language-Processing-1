@@ -1,9 +1,10 @@
 #!/usr/bin/env python2
 # coding=utf-8
-import glob, sys, re, argparse
+import os, glob, sys, re, argparse,shutil
 import numpy as np
 from discodop import treebank, treetransforms, fragments
 from sklearn import linear_model, preprocessing, feature_extraction, cross_validation
+from subprocess import call
 
 # In order to import the main project code
 sys.path.append('..')
@@ -32,7 +33,7 @@ print 'Datapoints: {0} \n Sentences: {1}'.format(len(n_sents),sum(n_sents))
 
 #Store the sentences
 file = open("sentences.txt", "w")
-[file.write('<s>' + sent + '</s>\n') for sent in sentences]
+[file.write('<s> ' + sent + ' </s>\n') for sent in sentences]
 file.close()
 
 #Store the sentence counts
@@ -40,7 +41,14 @@ file = open("sent_counts.txt", "w")
 [file.write('{0} \n'.format(n)) for n in n_sents]
 file.close()
 
-
+#copy the sentences file into the parser folder:
+BLLIP_PATH = '/users/tiesvanrozendaal/NLP/Project/libraries/bllip-parser-BLLIP_ON_MAVERICKS'
+MAIN_PATH = os.getcwd()
+shutil.copy2('sent_counts.txt', BLLIP_PATH + '/sample-text')
+#run the parser
+os.chdir(BLLIP_PATH)
+call([ './parse.sh', 'sample-text/sample-data.txt'])
+os.chdir(MAIN_PATH)
 
 
 #Per datapunt:
