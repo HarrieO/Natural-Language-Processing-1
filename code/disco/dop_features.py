@@ -25,8 +25,18 @@ sentences = list();
 for n,datapoint in enumerate(contents):
 
 	#add the list of sents to the list of sentences and store the number of sents
-	sentences.extend(split_sentences(datapoint));
-	n_sents[n] = len(split_sentences(datapoint))
+	splitsents = split_sentences(datapoint)
+	corsents = []
+	for s in splitsents:
+		if len(s) == 1 and (s == "." or s == "," or s == "?" or "!"):
+			if len(corsents) > 0:
+				corsents[0] += s
+			else:
+				corsents = [s]
+		else:
+			corsents.append(s)
+	sentences.extend(corsents);
+	n_sents[n] = len(corsents)
 
 #Display statistics
 print 'Datapoints: {0} \n Sentences: {1}'.format(len(n_sents),sum(n_sents))
@@ -38,7 +48,7 @@ file.close()
 
 #Store the sentences
 file = open("sentences.txt", "w")
-[file.write('<s> ' + sent + ' </s>\n') for sent in sentences]
+[file.write('<s> ' + " ".join(sent.split()) + ' </s>\n') for sent in sentences]
 file.close()
 
 #Store the sentence counts
