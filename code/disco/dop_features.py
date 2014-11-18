@@ -18,33 +18,28 @@ contents    = post.read_column(0,'../train.csv')
 
 #preallocate counter for the number of sentences per datapoint
 n_sents = np.ones(len(contents),dtype=int)
+sentences = list();
 
 #for each datapoint split the datapoint, add to the file and store the number of sentences
 for n,datapoint in enumerate(contents):
+
+	#add the list of sents to the list of sentences and store the number of sents
+	sentences.extend(split_sentences(datapoint));
 	n_sents[n] = len(split_sentences(datapoint))
 
 #Display statistics
 print 'Datapoints: {0} \n Sentences: {1}'.format(len(n_sents),sum(n_sents))
 
+#Store the sentences
+file = open("sentences.txt", "w")
+[file.write('<s>' + sent + '</s>\n') for sent in sentences]
+file.close()
 
+#Store the sentence counts
+file = open("sent_counts.txt", "w")
+[file.write('{0} \n'.format(n)) for n in n_sents]
+file.close()
 
-
-# DISPLAY:
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('integers', metavar='N', type=int, nargs='+',
-                   help='The datapoint to display')
-
-    args = parser.parse_args()
-
-    n =  args.integers[0]
-
-    zin = contents[n]
-    print zin
-    print split_sentences(zin)
-    print 'Sentences detected: {0}'.format(len(split_sentences(zin)))
-
-# END OF DISPLAY
 
 
 
