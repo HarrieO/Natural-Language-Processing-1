@@ -1,0 +1,49 @@
+DOP trees can generate trees and subtrees, we can use (sub-)trees as features and apply a learning algorithm to predict the politeness of an sentence.
+
+For instance, we can split the data into neutral, polite and impolite, then for each set we can determine the probability of a certain subtree.
+With these probabilities we can estimate whether a sentence is polite, but also what part of the sentence structure makes it so.
+
+
+
+
+Harrie:
+	DOP
+	- Feature extraction
+	- Data preprocessing
+	- Classification
+
+	Evaluation
+	- optimizing classification
+	- interpreting results
+
+
+Carla:
+	Bag of Words
+	- Dimensionality reduction
+	- Data preprocessing
+	- Feature extracting
+	- Classification
+
+	Evaluation
+	- optimizing classification
+	- interpreting results
+
+Ties:
+	Visualisation
+	- displaying sentences
+	- correction suggestions
+
+	DOP
+	- Feature extraction
+	- Data preprocessing
+
+Joost:
+	Bag of Words
+	- Dimensionality reduction
+	- Data preprocessing
+	- Feature extracting
+	- Classification
+
+	Visualisation
+	- displaying sentences
+	- correction suggestions
