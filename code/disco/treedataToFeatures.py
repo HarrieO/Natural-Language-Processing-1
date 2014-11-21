@@ -23,6 +23,8 @@ trees = [treetransforms.binarize(tree, horzmarkov=1, vertmarkov=1)
          for _, (tree, _) in text.itertrees(0)]
 print "Binarized trees"
 sents = [sent for _, (_, sent) in text.itertrees(0)]
+
+print len(sents)
 print "Starting fragment extration"
 result = fragments.getfragments(trees, sents, numproc=1, disc=False, cover=False)
 print "Extracted fragments"
