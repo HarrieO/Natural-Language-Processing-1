@@ -37,14 +37,14 @@ with open('trees.txt') as f1:
                 toAdd = f1.readline()
                 if toAdd[:1] == "(":
                     spaces = 3
-                    trees += " " + toAdd
+                    trees += " <tree>" + toAdd + "</tree>"
                     break
                 elif toAdd == "":
                     spaces -= 1
         treeList += [trees.strip()]
 
 print len(table), len(treeList)
-result = []
+result = [[ "id", "content", "score", "community", "trees" ]]
 for i,row in enumerate(table):
     result += [[i, " ".join(row[0].split())] + row[1:] + [" ".join(treeList[i].split())]]
 
