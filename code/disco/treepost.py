@@ -9,6 +9,7 @@ class Post(object):
 		self.score     = score
 		self.community = community
 		self.trees     = self.parseTrees(trees)
+		self.fragments = {}
 
 	def parseTrees(self, treesString):
 		start = treesString.find("<tree>")
