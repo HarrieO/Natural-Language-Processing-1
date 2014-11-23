@@ -20,23 +20,21 @@ class DecisionStumps:
 
 	def extract(self):	
 		i = 0
-		contents = post.read_column(0,self.inputfile)
 		scores = map(float,post.read_column(2,self.inputfile))
 		trees = post.read_column(4,self.inputfile)
 		# Read the file line by line
 		i = 0
-		# re.findall()
 		for tree in trees:
-			#words = line.split(" ")
 			wordTags = re.findall("(\(([a-zA-Z0-9])* ([a-zA-Z0-9])*\))",tree)
 			for wordTag in wordTags:
 				# Get rid of the brackets and split into word and tag
-				[word, tag] = wordTag[0][1:-1].split(" ")
+				#[word, tag] = wordTag[0][1:-1].split(" ")
+				#TODO: Do we need to do anything with the tag for smoothing?
 				wordClass = self.getClass(scores[i])
 				if wordClass == 'neutral':
 					continue
-				self.registerCount(word, wordClass)
-				self.registerScore(word, scores[i])
+				self.registerCount(wordTag[0], wordClass)
+				self.registerScore(wordTag[0], scores[i])
 			i = i + 1
 
 	def getClass(self,score):
@@ -71,9 +69,10 @@ def average_scores(totalScores, wordClassCount):
 		scores[word] = score/sum([count[1] for count in wordClassCount[word].items()])
 	return scores
 
+# Returns the information gain for the input for the counts of each binary feature
 def word_entropy(classCount, wordClassCount):
 	# classCount = dictionary containing counts per class
-	# wordClassCount = dictionary containing dictionaries per word containing counts per class
+	# wordClassCount = dictionary containing dictionaries for each feature containing counts per class
 	classes = classCount.keys()
 	numClasses = len(classes)
 	countPerClass = np.zeros(numClasses)
@@ -98,9 +97,10 @@ def entropy(countPerClass):
 	return -np.sum(probs*np.log(probs))
 
 decisionStumps = DecisionStumps('disco/discotrain.csv')
-counts = word_entropy(decisionStumps.classCount, decisionStumps.wordCount)
+wordTag_entropy = word_entropy(decisionStumps.classCount, decisionStumps.wordCount)
 scores = average_scores(decisionStumps.totalScores, decisionStumps.wordCount)
-ordered = sorted(counts, key=counts.get)
+print "Ordered scores"
+ordered = sorted(wordTag_entropy, key=wordTag_entropy.get)
 orderList=  ordered[-40:]
 scoreList=  [scores[word] for word in ordered[-40:]]
 print zip(orderList,scoreList)
