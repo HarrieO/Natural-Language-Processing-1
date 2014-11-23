@@ -2,6 +2,11 @@ import re
 import post
 import numpy as np
 
+'''
+Settings
+'''
+N = 10 # The amount of features selected for the histogram
+
 # Computes the word-tag count, the class count and the summed scores for each of the word-tag pairs.
 def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):	
 	# inputfile = The file containing the scores
@@ -16,7 +21,8 @@ def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):
 	# Read the file line by line
 	i = 0
 	for tree in trees:
-		wordTags = re.findall("(\(([a-zA-Z0-9])* ([a-zA-Z0-9])*\))",tree)
+		punctuation = ""
+		wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
 		for wordTag in wordTags:
 			# Get rid of the brackets and split into word and tag
 			#[word, tag] = wordTag[0][1:-1].split(" ")
@@ -54,7 +60,7 @@ def emptyClassCount(classes):
 	for className in classes:
 		if className == 'neutral':
 			continue
-		classCount[className] = 0.0001 #NaN fix
+		classCount[className] = 0.001 #NaN fix
 	return classCount
 
 def average_scores(totalScores, wordClassCount):
@@ -105,6 +111,7 @@ classCount 		= emptyClassCount(classes)
 wordTagCount 	= dict()
 totalScores		= dict()
 
+
 # Running starts here
 extract('disco/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
 wordTag_entropy = word_entropy(classCount, wordTagCount)
@@ -118,5 +125,7 @@ orderList=  ordered[:40]
 scoreList=  [scores[word] for word in ordered[:40]]
 print zip(orderList,scoreList)
 # Get the counts for the 100 word tags with the highest entropy
-newCounts = selectFeatures(wordTag_entropy, 100, wordTagCount)
-print newCounts
+print "Word tag counts"
+newCounts = selectFeatures(wordTag_entropy, N, wordTagCount)
+ignoredWords =  [key for key in wordTag_entropy.keys() if key not in newCounts.keys()]
+#print newCounts
