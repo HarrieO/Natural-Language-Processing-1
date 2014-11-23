@@ -1,3 +1,4 @@
+import re
 import post
 import numpy as np
 
@@ -19,14 +20,18 @@ class DecisionStumps:
 
 	def extract(self):	
 		i = 0
-		f = open(self.inputfile, 'r')
-		contents = post.read_column(0,'train.csv')
-		scores = map(float,post.read_column(1,'train.csv'))
+		contents = post.read_column(0,self.inputfile)
+		scores = map(float,post.read_column(2,self.inputfile))
+		trees = post.read_column(4,self.inputfile)
 		# Read the file line by line
 		i = 0
-		for line in contents:
-			words = line.split(" ")
-			for word in words:
+		# re.findall()
+		for tree in trees:
+			#words = line.split(" ")
+			wordTags = re.findall("(\(([a-zA-Z0-9])* ([a-zA-Z0-9])*\))",tree)
+			for wordTag in wordTags:
+				# Get rid of the brackets and split into word and tag
+				[word, tag] = wordTag[0][1:-1].split(" ")
 				wordClass = self.getClass(scores[i])
 				if wordClass == 'neutral':
 					continue
@@ -92,7 +97,7 @@ def entropy(countPerClass):
 	probs = countPerClass/np.sum(countPerClass)
 	return -np.sum(probs*np.log(probs))
 
-decisionStumps = DecisionStumps('train.csv')
+decisionStumps = DecisionStumps('disco/discotrain.csv')
 counts = word_entropy(decisionStumps.classCount, decisionStumps.wordCount)
 scores = average_scores(decisionStumps.totalScores, decisionStumps.wordCount)
 ordered = sorted(counts, key=counts.get)
