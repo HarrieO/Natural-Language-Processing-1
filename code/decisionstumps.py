@@ -21,7 +21,7 @@ def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):
 	# Read the file line by line
 	i = 0
 	for tree in trees:
-		punctuation = ""
+		punctuation = "\.\?"
 		wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
 		for wordTag in wordTags:
 			# Get rid of the brackets and split into word and tag
@@ -105,6 +105,31 @@ def selectFeatures(featureEntropy, N, wordTagCount):
 	ignoredFeatures = [key for key in wordTagCount.keys() if key not in selectedFeatures.keys()]
 	return selectedFeatures, ignoredFeatures
 
+def outputHistograms(inputfile, outputfile, features):
+	trees = post.read_column(4,inputfile)
+	scores = map(float,post.read_column(2,inputfile))
+	f = open(outputfile, 'w')
+	# Read the file line by line
+	i = 0
+	for tree in trees:
+		punctuation = "\.\?"
+		wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
+		histogram = [0] * len(features)
+		for wordTag in wordTags:
+			try:
+				idx = features.index(wordTag[0])
+			except ValueError:
+				idx = -1
+			if idx != -1:
+				# Include in the histogram
+				histogram[idx] = histogram[idx]+1
+			#else:
+			# Do something with the unknown word
+				
+		# Write the histogram to the file
+		f.write(",".join(str(x) for x in histogram)+","+str(scores[i])+"\n")
+		i = i + 1
+
 # Data structures
 classes			= ['negative','neutral','positive']
 classCutOff		= [-0.5,0.5]
@@ -128,4 +153,6 @@ print zip(orderList,scoreList)
 # Get the counts for the 100 word tags with the highest entropy
 print "Word tag counts"
 newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
+
+outputHistograms('disco/discotrain.csv', 'trainHist.csv', newCounts.keys())
 #print newCounts
