@@ -5,7 +5,7 @@ import numpy as np
 '''
 Settings
 '''
-N = 10 # The amount of features selected for the histogram
+N = 1000 # The amount of features selected for the histogram
 
 # Computes the word-tag count, the class count and the summed scores for each of the word-tag pairs.
 def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):	
@@ -105,7 +105,7 @@ def selectFeatures(featureEntropy, N, wordTagCount):
 	ignoredFeatures = [key for key in wordTagCount.keys() if key not in selectedFeatures.keys()]
 	return selectedFeatures, ignoredFeatures
 
-def outputHistograms(inputfile, outputfile, features):
+def outputHistograms(inputfile, outputfile, classes, classCutOff, features):
 	trees = post.read_column(4,inputfile)
 	scores = map(float,post.read_column(2,inputfile))
 	f = open(outputfile, 'w')
@@ -127,7 +127,7 @@ def outputHistograms(inputfile, outputfile, features):
 			# Do something with the unknown word
 				
 		# Write the histogram to the file
-		f.write(",".join(str(x) for x in histogram)+","+str(scores[i])+"\n")
+		f.write(",".join(str(x) for x in histogram)+","+getClass(scores[i],classCutOff,classes)+"\n")
 		i = i + 1
 
 # Data structures
@@ -154,5 +154,5 @@ print zip(orderList,scoreList)
 print "Word tag counts"
 newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
 
-outputHistograms('disco/discotrain.csv', 'trainHist.csv', newCounts.keys())
+outputHistograms('disco/discotrain.csv', 'trainHist.csv', classes, classCutOff, newCounts.keys())
 #print newCounts
