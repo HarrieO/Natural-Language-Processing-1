@@ -127,5 +127,5 @@ print zip(orderList,scoreList)
 # Get the counts for the 100 word tags with the highest entropy
 print "Word tag counts"
 newCounts = selectFeatures(wordTag_entropy, N, wordTagCount)
-ignoredWords =  [key for key in wordTag_entropy.keys() if key not in newCounts.keys()]
+ignoredWordTags =  [key for key in wordTag_entropy.keys() if key not in newCounts.keys()]
 #print newCounts
