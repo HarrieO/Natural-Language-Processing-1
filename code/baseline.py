@@ -2,7 +2,7 @@ import numpy as np
 import post
 import collections as Col
 
-def get_countes():
+def get_counts():
 	wordCounts = Col.Counter()
 	numberWord = Col.Counter()
 
@@ -30,4 +30,35 @@ def compute_score(sentence, counts):
 		#print word, ", ", counts[word]
 	return score
 
-counts = get_countes
+# Returns to which class the score belongs
+def getClass(score,classCutOff,classes):
+	i = 0
+	for cutOff in classCutOff:
+		if cutOff < score:
+			i = i + 1
+	return classes[i]
+
+
+counts = get_counts()
+contents  = post.read_column(0,'test.csv')
+scores = post.read_column(1,'test.csv')
+for i in range(10):
+	print contents[i]
+	print scores[i], " versus ", compute_score(contents[i],counts)
+classes			= ['negative','neutral','positive']
+classCutOff		= [-0.5,0.5]
+
+misclassifications =0
+completeWrong = 0
+for i in range(len(contents)):
+	classified = getClass(compute_score(contents[i],counts),classCutOff, classes)
+	original = getClass(float(scores[i]), classCutOff, classes)
+	if classified != original:
+		misclassifications +=1
+		if not (original == 'neutral' or classified =='neutral'):
+			print contents[i]
+			print classified
+			completeWrong +=1
+print misclassifications
+print len(contents)
+print completeWrong
