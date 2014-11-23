@@ -2,8 +2,14 @@ import re
 import post
 import numpy as np
 
-
-def extract(inputfile,classes,wordCount,classCount,totalScores,classCutOff):	
+# Computes the word-tag count, the class count and the summed scores for each of the word-tag pairs.
+def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):	
+	# inputfile = The file containing the scores
+	# classes = List of classes
+	# classCutOff = The score value seperating each of the classes (requires: len(classes)-1 == len(classCutOff))
+	# wordTagCount = dictionary used to store the word-tag counts
+	# classCount = dictionary used to store the class counts
+	# totalScores = dictionary used to store the summed score for each word-tag
 	i = 0
 	scores = map(float,post.read_column(2,inputfile))
 	trees = post.read_column(4,inputfile)
@@ -18,7 +24,7 @@ def extract(inputfile,classes,wordCount,classCount,totalScores,classCutOff):
 			wordClass = getClass(scores[i],classCutOff,classes)
 			if wordClass == 'neutral':
 				continue
-			registerCount(wordTag[0], wordClass, wordCount, classCount, classes)
+			registerCount(wordTag[0], wordClass, wordTagCount, classCount, classes)
 			registerScore(wordTag[0], scores[i], totalScores)
 		i = i + 1
 
@@ -34,10 +40,10 @@ def registerScore(word,score,totalScores):
 		totalScores[word] = 0
 	totalScores[word] = totalScores[word] + score
 
-def registerCount(word,wordClass,wordCount,classCount,classes):
-	if word not in wordCount:
-		wordCount[word] = emptyClassCount(classes)
-	wordCount[word][wordClass] = wordCount[word][wordClass] + 1
+def registerCount(word,wordClass,wordTagCount,classCount,classes):
+	if word not in wordTagCount:
+		wordTagCount[word] = emptyClassCount(classes)
+	wordTagCount[word][wordClass] = wordTagCount[word][wordClass] + 1
 	# Increment class count
 	classCount[wordClass] = classCount[wordClass]+1
 
@@ -86,13 +92,13 @@ def entropy(countPerClass):
 classes			= ['negative','neutral','positive']
 classCutOff		= [-0.5,0.5]
 classCount 		= emptyClassCount(classes)
-wordCount 		= dict()
+wordTagCount 	= dict()
 totalScores		= dict()
 
 # Running starts here
-extract('disco/discotrain.csv',classes,wordCount,classCount,totalScores,classCutOff);
-wordTag_entropy = word_entropy(classCount, wordCount)
-scores = average_scores(totalScores, wordCount)
+extract('disco/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
+wordTag_entropy = word_entropy(classCount, wordTagCount)
+scores = average_scores(totalScores, wordTagCount)
 print "Ordered scores"
 ordered = sorted(wordTag_entropy, key=wordTag_entropy.get)
 orderList=  ordered[-40:]
