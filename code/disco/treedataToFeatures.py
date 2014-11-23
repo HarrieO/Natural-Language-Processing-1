@@ -24,7 +24,7 @@ trees = [treetransforms.binarize(tree, horzmarkov=1, vertmarkov=1)
 print "Binarized trees"
 sents = [sent for _, (_, sent) in text.itertrees(0)]
 
-print "Starting fragment extration"
+print "Starting fragment extraction"
 result = fragments.getfragments(trees, sents, numproc=1, disc=False, cover=True)
 print "Extracted fragments"
 for tree, sentDict in result.items():
@@ -35,16 +35,6 @@ for tree, sentDict in result.items():
         else:
             treeposts[indices[key]].fragments[tree] = count
      
-print   
-print "Original post:"
-print treeposts[0].content
-print
-print "Sentence trees:"
-for tree in treeposts[0].trees:
-    print tree
-print
-print "Fragments extracted:"
-for fragment, count in treeposts[0].fragments.items():
-    print count, fragment
+print "Added fragments to posts"
     
 
