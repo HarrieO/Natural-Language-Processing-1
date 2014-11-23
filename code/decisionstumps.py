@@ -28,6 +28,7 @@ def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):
 			registerScore(wordTag[0], scores[i], totalScores)
 		i = i + 1
 
+# Returns to which class the score belongs
 def getClass(score,classCutOff,classes):
 	i = 0
 	for cutOff in classCutOff:
@@ -35,15 +36,16 @@ def getClass(score,classCutOff,classes):
 			i = i + 1
 	return classes[i]
 
-def registerScore(word,score,totalScores):
-	if word not in totalScores:
-		totalScores[word] = 0
-	totalScores[word] = totalScores[word] + score
+# Stores the score in the dictionary for total scores
+def registerScore(wordTag,score,totalScores):
+	if wordTag not in totalScores:
+		totalScores[wordTag] = 0
+	totalScores[wordTag] = totalScores[wordTag] + score
 
-def registerCount(word,wordClass,wordTagCount,classCount,classes):
-	if word not in wordTagCount:
-		wordTagCount[word] = emptyClassCount(classes)
-	wordTagCount[word][wordClass] = wordTagCount[word][wordClass] + 1
+def registerCount(wordTag,wordClass,wordTagCount,classCount,classes):
+	if wordTag not in wordTagCount:
+		wordTagCount[wordTag] = emptyClassCount(classes)
+	wordTagCount[wordTag][wordClass] = wordTagCount[wordTag][wordClass] + 1
 	# Increment class count
 	classCount[wordClass] = classCount[wordClass]+1
 
