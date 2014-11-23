@@ -90,6 +90,7 @@ def entropy(countPerClass):
 	probs = countPerClass/np.sum(countPerClass)
 	return -np.sum(probs*np.log(probs))
 
+# Returns the counts of the selected wordTags
 def selectFeatures(featureEntropy, N, wordTagCount):
 	selectedFeatures = dict()
 	ordered = sorted(featureEntropy, key=featureEntropy.get)
