@@ -42,9 +42,9 @@ def getClass(score,classCutOff,classes):
 counts = get_counts()
 contents  = post.read_column(0,'test.csv')
 scores = post.read_column(1,'test.csv')
-for i in range(10):
-	print contents[i]
-	print scores[i], " versus ", compute_score(contents[i],counts)
+# for i in range(10):
+# 	print contents[i]
+# 	print scores[i], " versus ", compute_score(contents[i],counts)
 classes			= ['negative','neutral','positive']
 classCutOff		= [-0.5,0.5]
 
@@ -56,9 +56,7 @@ for i in range(len(contents)):
 	if classified != original:
 		misclassifications +=1
 		if not (original == 'neutral' or classified =='neutral'):
-			print contents[i]
-			print classified
+			#print contents[i]
+			#print classified
 			completeWrong +=1
-print misclassifications
-print len(contents)
-print completeWrong
+print "Percentage wrong: ", misclassifications/float(len(contents))*100, "%, percentage complete wrong: ", completeWrong/float(len(contents))*100, "%"
