@@ -2,66 +2,52 @@ import re
 import post
 import numpy as np
 
-class DecisionStumps:
 
-	classCount 		= dict()
-	wordCount 		= dict()
-	totalScores		= dict()
-	classes			= ['negative','neutral','positive']
-	classCutOff		= [-0.5,0.5]
-
-	def __init__(self, inputfile):
-		# Read the file
-		self.inputfile = inputfile
-		self.classCount = self.emptyClassCount()
-		self.extract() # Extract file
-		print self.classCount
-
-
-	def extract(self):	
-		i = 0
-		scores = map(float,post.read_column(2,self.inputfile))
-		trees = post.read_column(4,self.inputfile)
-		# Read the file line by line
-		i = 0
-		for tree in trees:
-			wordTags = re.findall("(\(([a-zA-Z0-9])* ([a-zA-Z0-9])*\))",tree)
-			for wordTag in wordTags:
-				# Get rid of the brackets and split into word and tag
-				#[word, tag] = wordTag[0][1:-1].split(" ")
-				#TODO: Do we need to do anything with the tag for smoothing?
-				wordClass = self.getClass(scores[i])
-				if wordClass == 'neutral':
-					continue
-				self.registerCount(wordTag[0], wordClass)
-				self.registerScore(wordTag[0], scores[i])
-			i = i + 1
-
-	def getClass(self,score):
-		i = 0
-		for cutOff in self.classCutOff:
-			if cutOff < score:
-				i = i + 1
-		return self.classes[i]
-
-	def registerScore(self,word,score):
-		if word not in self.totalScores:
-			self.totalScores[word] = 0
-		self.totalScores[word] = self.totalScores[word] + score
-
-	def registerCount(self,word,wordClass):
-		if word not in self.wordCount:
-			self.wordCount[word] = self.emptyClassCount()
-		self.wordCount[word][wordClass] = self.wordCount[word][wordClass] + 1
-		# Increment class count
-		self.classCount[wordClass] = self.classCount[wordClass]+1
-	def emptyClassCount(self):
-		classCount = dict()
-		for className in self.classes:
-			if className == 'neutral':
+def extract(inputfile,classes,wordCount,classCount,totalScores,classCutOff):	
+	i = 0
+	scores = map(float,post.read_column(2,inputfile))
+	trees = post.read_column(4,inputfile)
+	# Read the file line by line
+	i = 0
+	for tree in trees:
+		wordTags = re.findall("(\(([a-zA-Z0-9])* ([a-zA-Z0-9])*\))",tree)
+		for wordTag in wordTags:
+			# Get rid of the brackets and split into word and tag
+			#[word, tag] = wordTag[0][1:-1].split(" ")
+			#TODO: Do we need to do anything with the tag for smoothing?
+			wordClass = getClass(scores[i],classCutOff,classes)
+			if wordClass == 'neutral':
 				continue
-			classCount[className] = 0.0001 #NaN fix
-		return classCount
+			registerCount(wordTag[0], wordClass, wordCount, classCount, classes)
+			registerScore(wordTag[0], scores[i], totalScores)
+		i = i + 1
+
+def getClass(score,classCutOff,classes):
+	i = 0
+	for cutOff in classCutOff:
+		if cutOff < score:
+			i = i + 1
+	return classes[i]
+
+def registerScore(word,score,totalScores):
+	if word not in totalScores:
+		totalScores[word] = 0
+	totalScores[word] = totalScores[word] + score
+
+def registerCount(word,wordClass,wordCount,classCount,classes):
+	if word not in wordCount:
+		wordCount[word] = emptyClassCount(classes)
+	wordCount[word][wordClass] = wordCount[word][wordClass] + 1
+	# Increment class count
+	classCount[wordClass] = classCount[wordClass]+1
+
+def emptyClassCount(classes):
+	classCount = dict()
+	for className in classes:
+		if className == 'neutral':
+			continue
+		classCount[className] = 0.0001 #NaN fix
+	return classCount
 
 def average_scores(totalScores, wordClassCount):
 	scores = dict()
@@ -96,9 +82,17 @@ def entropy(countPerClass):
 	probs = countPerClass/np.sum(countPerClass)
 	return -np.sum(probs*np.log(probs))
 
-decisionStumps = DecisionStumps('disco/discotrain.csv')
-wordTag_entropy = word_entropy(decisionStumps.classCount, decisionStumps.wordCount)
-scores = average_scores(decisionStumps.totalScores, decisionStumps.wordCount)
+# Data structures
+classes			= ['negative','neutral','positive']
+classCutOff		= [-0.5,0.5]
+classCount 		= emptyClassCount(classes)
+wordCount 		= dict()
+totalScores		= dict()
+
+# Running starts here
+extract('disco/discotrain.csv',classes,wordCount,classCount,totalScores,classCutOff);
+wordTag_entropy = word_entropy(classCount, wordCount)
+scores = average_scores(totalScores, wordCount)
 print "Ordered scores"
 ordered = sorted(wordTag_entropy, key=wordTag_entropy.get)
 orderList=  ordered[-40:]
