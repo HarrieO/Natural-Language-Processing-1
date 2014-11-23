@@ -90,6 +90,13 @@ def entropy(countPerClass):
 	probs = countPerClass/np.sum(countPerClass)
 	return -np.sum(probs*np.log(probs))
 
+def selectFeatures(featureEntropy, N, wordTagCount):
+	selectedFeatures = dict()
+	ordered = sorted(featureEntropy, key=featureEntropy.get)
+	for feature in ordered[-N:]:
+		selectedFeatures[feature] = wordTagCount[feature]
+	return selectedFeatures
+
 # Data structures
 classes			= ['negative','neutral','positive']
 classCutOff		= [-0.5,0.5]
@@ -109,3 +116,6 @@ print zip(orderList,scoreList)
 orderList=  ordered[:40]
 scoreList=  [scores[word] for word in ordered[:40]]
 print zip(orderList,scoreList)
+# Get the counts for the 100 word tags with the highest entropy
+newCounts = selectFeatures(wordTag_entropy, 100, wordTagCount)
+print newCounts
