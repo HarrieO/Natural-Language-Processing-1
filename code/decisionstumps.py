@@ -102,7 +102,8 @@ def selectFeatures(featureEntropy, N, wordTagCount):
 	ordered = sorted(featureEntropy, key=featureEntropy.get)
 	for feature in ordered[-N:]:
 		selectedFeatures[feature] = wordTagCount[feature]
-	return selectedFeatures
+	ignoredFeatures = [key for key in wordTagCount.keys() if key not in selectedFeatures.keys()]
+	return selectedFeatures, ignoredFeatures
 
 # Data structures
 classes			= ['negative','neutral','positive']
@@ -126,6 +127,5 @@ scoreList=  [scores[word] for word in ordered[:40]]
 print zip(orderList,scoreList)
 # Get the counts for the 100 word tags with the highest entropy
 print "Word tag counts"
-newCounts = selectFeatures(wordTag_entropy, N, wordTagCount)
-ignoredWordTags =  [key for key in wordTag_entropy.keys() if key not in newCounts.keys()]
+newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
 #print newCounts
