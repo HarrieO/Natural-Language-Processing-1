@@ -2,6 +2,11 @@ import re
 import post
 import numpy as np
 
+'''
+Settings
+'''
+N = 10 # The amount of features selected for the histogram
+
 # Computes the word-tag count, the class count and the summed scores for each of the word-tag pairs.
 def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):	
 	# inputfile = The file containing the scores
@@ -16,7 +21,8 @@ def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):
 	# Read the file line by line
 	i = 0
 	for tree in trees:
-		wordTags = re.findall("(\(([a-zA-Z0-9])* ([a-zA-Z0-9])*\))",tree)
+		punctuation = "\.\?"
+		wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
 		for wordTag in wordTags:
 			# Get rid of the brackets and split into word and tag
 			#[word, tag] = wordTag[0][1:-1].split(" ")
@@ -54,7 +60,7 @@ def emptyClassCount(classes):
 	for className in classes:
 		if className == 'neutral':
 			continue
-		classCount[className] = 0.0001 #NaN fix
+		classCount[className] = 0.001 #NaN fix
 	return classCount
 
 def average_scores(totalScores, wordClassCount):
@@ -96,7 +102,33 @@ def selectFeatures(featureEntropy, N, wordTagCount):
 	ordered = sorted(featureEntropy, key=featureEntropy.get)
 	for feature in ordered[-N:]:
 		selectedFeatures[feature] = wordTagCount[feature]
-	return selectedFeatures
+	ignoredFeatures = [key for key in wordTagCount.keys() if key not in selectedFeatures.keys()]
+	return selectedFeatures, ignoredFeatures
+
+def outputHistograms(inputfile, outputfile, features):
+	trees = post.read_column(4,inputfile)
+	scores = map(float,post.read_column(2,inputfile))
+	f = open(outputfile, 'w')
+	# Read the file line by line
+	i = 0
+	for tree in trees:
+		punctuation = "\.\?"
+		wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
+		histogram = [0] * len(features)
+		for wordTag in wordTags:
+			try:
+				idx = features.index(wordTag[0])
+			except ValueError:
+				idx = -1
+			if idx != -1:
+				# Include in the histogram
+				histogram[idx] = histogram[idx]+1
+			#else:
+			# Do something with the unknown word
+				
+		# Write the histogram to the file
+		f.write(",".join(str(x) for x in histogram)+","+str(scores[i])+"\n")
+		i = i + 1
 
 # Data structures
 classes			= ['negative','neutral','positive']
@@ -104,6 +136,7 @@ classCutOff		= [-0.5,0.5]
 classCount 		= emptyClassCount(classes)
 wordTagCount 	= dict()
 totalScores		= dict()
+
 
 # Running starts here
 extract('disco/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
@@ -118,5 +151,8 @@ orderList=  ordered[:40]
 scoreList=  [scores[word] for word in ordered[:40]]
 print zip(orderList,scoreList)
 # Get the counts for the 100 word tags with the highest entropy
-newCounts = selectFeatures(wordTag_entropy, 100, wordTagCount)
-print newCounts
+print "Word tag counts"
+newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
+
+outputHistograms('disco/discotrain.csv', 'trainHist.csv', newCounts.keys())
+#print newCounts
