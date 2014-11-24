@@ -17,7 +17,7 @@ with open('indices.txt') as f:
 
 vectorizer = feature_extraction.DictVectorizer(sparse=True)
 
-text = treebank.BracketCorpusReader('lesstrees.txt')
+text = treebank.BracketCorpusReader('trees.txt')
 print "Made treebank"
 trees = [treetransforms.binarize(tree, horzmarkov=1, vertmarkov=1)
          for _, (tree, _) in text.itertrees(0)]
@@ -42,10 +42,10 @@ print "Added fragments to posts"
 
 # Convert list of dicts to a sparse matrix
 vectorizer = feature_extraction.DictVectorizer(sparse=True)
-X = vectorizer.fit_transform(tmp)
+X = vectorizer.fit_transform(featureMatrix)
     
 # Trivial machine learning objective: detect long sentences
-target = ['polite' if len(post.score) > 0.5 else 'impolite' for post in treeposts]
+target = ['polite' if post.score > 0 else 'impolite' for post in treeposts]
 y = preprocessing.LabelEncoder().fit_transform(target)
 
 # Use an SVM-like classifier and 10-fold crossvalidation for evaluation

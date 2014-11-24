@@ -6,7 +6,7 @@ class Post(object):
 	def __init__(self, tid, content, score, community, trees):
 		self.id        = tid
 		self.content   = " ".join(content.split())
-		self.score     = score
+		self.score     = float(score)
 		self.community = community
 		self.trees     = self.parseTrees(trees)
 		self.fragments = {}
