@@ -34,5 +34,4 @@ wordDict = dict()
 wordDict['a']=dict()
 wordDict['a'][1]=5
 wordDict['a'][2]=3
-
-print word_entropy(classDict,wordDict)
+#print word_entropy(classDict,wordDict)
