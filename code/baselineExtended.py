@@ -38,10 +38,14 @@ def get_counts(classCutOff,classes):
 def compute_score(sentence, counts):
 	words  = sentence.split()
 	score = 0.0
+	unused= 0
 	for word in words:
+		if counts[word]==0:
+			unused +=1
 		score += counts[word]
 		#print word, ", ", counts[word]
-	return score
+	if unused < len(words):
+		return score*float((len(words))/(len(words)-unused))
 
 # Returns to which class the score belongs
 def getClass(score,classCutOff,classes):
@@ -52,12 +56,12 @@ def getClass(score,classCutOff,classes):
 	return classes[i]
 
 
-classes			= ['negative','neutral','positive']
+classes			= [0,1,2]#['negative','neutral','positive']
 classCutOff		= [-0.5,0.5]
 wordCounts,ordered = get_counts(classCutOff,classes)
 contents  = post.read_column(0,'test.csv')
 scores = post.read_column(1,'test.csv')
-percentages = [0.1,0.25,0.5,0.75,1.0]
+percentages = [0.001,0.05,0.1,0.25,0.5,0.75,1.0]
 for percentage in percentages:
 	totalWord = len(wordCounts.keys())
 	# throw away x% of the words
@@ -68,18 +72,27 @@ for percentage in percentages:
 	# for i in range(10):
 	# 	print contents[i]
 	# 	print scores[i], " versus ", compute_score(contents[i],counts)
+	skip=0
 
+	confusionMatrix = np.zeros([len(classes),len(classes)])
 
 	misclassifications =0
 	completeWrong = 0
 	for i in range(len(contents)):
-		classified = getClass(compute_score(contents[i],newWordCounts),classCutOff, classes)
+		scoreFound = compute_score(contents[i],newWordCounts)
+		if scoreFound is None:
+			skip +=1
+			continue
+		classified = getClass(scoreFound,classCutOff, classes)
 		original = getClass(float(scores[i]), classCutOff, classes)
+		confusionMatrix[classified,original]+=1
 		if classified != original:
 			misclassifications +=1
-			if not (original == 'neutral' or classified =='neutral'):
+			#if not (original == 'neutral' or classified =='neutral'):
 				#print contents[i]
 				#print classified
-				completeWrong +=1
-	print "Fraction of words kept is ", percentage
-	print "Percentage right: ", 100.0-misclassifications/float(len(contents))*100, "%, percentage partially correct: ", 100.0-completeWrong/float(len(contents))*100, "%"
+				#completeWrong +=1
+	print "Fraction of words kept is ", percentage, ", this amounts to ", int(percentage*len(newWordCounts.keys())), " words."
+	print "Skipped over ", skip, " sentences"
+	print "confusionMatrix is ", confusionMatrix
+	print "Percentage right: ", 100.0-misclassifications/float(len(contents)-skip)*100, "%"#, percentage partially correct: ", 100.0-completeWrong/float(len(contents)-skip)*100, "%"
