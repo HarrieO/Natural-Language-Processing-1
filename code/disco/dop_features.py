@@ -57,28 +57,28 @@ for n,datapoint in enumerate(contents):
 print 'Datapoints: {0} \n Sentences: {1}'.format(len(n_sents),sum(n_sents))
 
 # store the indices
-file = open("indices.txt", "w")
+file = open("test-indices.txt", "w")
 [file.write(str(i) +' \n') for i,n in enumerate(n_sents) for _ in range(n)  ]
 file.close()
 
 #Store the sentences
-file = open("sentences.txt", "w")
+file = open("test-sentences.txt", "w")
 [file.write('<s> ' + " ".join(sent.split()) + ' </s>\n') for sent in sentences]
 file.close()
 
 #Store the sentence counts
-file = open("sent_counts.txt", "w")
+file = open("test-sent_counts.txt", "w")
 [file.write('{0} \n'.format(n)) for n in n_sents]
 file.close()
 
-#copy the sentences file into the parser folder:
-BLLIP_PATH = '/users/tiesvanrozendaal/NLP/Project/libraries/bllip-parser-BLLIP_ON_MAVERICKS'
-MAIN_PATH = os.getcwd()
-shutil.copy2('sentences.txt', BLLIP_PATH + '/sample-text')
-#run the parser
-os.chdir(BLLIP_PATH)
-call([ './parse.sh', 'sample-text/sentences.txt'])
-os.chdir(MAIN_PATH)
+# #copy the sentences file into the parser folder:
+# BLLIP_PATH = '/users/tiesvanrozendaal/NLP/Project/libraries/bllip-parser-BLLIP_ON_MAVERICKS'
+# MAIN_PATH = os.getcwd()
+# shutil.copy2('sentences.txt', BLLIP_PATH + '/sample-text')
+# #run the parser
+# os.chdir(BLLIP_PATH)
+# call([ './parse.sh', 'sample-text/sentences.txt'])
+# os.chdir(MAIN_PATH)
 
 
 #Per datapunt:
