@@ -23,7 +23,7 @@ def read_column(colNr, fileName):
 			column.append(row[colNr])
 		return column
 
-def read_posts(fileName):
+def read_data(fileName):
 	with open(fileName) as csvfile:
 		readerObject = csv.reader(csvfile, delimiter=',')
 		# skip header of csv file
