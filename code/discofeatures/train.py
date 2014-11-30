@@ -3,7 +3,7 @@
 import os, glob, sys, re, argparse,shutil, csv
 import numpy as np
 from discodop import treebank, treetransforms, fragments
-from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm
+from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm, naive_bayes
 import sklearn
 from subprocess import call
 from datapoint import *
@@ -38,6 +38,6 @@ y = preprocessing.LabelEncoder().fit_transform(target)
 print "Initiating cross validation"
 
 # Use an SVM-like classifier and 10-fold crossvalidation for evaluation
-classifier = svm.SVC(verbose=True)
+classifier = naive_bayes.GaussianNB()
 cv = cross_validation.StratifiedKFold(y, n_folds=4, shuffle=True, random_state=42)
 print cross_validation.cross_val_score(classifier, X.toarray(), y, cv=cv)
