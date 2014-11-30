@@ -41,7 +41,7 @@ def read_posts(fileName):
 		row = next(readerObject)
 		posts = []
 		for i, row in enumerate(readerObject):
-			if len(row) == 4:
+			if len(row) >= 4:
 				posts.append(Post(*row))
 			else:
 				posts.append(Post(i,*row))

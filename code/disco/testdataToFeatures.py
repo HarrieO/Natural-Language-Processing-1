@@ -51,7 +51,7 @@ for tree, sentDict in result.items():
         for key, count in sentDict.items():
             if key < len(indices):
                 treeIndex = featureMap[tree.strip()]
-                if tree in treeposts[indices[key]].fragments:
+                if treeIndex in treeposts[indices[key]].fragments:
                     treeposts[indices[key]].fragments[treeIndex]    += count
                 else:
                     treeposts[indices[key]].fragments[treeIndex]    = count
