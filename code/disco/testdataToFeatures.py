@@ -8,17 +8,25 @@ from subprocess import call
 from treepost import *
 from bracketStringReader import BracketStringReader
 
+featureMap = {}
+with open('indicesToTrees.txt') as f:
+    for line in f:
+        i, tree = line.split(' ',1)
+        tree = tree.strip()
+        featureMap[tree] = i
 
-treeposts = read_posts('discotrain.csv')
+treeposts = read_posts('test.csv')
 
 indices = []
-with open('indices.txt') as f:
+with open('test_comment_indices.txt') as f:
     for line in f:
         indices.append(int(line))
 
 vectorizer = feature_extraction.DictVectorizer(sparse=True)
 
-treeStrings = [ line[:-1] for line in io.open('test-trees.txt', encoding='utf-8') for _ in [1,2]]
+treeStrings = [ line[:-1] for line in io.open('test_trees.txt', encoding='utf-8')]
+print "Total of", len(treeStrings), "trees in test set."
+treeStrings.extend(treeStrings[:])
 
 text = BracketStringReader(treeStrings)
 print "Made treebank"
@@ -31,55 +39,30 @@ sents = [sent for _, (_, sent) in text.itertrees(0)]
 print "Starting fragment extraction"
 result = fragments.getfragments(trees, sents, numproc=1, disc=False, cover=True)
 print "Extracted fragments"
-featureMatrix = [{} for _ in range(len(treeposts))]
-treeToIndices = []
+
 treeIndex = 0
+found = 0
+total = 0
 for tree, sentDict in result.items():
-    treeToIndices.append(tree)
-    #print '%3d\t%s' % (sum(b.values()), a)
-    for key, count in sentDict.items():
-        if tree in treeposts[indices[key]].fragments:
-            treeposts[indices[key]].fragments[treeIndex]    += count
-            featureMatrix[indices[key]][tree]               += count
-        else:
-            treeposts[indices[key]].fragments[treeIndex]    = count
-            featureMatrix[indices[key]][tree]               = count
-    treeIndex += 1
-exit()
-# with open("featureData.csv", 'wb') as csvfile:
-#     writerObject = csv.writer(csvfile, delimiter=',')
-#     for post in treeposts:
-#         writerObject.writerow([post.id, post.content, post.score, post.community, post.fragments])  
+    total += 1
+    if tree in featureMap:
+        found += 1
+         #print '%3d\t%s' % (sum(b.values()), a)
+        for key, count in sentDict.items():
+            if key < len(indices):
+                treeIndex = featureMap[tree.strip()]
+                if tree in treeposts[indices[key]].fragments:
+                    treeposts[indices[key]].fragments[treeIndex]    += count
+                else:
+                    treeposts[indices[key]].fragments[treeIndex]    = count
 
+print "Found", found, "out of", total,"trees in featurespace."
 
-file = io.open(filename, encoding=self._encoding)
-for i in range(treeIndex):
-    print str(i),treeToIndices[i]
-    file.write(str(i) + ' ')
-    file.write(treeToIndices[i].encode("utf-8"))
-    file.write('\n')
+with open("testset.csv", 'wb') as csvfile:
+    writerObject = csv.writer(csvfile, delimiter=',')
+    writerObject.writerow(["id","content","score","community","features"]) 
+    for post in treeposts:
+        writerObject.writerow([post.id, post.content, post.score, post.community, post.fragments])  
 
-#[file.write((str(i) + ' ' + str(treeToIndices[i]) + u'\n').encode('utf8')) for i in range(treeIndex)]
-file.close()
 
 print "Added fragments to posts"
-
-# Convert list of dicts to a sparse matrix
-vectorizer = feature_extraction.DictVectorizer(sparse=True)
-X = vectorizer.fit_transform(featureMatrix)
-    
-# Trivial machine learning objective: detect long sentences
-target = []
-for post in treeposts:
-    if post.score > 0.5:
-        target.append('polite')
-    elif post.score > -0.5:
-        target.append('neutral')
-    else:
-        target.append('impolite')
-y = preprocessing.LabelEncoder().fit_transform(target)
-
-# Use an SVM-like classifier and 10-fold crossvalidation for evaluation
-classifier = linear_model.SGDClassifier(loss='hinge', penalty='elasticnet')
-cv = cross_validation.StratifiedKFold(y, n_folds=10, shuffle=True, random_state=42)
-print cross_validation.cross_val_score(classifier, X, y, cv=cv)

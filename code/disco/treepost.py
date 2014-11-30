@@ -3,12 +3,13 @@ import sys
 import numpy as np
 
 class Post(object):
-	def __init__(self, tid, content, score, community, trees):
+	def __init__(self, tid, content, score, community, trees=None):
 		self.id        = tid
 		self.content   = " ".join(content.split())
 		self.score     = float(score)
 		self.community = community
-		self.trees     = self.parseTrees(trees)
+		if trees:
+			self.trees = self.parseTrees(trees)
 		self.fragments = {}
 
 	def parseTrees(self, treesString):
@@ -39,8 +40,11 @@ def read_posts(fileName):
 		# skip header of csv file
 		row = next(readerObject)
 		posts = []
-		for row in readerObject:
-			posts.append(Post(*row))
+		for i, row in enumerate(readerObject):
+			if len(row) == 4:
+				posts.append(Post(*row))
+			else:
+				posts.append(Post(i,*row))
 		return posts
 
 def read_table(fileName):
