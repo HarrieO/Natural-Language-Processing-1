@@ -70,8 +70,9 @@ def main():
 
 	#Store the sentences
 	file = open("test_sentences.txt", "w")
-	for n, sent in enumerate(sentences):
-	 	file.write('<s> ' + " ".join(sent.split()) + ' </s>\n')
+	for sent in sentences:
+		if sent:
+		 	file.write('<s> ' + " ".join(sent.split()) + ' </s>\n')
 
 
 if __name__ == '__main__':

@@ -27,7 +27,7 @@ def replace_urls(txt):
 	return txt
 
 # Read the comments in.
-contents    = post.read_column(0,'../train.csv')
+contents    = post.read_column(0,'../test.csv')
 
 #preallocate counter for the number of sentences per datapoint
 n_sents = np.ones(len(contents),dtype=int)
@@ -57,17 +57,17 @@ for n,datapoint in enumerate(contents):
 print 'Datapoints: {0} \n Sentences: {1}'.format(len(n_sents),sum(n_sents))
 
 # store the indices
-file = open("test-indices.txt", "w")
+file = open("test_indices.txt", "w")
 [file.write(str(i) +' \n') for i,n in enumerate(n_sents) for _ in range(n)  ]
 file.close()
 
 #Store the sentences
-file = open("test-sentences.txt", "w")
+file = open("test_sentences.txt", "w")
 [file.write('<s> ' + " ".join(sent.split()) + ' </s>\n') for sent in sentences]
 file.close()
 
 #Store the sentence counts
-file = open("test-sent_counts.txt", "w")
+file = open("test_sent_counts.txt", "w")
 [file.write('{0} \n'.format(n)) for n in n_sents]
 file.close()
 
