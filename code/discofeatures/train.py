@@ -19,7 +19,7 @@ testMatrix = [post.fragments for post in training]
 print "Vectorizing data."
 
 # Convert list of dicts to a sparse matrix
-vectorizer = feature_extraction.DictVectorizer(sparse=True)
+vectorizer = feature_extraction.DictVectorizer(sparse=False)
 X = vectorizer.fit_transform(featureMatrix)
 
 Xtest = vectorizer.transform(testMatrix)
