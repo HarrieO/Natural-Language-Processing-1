@@ -1,20 +1,20 @@
 #!/usr/bin/env python2
 # coding=utf-8
-import os, glob, sys, re, argparse,shutil, csv
 import numpy as np
-from discodop import treebank, treetransforms, fragments
 from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm, naive_bayes
 import sklearn
-from subprocess import call
 from datapoint import *
 
 print "Reading training data."
 
-posts = read_data("featureData.csv")
+training = read_data("trainset.csv")
+test     = read_data("testset.csv")
 
 print "Converting to feature matrix."
 
-featureMatrix = [post.fragments for post in posts]
+featureMatrix = [post.fragments for post in training]
+
+testMatrix = [post.fragments for post in training]
 
 print "Vectorizing data."
 
@@ -22,22 +22,40 @@ print "Vectorizing data."
 vectorizer = feature_extraction.DictVectorizer(sparse=True)
 X = vectorizer.fit_transform(featureMatrix)
 
+Xtest = vectorizer.transform(testMatrix)
+
 print "Setting up target"
+
+def giveLabel(score):
+    if post.score > 0.5:
+        return 'polite'
+    elif post.score > -0.5:
+        return 'neutral'
+    else:
+        return 'impolite'
 
 # Trivial machine learning objective: detect long sentences
 target = []
-for post in posts:
-    if post.score > 0.5:
-        target.append('polite')
-    elif post.score > -0.5:
-        target.append('neutral')
-    else:
-        target.append('impolite')
-y = preprocessing.LabelEncoder().fit_transform(target)
+for post in training:
+    target.append(giveLabel(post.score))
+real = []
+for post in test:
+    real.append(giveLabel(post.score))
+
+labelEncoder = preprocessing.LabelEncoder()
+
+# train targets
+y = labelEncoder.fit_transform(target)
+# true values of test data
+r = labelEncoder.transform(real)
+
 
 print "Initiating cross validation"
 
-# Use an SVM-like classifier and 10-fold crossvalidation for evaluation
 classifier = naive_bayes.GaussianNB()
-cv = cross_validation.StratifiedKFold(y, n_folds=4, shuffle=True, random_state=42)
-print cross_validation.cross_val_score(classifier, X.toarray(), y, cv=cv)
+classifier.fit(X, y)
+
+print "Fit classifier, calculating scores"
+
+print "Accuracy on training set:", classifier.score(X,y)
+print "Accuracy on test set:    ", classifier.score(Xtest,r)
