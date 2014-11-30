@@ -57,5 +57,5 @@ classifier.fit(X, y)
 
 print "Fit classifier, calculating scores"
 
-print "Accuracy on training set:", classifier.score(X,y)
 print "Accuracy on test set:    ", classifier.score(Xtest,r)
+print "Accuracy on training set:", classifier.score(X,y)
