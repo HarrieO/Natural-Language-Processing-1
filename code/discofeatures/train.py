@@ -50,7 +50,7 @@ y = labelEncoder.fit_transform(target)
 r = labelEncoder.transform(real)
 
 
-print "Initiating cross validation"
+print "Fittin classifier"
 
 classifier = naive_bayes.GaussianNB()
 classifier.fit(X, y)
