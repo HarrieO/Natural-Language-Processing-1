@@ -1,9 +1,7 @@
 #!/usr/bin/env python2
 # coding=utf-8
-import subprocess, os, glob, sys, re, argparse, shutil, nltk.data
+import subprocess, os, sys, re, shutil
 import numpy as np
-from sklearn import linear_model, preprocessing, feature_extraction, cross_validation
-from subprocess import call
 
 # In order to import the main project code
 sys.path.append('..')
@@ -131,6 +129,7 @@ def main():
 	print 'Training: Datapoints: {0}, Sentences: {1}'.format(len(train_indices),len(set(train_indices)) )
 	print 'Test    : Datapoints: {0}, Sentences: {1}'.format(len(test_indices), len(set(test_indices)) )
 
+	#store indices
 	file = open("train_indices.txt", "w")
 	[file.write('{0} \n'.format(n)) for n in train_indices]
 	file.close()
@@ -139,12 +138,14 @@ def main():
 	[file.write('{0} \n'.format(n)) for n in test_indices]
 	file.close()
 
-	parse_trees(train_sents,'train')
-	parse_trees(test_sents,'test')
+	#parse and store trees
+	#parse_trees(train_sents,'train')
+	#parse_trees(test_sents,'test')
 
+	#examples
 	#print get_trees(test_comments[0:3],'demo')
 	#print get_trees(test_comments[0],'demo')
-
+	print parse_trees(train_sents[0:1],'DEMO',1)
 
 if __name__ == '__main__':
 	main()
