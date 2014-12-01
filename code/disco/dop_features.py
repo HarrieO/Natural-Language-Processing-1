@@ -45,7 +45,7 @@ for n,datapoint in enumerate(contents):
 	for s in splitsents:
 		if len(s) == 1 and (s == "." or s == "," or s == "?" or "!"):
 			if len(corsents) > 0:
-				corsents[0] += s
+				corsents[-1] += s
 			else:
 				corsents = [s]
 		elif len(s) > 0:
