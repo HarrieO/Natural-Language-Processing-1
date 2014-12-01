@@ -12,9 +12,10 @@
         <div id="input">
           <h1>Politeness classifier</h1>
           <form role="form">
+            {% module xsrf_form_html() %}
             <div class="form-group">
               <label for="sentence">Sentence</label>
-              <input type="text" class="form-control" id="sentence" placeholder="Enter a sentence to classify">
+              <input type="text" class="form-control" id="sentence" name="sentence" placeholder="Enter a sentence to classify">
             </div>
             <button type="submit" class="btn btn-default">Classify</button>
           </form>
