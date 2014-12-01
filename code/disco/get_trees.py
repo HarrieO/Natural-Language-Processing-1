@@ -100,7 +100,7 @@ def parse_trees(sentences,prefix,return_trees=1):
 		return open(prefix + "_trees.txt").readlines()
 	
 
-def get_trees(data,prefix):
+def get_trees(data,prefix='temp'):
 	"""
 	Returns the trees of the data, please define a prefix for the files that are stored.
 	If the data is a string, the string will be parsed, if the data is a list, each element will be parsed and 
