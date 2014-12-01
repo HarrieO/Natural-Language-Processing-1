@@ -3,8 +3,7 @@
 <s> Looks like Illustrator CS4 can be scripted with JavaScript, VBScript and AppleScript. </s>
 <s> Would be nice if you could get your hands on the script they used to create these ring maps, huh? </s>
 <s> brian speaks truth. </s>
-<s> The best answer is "don't" followed by "why did you want to do that? </s>
-<s> " </s>
+<s> The best answer is "don't" followed by "why did you want to do that?" </s>
 <s> Thanks for the approval :) But as I said, my photoshop-fu is weak on this. </s>
 <s> Can you please post a tutorial? </s>
 <s> And you logged in here how? </s>
@@ -20,8 +19,7 @@
 <s> what exactly you mean by parsing? </s>
 <s> the conversion from your NSString number to unsigned long long? </s>
 <s> Perhaps this is best seen as a way to structure the design of a large-scale digital circuit (just like it might be a good idea to use subroutines in a large-scale computer program), and not really as a formal lower bound? </s>
-<s> (Chapter 14 of the book that you linked has plenty of Theorems with Proofs, but they seem to assume that you follow certain principles in the design of the circuit? </s>
-<s> ) </s>
+<s> (Chapter 14 of the book that you linked has plenty of Theorems with Proofs, but they seem to assume that you follow certain principles in the design of the circuit?) </s>
 <s> Other than a missing declaration of 'ss', the code you've provided will get the address of a member of a structure. </s>
 <s> Can you provide more detail on what isn't working for you? </s>
 <s> JIT? </s>
@@ -31,14 +29,10 @@
 <s> Are you asking for good examples for books to use, good things to try while learning, or just our opinion about the difficulty of examples? </s>
 <s> @Andrew Just out of curiosity, will it still work in LaTeX3? </s>
 <s> Is that even a concern? </s>
-<s> When you typed this: http://www. </s>
-<s> google. </s>
-<s> com/search? </s>
-<s> client=safari&rls=en&q=string+processing+algorithms&ie=UTF-8&oe=UTF-8" What did you see? </s>
+<s> When you typed this: <url> " What did you see? </s>
 <s> Anything you'd like to ask **Specific** questions about? </s>
 <s> return cell; </s>
-<s> [tableView deselectRowAtIndexPath:indexPath animated:YES]; why you have code for deselecting row after returning cell? </s>
-<s> ? </s>
+<s> [tableView deselectRowAtIndexPath:indexPath animated:YES]; why you have code for deselecting row after returning cell?? </s>
 <s> Why are your gradients 1024x768? </s>
 <s> Have you tried making them like 16x16 or something? </s>
 <s> Do you *just* want to extract columns 36-60? </s>
@@ -76,9 +70,7 @@
 <s> they look like circles to me (Chrome 13). </s>
 <s> What browser are you using? </s>
 <s> so you're saying that <img src="local/file. </s>
-<s> jpg" /> works but <img src="http://server. </s>
-<s> com/img/file. </s>
-<s> jpg" /> does not work? </s>
+<s> jpg" /> works but <img src=" <url> " /> does not work? </s>
 <s> Am I understanding right now? </s>
 <s> with 2) I get an parsing error </s>
 <s> the 1) I dont't get it :S, what do I have to do? </s>
@@ -106,10 +98,7 @@
 <s> Anyone have any other ideas? </s>
 <s> The most complete resource is the internet at large, but that is a bit broad. </s>
 <s> Is there anything specific you are looking for? </s>
-<s> @Tal Galili: http://en. </s>
-<s> wikipedia. </s>
-<s> org/wiki/Love_means_never_having_to_say_you%27re_sorry. </s>
-<s> (My favorite is the line from *What's Up, Doc? </s>
+<s> @Tal Galili: <url> (My favorite is the line from *What's Up, Doc? </s>
 <s> *) </s>
 <s> What have you tried? </s>
 <s> What are the difficulties you encounter? </s>
@@ -122,8 +111,7 @@
 <s> I am looking at a more brute force and exhaustive approach, I am curious as to your performance/memory concerns. </s>
 <s> Is this something being done a lot or just once for different sets of letter combinations? </s>
 <s> Shouldn't these be called 'dairy substitutes'? </s>
-<s> Or 'Substitutes for dairy? </s>
-<s> ' </s>
+<s> Or 'Substitutes for dairy?' </s>
 <s> are you sure, that textView isn't null already? </s>
 <s> Could you provide an error message? </s>
 <s> @Nightfirecat Well, the normal `<hr />` isn't enough contrast from the background to provide me with what I need. </s>
@@ -137,9 +125,7 @@
 <s> What have you tried so far? </s>
 <s> Is there something more subtle than just opening both files, reading lines from each, etc? </s>
 <s> And how are you planning on handling this on the client? </s>
-<s> Phones today dont have encrypted SMS builtin, which means you'd build a custom app. </s>
-<s> . </s>
-<s> . </s>
+<s> Phones today dont have encrypted SMS builtin, which means you'd build a custom app... </s>
 <s> and if you're doing that, why bother with SMS? </s>
 <s> Could you please clarify with an example? </s>
 <s> And are we doing your homework for you? </s>
@@ -148,8 +134,7 @@
 <s> @user12739 Give us more information please. </s>
 <s> What problem are you having exactly? </s>
 <s> @DisgruntledGoat: Yep! </s>
-<s> (enlighten me please: are there more kinds of pageranks? </s>
-<s> ) </s>
+<s> (enlighten me please: are there more kinds of pageranks?) </s>
 <s> I love it. </s>
 <s> Two immediate thoughts (1) what about mapping the space based on probabilities (2) what would a scheme to try and identify the or incorrect answers look like? </s>
 <s> Sounds like a projection issue. </s>
@@ -224,15 +209,9 @@
 <s> Would this be at all useful? </s>
 <s> Did that string come from an attribute? </s>
 <s> Or the content of an element in XML? </s>
-<s> @omri yes you are right. </s>
-<s> . </s>
-<s> . </s>
+<s> @omri yes you are right... </s>
 <s> I have applied the logic acc. </s>
-<s> to what I thought is right if somebody could tell me what's wrong I have done ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
+<s> to what I thought is right if somebody could tell me what's wrong I have done ????? </s>
 <s> the title is a bit awkward, I had no idea what the Q was about before reading it. </s>
 <s> Perhaps "great GIS, maps & cartography quotes"? </s>
 <s> Also, could you please explain the second scenario a little ? </s>
@@ -295,9 +274,7 @@
 <s> Not a native English speaker, I guess? </s>
 <s> @Pierreten: never used regex before in C code. </s>
 <s> are there some regex libraries for C? </s>
-<s> As a sidenote, I wonder why they chose to call it "Reach". </s>
-<s> . </s>
-<s> . </s>
+<s> As a sidenote, I wonder why they chose to call it "Reach"... </s>
 <s> I just got done playing some Halo: Reach so that came to mind immediately. </s>
 <s> But I suspect it's more because of the symbolism of "reaching" more devices? </s>
 <s> I'm expriencing the same thing. </s>
@@ -335,8 +312,7 @@
 <s> the endpoints of the arc & the center of the circle specify either of two arcs (they complement eachother to make up the entire circle). </s>
 <s> how do you determine which arc is relevant? </s>
 <s> Define *"complexity of a nested binary search tree"*. </s>
-<s> For that matter, define *"nested binary search tree"* (do you mean subtree? </s>
-<s> ) </s>
+<s> For that matter, define *"nested binary search tree"* (do you mean subtree?) </s>
 <s> is there another transparent view in front of the right 1/3? </s>
 <s> Or maybe your button has been moved outside of it's parent view's bounds? </s>
 <s> I've tried to understand your question, but it is hard. </s>
@@ -364,8 +340,7 @@
 <s> I want to implement the whole online banking stack, from front-end, middleware, and back-end. </s>
 <s> So is there any opensource J2EE app for online banking? </s>
 <s> I am attempting to ask what I see as a fundamental question. </s>
-<s> Maybe I should have asked, "is it true that there is a fundamental computational complexity for certain math that cannot be avoided? </s>
-<s> " </s>
+<s> Maybe I should have asked, "is it true that there is a fundamental computational complexity for certain math that cannot be avoided?" </s>
 <s> What OS? </s>
 <s> Can you establish a link local IP address? </s>
 <s> @whuber Sorry, I can't see why that AmStat article is relevant. </s>
@@ -386,13 +361,7 @@
 <s> Can you provide the question which precedes the answer too? </s>
 <s> Please expand on what you're trying to ask. </s>
 <s> Point out the differences of what? </s>
-<s> I am not sure, its a Google interview question, I saw it initially at http://www. </s>
-<s> careercup. </s>
-<s> com/question? </s>
-<s> id=7263132 . </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
+<s> I am not sure, its a Google interview question, I saw it initially at <url> .... </s>
 <s> It feels like that the question meant worst-case time bounds. </s>
 <s> Does it seem impossible? </s>
 <s> I have tried the default "Hello World" from a new C++ console project and it builds and runs fine, could you please provide a screenshot of the error ? </s>
@@ -428,26 +397,17 @@
 <s> So, your app creates a new html for each login? </s>
 <s> Or for each user? </s>
 <s> If you need a command to do that, you better provide us at least with the language/package you use. </s>
-<s> Are we talking SAS, SPSS, Stata, SPlus, Minitab, R, . </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> Are we talking SAS, SPSS, Stata, SPlus, Minitab, R, ...? </s>
 <s> @kalle43 what is the rest length of the springs? </s>
 <s> is there any tension without displacement? </s>
 <s> @cantrem: Yes, that's what I meant, just a direct rebuild after it fails. </s>
 <s> What happens if you change any other line and try to recompile? </s>
-<s> @Dallaylaen _$ =~ s/::/<br />/g; Like that? </s>
-<s> ? </s>
-<s> ? </s>
+<s> @Dallaylaen _$ =~ s/::/<br />/g; Like that??? </s>
 <s> What have you tried? </s>
 <s> What didn't work? </s>
-<s> Actually I didn't even realise you could write `[](u) { . </s>
-<s> . </s>
-<s> . </s>
+<s> Actually I didn't even realise you could write `[](u) { ... </s>
 <s> }` and have the compiler figure out the type of `u` for you, so that may be where I'm getting lost. </s>
-<s> In any case, the workaround is to put `[](T u) { . </s>
-<s> . </s>
-<s> . </s>
+<s> In any case, the workaround is to put `[](T u) { ... </s>
 <s> }` so is that really a big deal? </s>
 <s> i get this as well, is it only happening since you moved to a later version of xCode? </s>
 <s> is your configuration in Debug? </s>
@@ -455,8 +415,7 @@
 <s> Profile it and see which one performs better? </s>
 <s> Sorry for maybe stupid question but what do you mean by "commandline command"? </s>
 <s> You mean that one in psql? </s>
-<s> woow. </s>
-<s> . </s>
+<s> woow.. </s>
 <s> sorry but this is ugly, ugly, ugly. </s>
 <s> Why do this if other packages already do the work for you? </s>
 <s> Check what you get from $('input. </s>
@@ -469,9 +428,7 @@
 <s> Does the error show up with any data set? </s>
 <s> Is there a minimum reproducible test case? </s>
 <s> Could there be a subtle aging process going on, an overnight evaporation which leaves a more concentrated base behind? </s>
-<s> I'm not sure what you're asking. </s>
-<s> . </s>
-<s> . </s>
+<s> I'm not sure what you're asking... </s>
 <s> it is final; it is marked as such. </s>
 <s> Are you wanting to test that its value never changes during the execution of `method`? </s>
 <s> Are you looking for a solution that is strictly in basic TeX? </s>
@@ -493,8 +450,7 @@
 <s> Please clarify what you mean by 'sub-info'. </s>
 <s> Are you referring to the $info_results array? </s>
 <s> Interesting topic. </s>
-<s> A missing part of the question, I think, is "is homomorphic encryption considered *secure*, from a cryptanalysis PoV? </s>
-<s> " </s>
+<s> A missing part of the question, I think, is "is homomorphic encryption considered *secure*, from a cryptanalysis PoV?" </s>
 <s> did you mean when you try to load application context from jar its not working ? </s>
 <s> if so error message ? </s>
 <s> Is this for a one-time transaction, or something you want to be convenient for repeated use? </s>
@@ -510,12 +466,9 @@
 <s> Bluetooth enable in widows? </s>
 <s> (you have alternate operating system (Windows) ? </s>
 <s> Perhaps rephrase it to something like, "What do you look for when choosing a distribution? </s>
-<s> ", or "Which distribution would best suit scenario X? </s>
-<s> " </s>
+<s> ", or "Which distribution would best suit scenario X?" </s>
 <s> I'm confused. </s>
-<s> Why does `\begin{figure}. </s>
-<s> . </s>
-<s> . </s>
+<s> Why does `\begin{figure}... </s>
 <s> \end{figure}` not work for you for setting figures in only a single column? </s>
 <s> Well, solution non-withstanding, the news-story you linked to was great read. </s>
 <s> Some people, huh? </s>
@@ -525,17 +478,13 @@
 <s> "above code is not working" isn't very descriptive. </s>
 <s> What happens when you try it? </s>
 <s> is extending pdo a bad thing? </s>
-<s> I had an independent mysqli class before but I was told better off extending mysqli so I thought it must be the same as pdo? </s>
-<s> ? </s>
+<s> I had an independent mysqli class before but I was told better off extending mysqli so I thought it must be the same as pdo?? </s>
 <s> Can you post your declaration of the `share` property? </s>
 <s> Does it retain the value assigned? </s>
 <s> Yes, shed a bit more light on your situation, please. </s>
 <s> Is this something to take in addition to your core coursework or are you trying to determine if RA is part of your core? </s>
 <s> Career advice questions like this one are too localized for this site. </s>
-<s> Please see [Are Career Advice questions useful for anyone except the poster](http://meta. </s>
-<s> programmers. </s>
-<s> stackexchange. </s>
-<s> com/questions/588/are-career-advice-questions-useful-to-anyone-except-the-poster/590#590)? </s>
+<s> Please see [Are Career Advice questions useful for anyone except the poster]( <url> #590)? </s>
 <s> Get rid of everything except the first die() line. </s>
 <s> Do you see any output? </s>
 <s> It looks like 80x86 assembly. </s>
@@ -559,9 +508,7 @@
 <s> That's not how Shoulda worked when I tried it out. </s>
 <s> Care to show us some code? </s>
 <s> Is offering upload an option? </s>
-<s> Something like http://www. </s>
-<s> semiologic. </s>
-<s> com/software/article-uploader/ maybe? </s>
+<s> Something like <url> maybe? </s>
 <s> Do the writers of the GRE write illogical yet grammatical sentences like this to intentionally trip people up? </s>
 <s> Or do they really think this way? </s>
 <s> wow, that looks amazalatin'. </s>
@@ -615,8 +562,7 @@
 <s> Are you rinsing them? </s>
 <s> Changing the water? </s>
 <s> "If any database errors occur, they will be emailed to the address specified here. </s>
-<s> " Do u get any emails? </s>
-<s> ? </s>
+<s> " Do u get any emails?? </s>
 <s> Sorry, I don't understand what you mean by the second sentence. </s>
 <s> Would you try and reword it? </s>
 <s> Wow, this really is a broad question! </s>
@@ -627,53 +573,36 @@
 <s> What is the type of the field? </s>
 <s> Hey, could you please tell me: if I decide to use Amazon CloudFront, what is the URL of my images going to be like? </s>
 <s> www. </s>
-<s> mydomain. </s>
-<s> com/image. </s>
+<s> mydomain com /image. </s>
 <s> gif or an Amazon CDN domain like www. </s>
-<s> ama-cdn. </s>
-<s> com/. </s>
-<s> . </s>
-<s> . </s>
+<s> ama-cdn com /... </s>
 <s> (or whatever domains Amazon uses)? </s>
 <s> What exactly do you want to interpolate? </s>
 <s> What is the resolution and distribution of your measurement points? </s>
 <s> Just curious if you're still having this issue. </s>
-<s> I assume that having your users type https://www. </s>
-<s> google. </s>
-<s> com/calendar doesn't fix the problem? </s>
+<s> I assume that having your users type <url> doesn't fix the problem? </s>
 <s> Can you describe in more detail what you set up looks like, what type of layers? </s>
 <s> Is there any difference if you switch to WinForm? </s>
 <s> That the requirements are wrong? </s>
-<s> (and the code right? </s>
-<s> ) </s>
+<s> (and the code right?) </s>
 <s> Accepted! </s>
 <s> @Rory, one more thing - can you add a line about using the *right* hashing algorithms? </s>
-<s> That could be the jit compiling the hot path. </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> That could be the jit compiling the hot path...? </s>
 <s> Maybe try to disable the jit (there is an option to do so on the Sun VM)? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
+<s> ??? </s>
 <s> OMG! </s>
 <s> why? </s>
 <s> I thought every site must have one robots. </s>
 <s> txt. </s>
 <s> Can you please explain for me? </s>
 <s> Why not use a database such as MySQL? </s>
-<s> And more disturbing is why didn't anyone mention that ? </s>
-<s> ! </s>
-<s> ? </s>
-<s> ! </s>
+<s> And more disturbing is why didn't anyone mention that ?!?! </s>
 <s> I object to the use of cats in the described manner. </s>
 <s> Can we change it to dogs? </s>
 <s> or anything else? </s>
 <s> So mutable linked list is allowed? </s>
-<s> If it is always complete using numbers from 1. </s>
-<s> . </s>
-<s> N you could just write the values 1. </s>
-<s> . </s>
+<s> If it is always complete using numbers from 1.. </s>
+<s> N you could just write the values 1.. </s>
 <s> N to the input array. </s>
 <s> So I'm guessing thats not going to cut it? </s>
 <s> er, no that wont work. </s>
@@ -691,12 +620,9 @@
 <s> Any specially reason? </s>
 <s> A widget for what environment? </s>
 <s> Or are you talking about a theoretic algorithm to calculate and render such a widget? </s>
-<s> @davebug: "So, professor, you're saying the etymology is. </s>
-<s> . </s>
-<s> . </s>
+<s> @davebug: "So, professor, you're saying the etymology is... </s>
 <s> " "yes, people thought it would be funny to misspell everything. </s>
-<s> ne1 haz more questions? </s>
-<s> " </s>
+<s> ne1 haz more questions?" </s>
 <s> sorry nothing related to the original question, but do you know anything about the australian electricity market? </s>
 <s> Seams quite stable, especially with all their coal easily available? </s>
 <s> Naive question: why not sequential? </s>
@@ -704,8 +630,7 @@
 <s> So what is the final verdict? </s>
 <s> What would be the best technology to use in my case? </s>
 <s> Where does the menu show up on the page? </s>
-<s> Do you have HTML or (better yet) a [JSFiddle](http://jsfiddle. </s>
-<s> net/) that we can look at? </s>
+<s> Do you have HTML or (better yet) a [JSFiddle]( <url> that we can look at? </s>
 <s> I feel like this is probably an issue with your configuration, since I don't see why C++ code would behave differently than Obj-C code. </s>
 <s> Can you post a screenshot of what you're seeing? </s>
 <s> Just curious, who asked a question like that? </s>
@@ -739,9 +664,7 @@
 <s> I do understand that without OS support I won't be able to generate cryptographically secure random sequences. </s>
 <s> But how does the second algorithm I've shown compare to the first one, and (why) is one of them better than the other? </s>
 <s> I don't understand. </s>
-<s> If you had your problem solved . </s>
-<s> . </s>
-<s> . </s>
+<s> If you had your problem solved ... </s>
 <s> why did you post a question? </s>
 <s> Oh I see; I misread it, sorry. </s>
 <s> So you want to know number the number of equivalence classes (via their language) of DFA of size n? </s>
@@ -764,8 +687,7 @@
 <s> Domain Admins? </s>
 <s> Do you mean the font size of a TTY, or of a terminal within X? </s>
 <s> If the latter, which terminal emulator? </s>
-<s> you asked this same question a couple days ago http://stackoverflow. </s>
-<s> com/questions/3595256/simple-pseudocode-code-question . </s>
+<s> you asked this same question a couple days ago <url> . </s>
 <s> Did you not like the answers you got? </s>
 <s> I'd like to support iOS 3. </s>
 <s> 0 because it's the project's requirement. </s>
@@ -775,14 +697,11 @@
 <s> So what exactly is the problem? </s>
 <s> Changing the size doesn't work? </s>
 <s> Nothing. </s>
-<s> Remember Kevin Mitnick and Bernie S. </s>
-<s> ? </s>
+<s> Remember Kevin Mitnick and Bernie S.? </s>
 <s> What kind of brakes are they? </s>
 <s> Disc, calliper, V? </s>
 <s> Please make your question more understandable. </s>
-<s> And provide an example. </s>
-<s> . </s>
-<s> . </s>
+<s> And provide an example... </s>
 <s> What sentence is not clear for you? </s>
 <s> you want to make the select box sticky, is that correct? </s>
 <s> meaning that if one value is selected and the user posts the page, when it returns the previous value is still selected? </s>
@@ -797,9 +716,7 @@
 <s> Or maybe an error that pertains to the solution file, at least? </s>
 <s> What language are you using? </s>
 <s> What have you tried so far? </s>
-<s> Take a look **[here](http://diy. </s>
-<s> stackexchange. </s>
-<s> com/questions/7908/what-resources-can-teach-me-to-draw-floor-plans-by-hand/7911#7911)**. </s>
+<s> Take a look **[here]( <url> #7911)**. </s>
 <s> Is that the kind of thing you're after? </s>
 <s> By "implementing square", do you mean implementing a function such that `f(x) = x^2`, or `f(x) = x`? </s>
 <s> Also, what is the precise list of operators you are not allowed to use? </s>
@@ -808,8 +725,7 @@
 <s> but the breakpoint doesn't affect anything unless the condition holds, so you can put your breakpoint anywhere (like the Setter) and take it from there. </s>
 <s> Or am I missing something? </s>
 <s> @Kyle Cronin - can you please tell me, than the font is shown in the "Fixed width" fonts? </s>
-<s> (in the Font panel, like Monaco or Courier? </s>
-<s> ) </s>
+<s> (in the Font panel, like Monaco or Courier?) </s>
 <s> Yeah, tough crowd today. </s>
 <s> Maybe it's right after a long weekend? </s>
 <s> :) </s>
@@ -835,8 +751,7 @@
 <s> e. </s>
 <s> is it weekly,monthly, quarterly, annual data) ? </s>
 <s> Thanks, though. </s>
-<s> This was a much more interesting question than "how do you make a positive number negative in C#? </s>
-<s> " </s>
+<s> This was a much more interesting question than "how do you make a positive number negative in C#?" </s>
 <s> I suspect this is a topcoder problem. </s>
 <s> What's the limit for input size, in this case? </s>
 <s> Your concern about draining suggests it will be uncovered. </s>
@@ -903,12 +818,9 @@
 <s> Ok, but can django and html5 coexist? </s>
 <s> isn't django serving html4? </s>
 <s> Is your interest of theoretical or practical nature? </s>
-<s> If practical, are existing tools like http://lalescu. </s>
-<s> ro/liviu/fet/ inadequate for you problem? </s>
-<s> @Thomas P: hahah! </s>
-<s> ! </s>
-<s> apropos Dijkstra huh? </s>
-<s> ! </s>
+<s> If practical, are existing tools like <url> inadequate for you problem? </s>
+<s> @Thomas P: hahah!! </s>
+<s> apropos Dijkstra huh?! </s>
 <s> What do you mean by "character"? </s>
 <s> The drive letter? </s>
 <s> I've done a PHP wrapper but don't have enough reputation to edit it in. </s>
@@ -920,21 +832,10 @@
 <s> Sometimes the display can freeze but the underlying processes are still going, so checking the logs was (and always is) a good idea. </s>
 <s> Do you actually notice that the timestamps in the logs stop increasing when the system freezes? </s>
 <s> BS of course you can. </s>
-<s> And I have tried Firebug. </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
-<s> same fustration. </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
-<s> cant get it to work either. </s>
-<s> . </s>
-<s> . </s>
-<s> want to teach me how to use it? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
+<s> And I have tried Firebug.... </s>
+<s> same fustration.... </s>
+<s> cant get it to work either... </s>
+<s> want to teach me how to use it???? </s>
 <s> Are you asking "What is the least number of races that would be needed? </s>
 <s> " in the best case, or in the worst (general) case? </s>
 <s> I remember having a similar problem. </s>
@@ -968,16 +869,13 @@
 <s> Why do you care? </s>
 <s> Defined "central point"? </s>
 <s> Do you want any point within a convex hull around the points, the geometric center, or what? </s>
-<s> wait. </s>
-<s> . </s>
-<s> . </s>
+<s> wait... </s>
 <s> what? </s>
 <s> Since there's only one actual neutral connection coming into the box, that one has to somehow connect to all five lamps, doesn't it? </s>
 <s> Are you talking about downloads in the Market, or files downloaded from the internet (ie. </s>
 <s> in the browser)? </s>
 <s> Or for example mention what stat package you are using ? </s>
-<s> (R, SAS, SPSS, etx ? </s>
-<s> ) </s>
+<s> (R, SAS, SPSS, etx ?) </s>
 <s> What does a `getenv("PATH")` say? </s>
 <s> Maybe there is no path set for the PHP/Apache user on Mac OS? </s>
 <s> When you're previewing the widget, which style are you using? </s>
@@ -988,9 +886,7 @@
 <s> Did you ever find a solution? </s>
 <s> @Nick Usually they are <div class="section"> but sometimes there are other classes. </s>
 <s> Does that matter? </s>
-<s> If an object is cv::Mat, I can perform any linear algebraic, image processing, . </s>
-<s> . </s>
-<s> . </s>
+<s> If an object is cv::Mat, I can perform any linear algebraic, image processing, ... </s>
 <s> operations. </s>
 <s> What can I not do with it? </s>
 <s> :-) </s>
@@ -1040,13 +936,8 @@
 <s> Specifically, how is $doc defined? </s>
 <s> Is the number of views fixed? </s>
 <s> Are you trying to line the views up into columns? </s>
-<s> I'm strongly considering closing this as a duplicate of [Taking it to the next level](http://cooking. </s>
-<s> stackexchange. </s>
-<s> com/q/10317/41) which was itself a duplicate of [Books that explain the science of cooking? </s>
-<s> ](http://cooking. </s>
-<s> stackexchange. </s>
-<s> com/q/9657/41). </s>
-<s> Anyone have any comments on what distinguishes this one from the others? </s>
+<s> I'm strongly considering closing this as a duplicate of [Taking it to the next level]( <url> which was itself a duplicate of [Books that explain the science of cooking? </s>
+<s> ]( <url> Anyone have any comments on what distinguishes this one from the others? </s>
 <s> I've never heard that. </s>
 <s> Any links to horror stories? </s>
 <s> Your URL does not appear complete. </s>
@@ -1057,21 +948,15 @@
 <s> Can you post what you have and we can help you along with hints? </s>
 <s> What server OS (Windows/Linux/Mac) are you running? </s>
 <s> If it is Linux, then is there a reason a cron job would not work? </s>
-<s> Dupe of http://stackoverflow. </s>
-<s> com/questions/132319/storing-objects-for-locating-by-xy-coordinates#132393. </s>
+<s> Dupe of <url> #132393. </s>
 <s> Any reason to keep this version open? </s>
 <s> Not sure I understand what your bounty is looking for. </s>
-<s> This is a wiki, so there's no "one right answer" . </s>
-<s> . </s>
-<s> . </s>
+<s> This is a wiki, so there's no "one right answer" ... </s>
 <s> what's the criteria to win the bounty? </s>
 <s> What is n? </s>
 <s> The number of edges or vertices? </s>
 <s> It works without errors. </s>
-<s> Can you please add a [minimal example](http://meta. </s>
-<s> tex. </s>
-<s> stackexchange. </s>
-<s> com/q/228/1235) that illustrates your problem? </s>
+<s> Can you please add a [minimal example]( <url> that illustrates your problem? </s>
 <s> What type of device will be doing the dropping? </s>
 <s> ASA, IPTables, WFP, ect? </s>
 <s> I thought compilation warnings shouldn't affect the outcomes of compilation. </s>
@@ -1105,8 +990,7 @@
 <s> I'm not really sure what your asking here. </s>
 <s> Could you clarify what you're having trouble with? </s>
 <s> How about some screenshots? </s>
-<s> (Hmm, does stackoverflow have facilities for that? </s>
-<s> ) </s>
+<s> (Hmm, does stackoverflow have facilities for that?) </s>
 <s> I'm sorry, but I can't understand what exactly you are looking for. </s>
 <s> What is your independent variable (the function), the dependent variables (the input values) and the parameters are? </s>
 <s> Can you add more hardware data to your question please? </s>
@@ -1150,9 +1034,7 @@
 <s> 32: That depends. </s>
 <s> How does that 64-bit platform implement fseek? </s>
 <s> Still not clear what you mean by saying static or dynamic. </s>
-<s> In that array you can push values, remove values, change values. </s>
-<s> . </s>
-<s> . </s>
+<s> In that array you can push values, remove values, change values... </s>
 <s> so what exactly are you trying to achieve? </s>
 <s> Can you expand on your question? </s>
 <s> Are one of the arguments in this function supposed to be passed from the server? </s>
@@ -1168,13 +1050,8 @@
 <s> Are you saying programmers get more angry than non-programmers? </s>
 <s> What are you saying? </s>
 <s> It's still not clear. </s>
-<s> Does the URL have to contain `. </s>
-<s> com`? </s>
-<s> "Use images for transactions"? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Does the URL have to contain ` com `? </s>
+<s> "Use images for transactions"????? </s>
 <s> Do you mean that you want to use images to represent certain info on the screen? </s>
 <s> Interesting. </s>
 <s> Can you provide a link or two, so we can at least guess what those people's native language is? </s>
@@ -1220,9 +1097,7 @@
 <s> What virtual machine software are you using, e. </s>
 <s> g. </s>
 <s> QEMU, or VMware? </s>
-<s> Various reasons. </s>
-<s> . </s>
-<s> . </s>
+<s> Various reasons... </s>
 <s> from KDE Bubs to Distro packaging bugs, to idk. </s>
 <s> What version of KDE 4 are you using? </s>
 <s> Did you find an answer to 2. </s>
@@ -1238,9 +1113,7 @@
 <s> Can you be more specific about what "strings in binary format" means? </s>
 <s> Is it a sequence of human readable characters or a sequence of bits like C's `fwrite()` would produce? </s>
 <s> Did some of your formatting get eaten? </s>
-<s> Did you mean to say "I have a &lt;form&gt; with several. </s>
-<s> . </s>
-<s> . </s>
+<s> Did you mean to say "I have a &lt;form&gt; with several... </s>
 <s> " ? </s>
 <s> Sounds like 'can anyone show me how to iterate over array and execute function on each element'. </s>
 <s> What's the problem with iterating it step by step, just as you described? </s>
@@ -1281,9 +1154,7 @@
 <s> Also can you copy&paste a NSLog output of the full URL String for both the | and the %7C version of the string? </s>
 <s> Ok, so only some images are affected, and only images uploaded since the server change display incorrectly. </s>
 <s> Do ALL images uploaded since the server change display incorrectly or only some? </s>
-<s> Homework. </s>
-<s> . </s>
-<s> . </s>
+<s> Homework... </s>
 <s> Have you tried yourself? </s>
 <s> If so, what have you tried? </s>
 <s> This actually seems like a computing question that happens to arise in a physical application, not really a physics question. </s>
@@ -1298,9 +1169,7 @@
 <s> Could you answer the questions and comment on the answers to refine the approach? </s>
 <s> @Nate - Yeah, this is pretty close to that question. </s>
 <s> I'm not up on disc brakes; anyone know if these can be merged, or is there enough difference between the two models to maintain the two Q&A threads separately? </s>
-<s> BFS is a pretty basic graph-searching algorithm - seems like it would take a ginormous graph to make it infeasible. </s>
-<s> . </s>
-<s> . </s>
+<s> BFS is a pretty basic graph-searching algorithm - seems like it would take a ginormous graph to make it infeasible... </s>
 <s> How big is a normal graph (both edges and vertices)? </s>
 <s> Also, how is it stored? </s>
 <s> I've yet to see a single keyword from the Fortran language in this question. </s>
@@ -1321,8 +1190,7 @@
 <s> @leppie so this is ambigious? </s>
 <s> Why? </s>
 <s> Because of the loop? </s>
-<s> very unclear - what is it you want to do? </s>
-<s> ? </s>
+<s> very unclear - what is it you want to do?? </s>
 <s> Upload images to a WCF service and store them in SQL Server? </s>
 <s> do you have to build queries to obtain results? </s>
 <s> SQL-style? </s>
@@ -1345,8 +1213,7 @@
 <s> I'd be curious to know how your activity timestamps could come in out-of-order for a given user session. </s>
 <s> Would it realistically report 13:00, 14:00, 13:30 for a given user? </s>
 <s> For example he says that using std might create problems if user wants to define a vector class, but one could say that creating classes with same names as STD classes is bad practice. </s>
-<s> Only real problem is count I think, because it can be used in any user created class. </s>
-<s> . </s>
+<s> Only real problem is count I think, because it can be used in any user created class.. </s>
 <s> Now is it a big enough reason to type std:: everywhere else to avoid conflit with STD count? </s>
 <s> What do you mean by "All rows are sorted, and all columns are sorted"? </s>
 <s> for example, [1,4;2,3],how is that sorted according to your precondition? </s>
@@ -1371,9 +1238,7 @@
 <s> However, I still would consider the xib a suspect - it might be NSDecoding properties that don't exist anymore in the class? </s>
 <s> I think you understood. </s>
 <s> So while the order of the-data-as-a-whole is random, the data shown on each page should *not* repeat any previously seen results, correct? </s>
-<s> TSOP is a series of IR receivers by [Vishay](http://www. </s>
-<s> vishay. </s>
-<s> com/ir-receiver-modules/), here it doesn't mean "thin small outline package" or something like that. </s>
+<s> TSOP is a series of IR receivers by [Vishay]( <url> here it doesn't mean "thin small outline package" or something like that. </s>
 <s> Right, gomek? </s>
 <s> What's :data(data) supposed to do? </s>
 <s> Did you mean :data(rhs. </s>
@@ -1387,8 +1252,7 @@
 <s> What do you mean by "in GMT format"? </s>
 <s> What's the type of the Added property? </s>
 <s> To suggest an answer we need to know which application you want to open this file in. </s>
-<s> Is it a command line application (aka vi or emacs on the command line) or is it another text editor (TextEdit, TextMate, Eclipse? </s>
-<s> ) </s>
+<s> Is it a command line application (aka vi or emacs on the command line) or is it another text editor (TextEdit, TextMate, Eclipse?) </s>
 <s> I don't understand how you're getting 2 3 4 6 from that array. </s>
 <s> There are five elements from the array, shouldn't it be 3 3 2 4 6? </s>
 <s> Which version of Xcode? </s>
@@ -1398,8 +1262,7 @@
 <s> I hate that they give no choices for being anonymous. </s>
 <s> Why do I have to use my real full name to sign up? </s>
 <s> It is possible (though not likely IMO) that some strange quantum entanglement effect could lead to a computer that outputs its results before the input is received. </s>
-<s> Would that qualify as negative complexity? </s>
-<s> ? </s>
+<s> Would that qualify as negative complexity?? </s>
 <s> I can't think of any reason why this would be necessary. </s>
 <s> What are you trying to accomplish? </s>
 <s> I don't understand what you mean by groups. </s>
@@ -1408,24 +1271,19 @@
 <s> Aren't you transmitting the SSN in plaintext anyway? </s>
 <s> There's too little information. </s>
 <s> How about posting some code? </s>
-<s> That function doesn't compute the slope, which is why you're having the problem you are. </s>
-<s> . </s>
-<s> . </s>
+<s> That function doesn't compute the slope, which is why you're having the problem you are... </s>
 <s> Do you specifically need the slope, or is the upness or downness enough? </s>
 <s> Or do you actually want the ratio, which is what you're getting from your equation? </s>
 <s> Have you tried connecting manually using telnet? </s>
 <s> If so what prompts do you get for username and password? </s>
 <s> What's the purpose? </s>
-<s> Maybe http://stackoverflow. </s>
-<s> com/questions/491738/how-do-you-calculate-the-average-of-a-set-of-angles/491769 is relevant? </s>
+<s> Maybe <url> is relevant? </s>
 <s> They are completely different. </s>
 <s> Have you even glanced at the documentation? </s>
 <s> Have you looked JavaScript libraries to manipulate SVG, e. </s>
 <s> g. </s>
 <s> d3. </s>
-<s> js: http://mbostock. </s>
-<s> github. </s>
-<s> com/d3/ or isn't that what you want? </s>
+<s> js: <url> or isn't that what you want? </s>
 <s> Can you make the raw file available? </s>
 <s> Also, what software are you using for conversion and what dSLR is it? </s>
 <s> @abeln - what inputs are you talking about ? </s>
@@ -1446,26 +1304,16 @@
 <s> however, do you mean APIs/sites that you can reference from your site (such as Google Analytics), sites where you upload your logs to, or both? </s>
 <s> :) </s>
 <s> Actually, it worked locally but then did not work live on the site. </s>
-<s> On the site it is still saying "Access Denied" even if calling the jQuery file from the same domain/subdomain combination. </s>
-<s> . </s>
-<s> . </s>
+<s> On the site it is still saying "Access Denied" even if calling the jQuery file from the same domain/subdomain combination... </s>
 <s> any thoughts? </s>
 <s> @Gabi: what is the point of having n greater than say 32 or 64 ? </s>
 <s> It seems like an arbitrary and unnecessary requirement ? </s>
-<s> did you mean `{:a => ["val1", "val2", . </s>
-<s> . </s>
-<s> . </s>
-<s> ], :b => ["valb1", "valb2", . </s>
-<s> . </s>
-<s> . </s>
-<s> ], . </s>
-<s> . </s>
-<s> . </s>
-<s> }`? </s>
-<s> ? </s>
+<s> did you mean `{:a => ["val1", "val2", ... </s>
+<s> ], :b => ["valb1", "valb2", ... </s>
+<s> ], ... </s>
+<s> }`?? </s>
 <s> so that the output will include, say, `:c => "valc1"`, blah blah blah? </s>
-<s> @Bobby thats exectly what i'm trying to do. </s>
-<s> . </s>
+<s> @Bobby thats exectly what i'm trying to do.. </s>
 <s> But where can i get ot how can i make a pre-defined gradient ? </s>
 <s> What is the perl code in question? </s>
 <s> What does your error_log say? </s>
@@ -1490,15 +1338,10 @@
 <s> What kind of riding will you be doing? </s>
 <s> Does it have to be on the bike? </s>
 <s> Advantages in comparison with what? </s>
-<s> Unbalanced trees, AVL trees, hash tables, . </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> Unbalanced trees, AVL trees, hash tables, ...? </s>
 <s> Please define private and secure. </s>
 <s> Do you mean that it is well patched and maintained, do you mean that it is encrypted, do you mean that it has a strong authentication/access controls system? </s>
-<s> ", actually the application crashes. </s>
-<s> . </s>
-<s> . </s>
+<s> ", actually the application crashes... </s>
 <s> " We need the crash info. </s>
 <s> Is it a BAD ACCESS ? </s>
 <s> Are you're sure your Device/Emulator has a working Internet-connection? </s>
@@ -1516,11 +1359,9 @@
 <s> Perhaps include a drawing? </s>
 <s> Can you clarify a bit? </s>
 <s> You mean a type that implements `IEnumerable(<T>)`, or like an `enum` with a set number of values? </s>
-<s> yea, that code was crufty. </s>
-<s> . </s>
+<s> yea, that code was crufty.. </s>
 <s> see the latest edit. </s>
-<s> it is still crashing when accessing the new array. </s>
-<s> . </s>
+<s> it is still crashing when accessing the new array.. </s>
 <s> perhaps the \0 characters are getting lost in the shuffle? </s>
 <s> I'm curious why to go with cut nails here--what's the advantage over normal nails? </s>
 <s> @blunders: However it still isn't clear to me what you really want to ask. </s>
@@ -1528,9 +1369,7 @@
 <s> How is your input given? </s>
 <s> Like in your examples or are you given a graph or something like that? </s>
 <s> To properly address the symptom, we need some information. </s>
-<s> Do you mind following https://wiki. </s>
-<s> ubuntu. </s>
-<s> com/Audio/AlsaInfo, please? </s>
+<s> Do you mind following <url> please? </s>
 <s> Which API call is producing the exception in question? </s>
 <s> What are the permissions attached to the path that you aren't being allowed to access? </s>
 <s> Could you tell which packages you have already tried? </s>
@@ -1545,9 +1384,7 @@
 <s> do you know any good references for the special cases of nonexistence that you mentioned? </s>
 <s> Or perhaps, just a general reference/set of references for the order 12 case? </s>
 <s> I bet this is not what you're looking for. </s>
-<s> But according to my experience the error should be really small. </s>
-<s> . </s>
-<s> . </s>
+<s> But according to my experience the error should be really small... </s>
 <s> Have you tried replacing the 2 with a 2. </s>
 <s> 0? </s>
 <s> You have an unbalanced double quote. </s>
@@ -1557,8 +1394,7 @@
 <s> Or perhaps, some pathological example exists which violates the assumptions behind admissibility? </s>
 <s> Are those backticks (`) surrounding the column names and table name? </s>
 <s> Did you try the query with regular single-quotes (')? </s>
-<s> whats the output of your logfiles? </s>
-<s> . </s>
+<s> whats the output of your logfiles?. </s>
 <s> /configure for example? </s>
 <s> you have not provider the 11,21,31 code for that line. </s>
 <s> Can you provide dxf file so I can get a better look at it? </s>
@@ -1600,8 +1436,7 @@
 <s> Anyone ? </s>
 <s> @hop: i didn't know about the fallback, thanks for reference. </s>
 <s> I think you meant RFC 2821? </s>
-<s> I have done a gridView with images that show a spinner and download image. </s>
-<s> . </s>
+<s> I have done a gridView with images that show a spinner and download image.. </s>
 <s> When download is complete, the image shows? </s>
 <s> Interested? </s>
 <s> Can you phrase your question in the form of a question? </s>
@@ -1669,12 +1504,9 @@
 <s> "best" according to what Goal? </s>
 <s> What are you trying to minimize or maximize? </s>
 <s> dmckee: I'm actually using Welford's Method for the standard deviation. </s>
-<s> But I don't see anything in that link about mode, median, kurtosis, or skewness. </s>
-<s> . </s>
-<s> . </s>
+<s> But I don't see anything in that link about mode, median, kurtosis, or skewness... </s>
 <s> Am I missing something? </s>
-<s> That sounds amazing! </s>
-<s> ! </s>
+<s> That sounds amazing!! </s>
 <s> Can I have the link? </s>
 <s> :D </s>
 <s> **I want to have something that starts with `$(this)` and ends with `. </s>
@@ -1708,19 +1540,15 @@
 <s> ashx? </s>
 <s> I'm sorry, that doesn't really make sense. </s>
 <s> What is your question? </s>
-<s> As in my second comment. </s>
-<s> . </s>
-<s> . </s>
+<s> As in my second comment... </s>
 <s> have you done some loggin to see where the application is hanging? </s>
 <s> Is the problem still the same if you don't run it from inside VS? </s>
 <s> The field API is a Drupal 7 API, but the question is tagged with "drupal-6. </s>
 <s> " Are you asking about CCK, or the field API? </s>
 <s> My real challenge is to stop the service from jumping around? </s>
 <s> Are there threads that I don't know? </s>
-<s> What about in this method: -(IBAction)saveNewCharacter:(id)sender , if you NSLog [[self newCharacter] firstName] what do you see? </s>
-<s> ? </s>
-<s> In other words is it correct when your are inside NewCharacterViewController ? </s>
-<s> ? </s>
+<s> What about in this method: -(IBAction)saveNewCharacter:(id)sender , if you NSLog [[self newCharacter] firstName] what do you see?? </s>
+<s> In other words is it correct when your are inside NewCharacterViewController ?? </s>
 <s> I found an obscure reference to idna trace. </s>
 <s> Has anyone heard of/used this application? </s>
 <s> @Steven: I don't know how good WordPress is with future revisions of already published pages. </s>
@@ -1738,14 +1566,10 @@
 <s> Please see the screenshots of it and my /etc/fstab, any other ideas? </s>
 <s> I think with the availability of more powerful computers, different kinds of methods suddenly become practical and important (would one use e. </s>
 <s> g. </s>
-<s> boosted decision trees without fast computers ? </s>
-<s> ) </s>
-<s> Try adding "ServerAlias mysite. </s>
-<s> com" after "ServerName" line. </s>
-<s> Also, do you have a DNS entry for mysite. </s>
-<s> com -- same as www. </s>
-<s> mysite. </s>
-<s> com? </s>
+<s> boosted decision trees without fast computers ?) </s>
+<s> Try adding "ServerAlias mysite com " after "ServerName" line. </s>
+<s> Also, do you have a DNS entry for mysite com -- same as www. </s>
+<s> mysite com ? </s>
 <s> please provide a more detailed example, because I don't understand what you mean by concatenating objects. </s>
 <s> I know what it means for strings: `"a" + "b"` => `"ab"`, But what should the resulting Object (Person) look like? </s>
 <s> A _very_ rough (but easy) solution would be to strip _all_ non-ASCII characters from the input. </s>
@@ -1759,8 +1583,7 @@
 <s> That's a *very* serious bug. </s>
 <s> Any chances you've reported it in core. </s>
 <s> trac. </s>
-<s> wordpress. </s>
-<s> org? </s>
+<s> wordpress org ? </s>
 <s> Is there something imperfect about your current grips, that you'd like to improve on? </s>
 <s> Do you wear gloves? </s>
 <s> My end goal is to get a list of rows with unique data (as determined by a combination of 3 cells in a row); however, I need all the cells of the unique rows. </s>
@@ -1788,11 +1611,8 @@
 <s> any code? </s>
 <s> or do we have to guess at how you did it? </s>
 <s> that's two votes for reopen. </s>
-<s> what more do you need ? </s>
-<s> ! </s>
-<s> Sorry I didn't mentioned it, but it's tab separated. </s>
-<s> . </s>
-<s> . </s>
+<s> what more do you need ?! </s>
+<s> Sorry I didn't mentioned it, but it's tab separated... </s>
 <s> It is possible to quickly replace the ',' by a '. </s>
 <s> ' in the code or do I have to replace it with notepad++ or something? </s>
 <s> So the problem is that it crashes when you click the checkWord button? </s>
@@ -1801,10 +1621,7 @@
 <s> Are you sure about the values? </s>
 <s> how to use drush? </s>
 <s> or database? </s>
-<s> please help me more. </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> please help me more...? </s>
 <s> I have problems to understand your question. </s>
 <s> About which URL/file. </s>
 <s> php are you speaking when you say "default "post edit" screen"? </s>
@@ -1820,14 +1637,9 @@
 <s> Doesn't that make your application seem slower than it actually is? </s>
 <s> "ASDFG\SQLEXPRESS" looks correct. </s>
 <s> Do you have a type-o in your question? </s>
-<s> YUI Compressor can compress JS and CSS. </s>
-<s> . </s>
-<s> . </s>
-<s> What error did you get using packer? </s>
-<s> ! </s>
-<s> Have you followed these rules while writing JS: http://javascriptcompressor. </s>
-<s> com/content/CompressedExample. </s>
-<s> aspx ? </s>
+<s> YUI Compressor can compress JS and CSS... </s>
+<s> What error did you get using packer?! </s>
+<s> Have you followed these rules while writing JS: <url> ? </s>
 <s> Your first sentence is unclear. </s>
 <s> When you say, "which might differ just slightly" are you referring to the colors or the random numbers? </s>
 <s> So there's exactly one line in both files per chromosome number, and you want to compare only lines with the same chromosome number? </s>
@@ -1847,8 +1659,7 @@
 <s> Perhaps you could tell us why you think it's wrong as that might reveal what you left out in the question? </s>
 <s> What is the full exception? </s>
 <s> Also, the bits you commented out, which actually iterate over the linq query, what does that look like? </s>
-<s> I tried that. </s>
-<s> . </s>
+<s> I tried that.. </s>
 <s> still no use. </s>
 <s> Is the code I posted in the end better then others ? </s>
 <s> I'm sure also. </s>
@@ -1943,11 +1754,7 @@
 <s> I. </s>
 <s> e. </s>
 <s> will the screen always be smaller than 512x512? </s>
-<s> What. </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> What....? </s>
 <s> How are these related? </s>
 <s> It's not clear to me how I can do this using the lex an the yacc. </s>
 <s> Can you be more specific? </s>
@@ -1961,12 +1768,8 @@
 <s> Or just gauge yelling? </s>
 <s> Changed tag to "copyright". </s>
 <s> Was there a specific tag you were looking to use? </s>
-<s> The character set in Oracle is 'WE8ISO8859P1' . </s>
-<s> . </s>
-<s> . </s>
-<s> the eacute in my example is correctly stored in the database if I stay within Oracle . </s>
-<s> . </s>
-<s> . </s>
+<s> The character set in Oracle is 'WE8ISO8859P1' ... </s>
+<s> the eacute in my example is correctly stored in the database if I stay within Oracle ... </s>
 <s> but when I bring it into PHP via oci8, thats where the problem arises. </s>
 <s> Is there anything better than the charset_decode_utf_8 function ? </s>
 <s> I don't understand the 'dogfood' tag. </s>
@@ -1986,15 +1789,11 @@
 <s> (a,b,d,c)? </s>
 <s> Are you sure? </s>
 <s> This is basic C++ syntax. </s>
-<s> Are you learning from a [good introductory book](http://stackoverflow. </s>
-<s> com/questions/388242/the-definitive-c-book-guide-and-list)? </s>
+<s> Are you learning from a [good introductory book]( <url> </s>
 <s> @lev: sorry, i didn't notice we are oscillating. </s>
 <s> You are asking whether $O(n^3)$ is a lowerbound on the complexity of E. </s>
 <s> D. </s>
-<s> , so this is a question on the complexity of a problem, doesn't this make it a [complexity](http://cstheory. </s>
-<s> stackexchange. </s>
-<s> com/tags/cc. </s>
-<s> complexity-theory/info) question? </s>
+<s> , so this is a question on the complexity of a problem, doesn't this make it a [complexity]( <url> question? </s>
 <s> It looks like a bg image behind an actual image. </s>
 <s> Are you sure the img isn't a broken link? </s>
 <s> Ruby doesn't even have an official spec, so I doubt that there's a properly correct answer. </s>
@@ -2010,9 +1809,7 @@
 <s> gets routed via the mappings with the `PUT` method correctly)? </s>
 <s> I changed your tags to "jruby" since that's an important restriction. </s>
 <s> Does Hpricot support namespaces at all? </s>
-<s> It's unclear what you're trying to do. </s>
-<s> . </s>
-<s> . </s>
+<s> It's unclear what you're trying to do... </s>
 <s> why are you concatenating the strings if you don't *want* them concatenated? </s>
 <s> Could you give more sample inputs/outputs? </s>
 <s> Ruby on Rails runs at the server side. </s>
@@ -2020,8 +1817,7 @@
 <s> Your title mentions relativity, but your question body does not. </s>
 <s> Could you resolve this for us please? </s>
 <s> If plugs are falling out, it generally means the metal contacts inside the receptacles are worn out. </s>
-<s> (I'm guessing this is an older house? </s>
-<s> ) </s>
+<s> (I'm guessing this is an older house?) </s>
 <s> What are you trying to say? </s>
 <s> You want a Registry Editor? </s>
 <s> Any errors? </s>
@@ -2037,8 +1833,7 @@
 <s> How can we answer your homework for you if you can't even format it well? </s>
 <s> Why on earth would that make for bad chicken salad? </s>
 <s> Are you using a plugin? </s>
-<s> (Is this restful_authentication? </s>
-<s> ) </s>
+<s> (Is this restful_authentication?) </s>
 <s> How do you sort two dimensional data with quicksort? </s>
 <s> And how does this help finding the two closest points? </s>
 <s> For what purpose? </s>
@@ -2056,26 +1851,13 @@
 <s> considering this is homework, I assume you also have a class and teacher. </s>
 <s> How far have they gotten you and now what is your specific question? </s>
 <s> Where did you find the `dequeue` method? </s>
-<s> [My API doesn't show it](http://download. </s>
-<s> oracle. </s>
-<s> com/javase/6/docs/api/java/util/PriorityQueue. </s>
-<s> html) . </s>
-<s> . </s>
-<s> ? </s>
-<s> Thanks. </s>
-<s> . </s>
+<s> [My API doesn't show it]( <url> ..? </s>
+<s> Thanks.. </s>
 <s> but can you tell me how to promote only 200 nodes? </s>
 <s> Could you specify 'earliest possible records'. </s>
-<s> 1950, 1900, 1500, . </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> 1950, 1900, 1500, ...? </s>
 <s> I don't think it's just that "if I was" *can* be valid for the past -- "If I were wrong, please forgive me" sounds totally ungrammatical to me. </s>
-<s> (Am I alone in this. </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
-<s> ) </s>
+<s> (Am I alone in this...?) </s>
 <s> did you ever finish this game? </s>
 <s> Can we find it somewhere? </s>
 <s> . </s>
@@ -2156,29 +1938,22 @@
 <s> What you want to do exactly with your text ? </s>
 <s> Sorry. </s>
 <s> But, what is "Sym" button? </s>
-<s> Have you tried to uncomment the line `#TRIED THIS . </s>
-<s> . </s>
-<s> . </s>
+<s> Have you tried to uncomment the line `#TRIED THIS ... </s>
 <s> ` ? </s>
 <s> If so what did you obtain ? </s>
 <s> please can you add to your question the results of the following: `sudo lshw -class network` followed by `rfkill list`. </s>
 <s> Also - what happens if you deactivate the B43 driver and activate the STA driver? </s>
 <s> Do you always start from 0,0 (or the bottom-left-most point)? </s>
 <s> Or can you start from any point? </s>
-<s> i also need to know what are we using the stack for? </s>
-<s> ? </s>
-<s> ? </s>
-<s> i mean the push command? </s>
-<s> ? </s>
+<s> i also need to know what are we using the stack for??? </s>
+<s> i mean the push command?? </s>
 <s> It looks like you're not null terminating your `argv` array. </s>
 <s> Or is that just left out of your example? </s>
 <s> I've merged the two questions. </s>
 <s> Could you please accept the answer here? </s>
 <s> What about this setting: Home > Menu > Setttings > Accounts & Sync "Background Data" and "Auto Sync" should be checked, then drilling down further, at the bottom of that settings screen click on the Google account that's associated with the calendar make sure "Sync Calendar" is synced. </s>
 <s> Is all that setup correctly? </s>
-<s> Soap on porous clay sounds like a good way to make your water taste like. </s>
-<s> . </s>
-<s> . </s>
+<s> Soap on porous clay sounds like a good way to make your water taste like... </s>
 <s> soap. </s>
 <s> Perhaps consider disinfecting with a bleach solution instead? </s>
 <s> How are you accessing the image? </s>
@@ -2220,15 +1995,11 @@
 <s> Do they all have the same size and orientation ? </s>
 <s> Can you pivote them or should they conserve both proportion and orientation ? </s>
 <s> My only qualm, then, is that your question seems extremely specific, as I doubt anyone will be able to give you an answer without having experienced the exact same situation. </s>
-<s> Did you try to check what http://cyri. </s>
-<s> systemrequirementslab. </s>
-<s> com/CYRI/ think of your machine? </s>
+<s> Did you try to check what <url> think of your machine? </s>
 <s> I've had usb debugging mode enabled since this fix was first mentioned and other than the annoying missing driver popup from Windows when I plug it in, I've not noticed amy adverse effects. </s>
 <s> Why do you need to toggle it on and off? </s>
 <s> I installed it using pacman, but it still shows the error. </s>
-<s> It's written "Please install the build. </s>
-<s> . </s>
-<s> . </s>
+<s> It's written "Please install the build... </s>
 <s> " so do I also need to build it, or do I just need to reboot? </s>
 <s> This is a philosophical question, not a physics question. </s>
 <s> Maybe there's also a Philosophy Stack Exchange? </s>
@@ -2256,8 +2027,7 @@
 <s> Have you tried reading the source? </s>
 <s> Or even asking Mark directly? </s>
 <s> Some otherwise useless kitchen gadgets might have other valid uses. </s>
-<s> I never use a garlic press (just another thing to clean, when I can crush it with the side of my knife), but they can make play-doh hair (or really small noodles? </s>
-<s> ) </s>
+<s> I never use a garlic press (just another thing to clean, when I can crush it with the side of my knife), but they can make play-doh hair (or really small noodles?) </s>
 <s> I'm not entirely sure what the question here is. </s>
 <s> Are you asking about specific forms of matrices, or the general case (in which case a simple counting argument seems to work)? </s>
 <s> Getting error - when? </s>
@@ -2273,12 +2043,8 @@
 <s> What R package did you use for HC3 estimation? </s>
 <s> `sandwich`, `contrast`? </s>
 <s> Aha! </s>
-<s> Can I also give you an answer which is not coded? </s>
-<s> ? </s>
-<s> ? </s>
-<s> You and me need codes. </s>
-<s> . </s>
-<s> . </s>
+<s> Can I also give you an answer which is not coded??? </s>
+<s> You and me need codes... </s>
 <s> Okay? </s>
 <s> `UITextField` and `UILabel` are not the same thing. </s>
 <s> Which do you have? </s>
@@ -2296,10 +2062,8 @@
 <s> Do you see this in all browsers? </s>
 <s> i cant see that map service. </s>
 <s> I assume its dynamic and not cached? </s>
-<s> I didn't think the people at Microsoft would be so inconsiderate to say "Hey, your database WILL get corrupt, you have to use a menu command in Access to fix it! </s>
-<s> " </s>
-<s> Would they say the same thing to people using SQL Server? </s>
-<s> ! </s>
+<s> I didn't think the people at Microsoft would be so inconsiderate to say "Hey, your database WILL get corrupt, you have to use a menu command in Access to fix it!" </s>
+<s> Would they say the same thing to people using SQL Server?! </s>
 <s> What if there is no idle worker, how do you intend to deal with that? </s>
 <s> Just queue them up? </s>
 <s> Do the repeats have to be contiguous? </s>
@@ -2327,9 +2091,7 @@
 <s> what exactly do you want to achieve when you say "merging" 2 PNG ? </s>
 <s> @g0d1anier: I'm just curious, is there a reason you want to use multithreading for this? </s>
 <s> It seems to me that your program will be completely I/O bound so you're adding a lot of complexity for little benefit? </s>
-<s> If that's really your code. </s>
-<s> . </s>
-<s> . </s>
+<s> If that's really your code... </s>
 <s> looks like you're going to end up with a ton of HTML UL elements with the same ID of 'day'. </s>
 <s> Does your real code actually output one UL with multiple LI children? </s>
 <s> Incredible. </s>
@@ -2395,10 +2157,7 @@
 <s> Is there only one Assembly? </s>
 <s> Can you also show us parts of your XML file? </s>
 <s> Maybe what you are looking for are the **children** of <Images>? </s>
-<s> Yet another question: one of the frames from your example gif describes a route that is not really a simple path (this one: http://imgur. </s>
-<s> com/0vjvr. </s>
-<s> png). </s>
-<s> Are that kind of route (or rather spanning tree) allowed as a valid solution for your problem? </s>
+<s> Yet another question: one of the frames from your example gif describes a route that is not really a simple path (this one: <url> Are that kind of route (or rather spanning tree) allowed as a valid solution for your problem? </s>
 <s> What does "wrong" mean? </s>
 <s> Can you give an example? </s>
 <s> I think there is probably a very useful question underneath this, but as it stands this is quite subjective; some individuals may worry more about one or the other (or both) but that might not be useful for you at the end of the day. </s>
@@ -2408,8 +2167,7 @@
 <s> Are you writing a kakuro/sudoku solver? </s>
 <s> If so, do you have restraints on the possible values, such as always 1 - 9, there are always at most 9 sets, that sort of thing? </s>
 <s> How about some code? </s>
-<s> Otherwise, how can we tell what you're doing with the image? </s>
-<s> ! </s>
+<s> Otherwise, how can we tell what you're doing with the image?! </s>
 <s> It's not the homework problem of anyone I know, but I suppose it could be. </s>
 <s> How does one write a challenge problem, to be documented on stackoverflow, that doesn't appear to be a "homework" problem? </s>
 <s> Can you give us a simple, dummy example to explain what you're trying to do? </s>
@@ -2426,17 +2184,13 @@
 <s> I don't understand this answer. </s>
 <s> What's the 2' piece for? </s>
 <s> Are you assuming the beams are made from a single thickness of 2-by lumber? </s>
-<s> hmm alright, but will this save the data when the user leaves the view? </s>
-<s> ? </s>
+<s> hmm alright, but will this save the data when the user leaves the view?? </s>
 <s> Becuase if they add a cell after the view loads, then wouldnt it not save the new cells? </s>
 <s> @I Never Finish Anythi madness would be great Fun. </s>
 <s> How do I get infested by madness? </s>
 <s> What is this parser for? </s>
 <s> Can you elaborate on the complexity of the text/code you're parsing? </s>
-<s> Sounds a bit like homework? </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
+<s> Sounds a bit like homework?... </s>
 <s> Can you define what you need to know in order to solve your problems? </s>
 <s> Which call to Print fails? </s>
 <s> The first call? </s>
@@ -2449,8 +2203,7 @@
 <s> Your formatting makes it seem like your perl script actually calls each line in tick marks. </s>
 <s> Is that the way you're running it, or is it bad formatting? </s>
 <s> I'm sorry, but I don't think we can help you with this request. </s>
-<s> We ruled recommendation questions to be out of scope of the site; this includes "is there such a thing as X? </s>
-<s> " </s>
+<s> We ruled recommendation questions to be out of scope of the site; this includes "is there such a thing as X?" </s>
 <s> @shodanex: The issue is likely to be specific to your particular hardware (or virtual machine), so you should describe it. </s>
 <s> Also, does the clock still drift if you turn “synchronize with internet” off? </s>
 <s> The problem using mapreduce here, is that you need a common key to feed your reducer. </s>
@@ -2520,11 +2273,8 @@
 <s> Could you give a definition, please? </s>
 <s> I don't understand. </s>
 <s> That call stack is all about the Debug Help Library; is this only happening when it is being debugged? </s>
-<s> hmmm. </s>
-<s> . </s>
-<s> nothing? </s>
-<s> ? </s>
-<s> ? </s>
+<s> hmmm.. </s>
+<s> nothing??? </s>
 <s> Why would they be apart *without* optimization? </s>
 <s> I would imagine that the optimization is that space is allocated for both in advance? </s>
 <s> I don't know much about checksum algorithms but `&H100` looks weird. </s>
@@ -2538,8 +2288,7 @@
 <s> Your second code snippet is the same as the first. </s>
 <s> Did you not paste it in correctly? </s>
 <s> @Thomas, could you provide any more detail about the "create a poly from overlapping triangles" method? </s>
-<s> (or should I start a new question? </s>
-<s> ) </s>
+<s> (or should I start a new question?) </s>
 <s> I just retried it on my Ubuntu 9. </s>
 <s> 04 server (which is just an old desktop with server installed, and it ran fine). </s>
 <s> Out of curiosity do you have the intro turned off? </s>
@@ -2556,9 +2305,7 @@
 <s> Why is this closed? </s>
 <s> The asker is looking for organised week-long rides. </s>
 <s> He could expand his question a bit, give more details of the type of ride he is looking for, but otherwise, why? </s>
-<s> And also . </s>
-<s> . </s>
-<s> . </s>
+<s> And also ... </s>
 <s> what was the _starting_ temp. </s>
 <s> Was the food cold, or ambient temp when you started reheating? </s>
 <s> What do you mean "wont"? </s>
@@ -2566,12 +2313,8 @@
 <s> Yes, we can. </s>
 <s> But should we? </s>
 <s> By successively you meant increasing? </s>
-<s> If you have [a_1,a_2,a_3,. </s>
-<s> . </s>
-<s> . </s>
-<s> ,a_n], you want the largest set of the form a_i <= a_{i+r} <= a_{i+2r} <= . </s>
-<s> . </s>
-<s> . </s>
+<s> If you have [a_1,a_2,a_3,... </s>
+<s> ,a_n], you want the largest set of the form a_i <= a_{i+r} <= a_{i+2r} <= ... </s>
 <s> <= a_{i+kr} ? </s>
 <s> Not a clue what you're talking about. </s>
 <s> Is PhotoshopImage a private class you've created or what? </s>
@@ -2599,11 +2342,8 @@
 <s> what doesn't work about it? </s>
 <s> can you provide some example js in your post to demonstrate it not working? </s>
 <s> Sorry for the TLDR syndrome. </s>
-<s> Can you make a `dpm($variables);` (using [devel](http://drupal. </s>
-<s> org/project/devel)) just after line 229 to inspect the content of $variables ? </s>
-<s> shouldn't it be `f` and `f+4`. </s>
-<s> . </s>
-<s> . </s>
+<s> Can you make a `dpm($variables);` (using [devel]( <url> just after line 229 to inspect the content of $variables ? </s>
+<s> shouldn't it be `f` and `f+4`... </s>
 <s> Could you confirm? </s>
 <s> why the `4`? </s>
 <s> The question is ambiguous. </s>
@@ -2615,17 +2355,11 @@
 <s> If your code works, won't it fire both when the browser is resized the first time, *and* when the browser is size back to its original size? </s>
 <s> ElendilTheTall - Please read my comment to the question. </s>
 <s> Can you explain why the focus supposedly locks when the camera is in Auto mode (are things different with Nikon)? </s>
-<s> Did you read http://developer. </s>
-<s> android. </s>
-<s> com/guide/developing/device. </s>
-<s> html and did you follow the instructions there? </s>
+<s> Did you read <url> and did you follow the instructions there? </s>
 <s> If so, what do you see if you execute "adb devices"? </s>
 <s> What does the `to_be_null_safe` method do? </s>
 <s> Does it return an instance of a subclass of `Array`? </s>
-<s> Your question is great, unfortunately it's very similar to a previous (very highly rated) [question](http://stats. </s>
-<s> stackexchange. </s>
-<s> com/questions/3). </s>
-<s> Perhaps you could change your question to just ask about websites? </s>
+<s> Your question is great, unfortunately it's very similar to a previous (very highly rated) [question]( <url> Perhaps you could change your question to just ask about websites? </s>
 <s> I don't want to type my credentials in again. </s>
 <s> Couldn't you just give me an admin role and handle the authorization in your code? </s>
 <s> Does your application use garbage collection? </s>
@@ -2634,13 +2368,10 @@
 <s> Do you have a user, entering a name and address, and you are going to show him all similar addresses to let him choose one manually, or are you going to group all Persons with similar addresses automatically together? </s>
 <s> Joe Mills's answe is technically correct but I'm not sure it's what you're after? </s>
 <s> Why don't you explain what you're trying to do rather than ask how something works? </s>
-<s> Similar questions here http://stackoverflow. </s>
-<s> com/questions/31494/how-to-detect-duplicate-data and here http://stackoverflow. </s>
-<s> com/questions/42013/levenshtein-distance-based-methods-vs-soundex Others can be found through related tags and search terms. </s>
+<s> Similar questions here <url> and here <url> Others can be found through related tags and search terms. </s>
 <s> However, you didn't specify exactly *why* you need to match strings this way -- are you checking for duplicate data? </s>
 <s> "What's the best" is impossible to answer, as it implies subjectivity rather than objectivity. </s>
-<s> You'd be best asking (in the future) the question as "Given my situation (x), what's the recommended (y)? </s>
-<s> " </s>
+<s> You'd be best asking (in the future) the question as "Given my situation (x), what's the recommended (y)?" </s>
 <s> Also, you're not really asking a question by just posting some unfinished code - you need to be more specific. </s>
 <s> Is there something you don't understand about how the code works? </s>
 <s> It could be the way you are saving your photo for web-use. </s>
@@ -2675,9 +2406,7 @@
 <s> How big are the sets? </s>
 <s> Can you read all of them once from the disk and then keep them in memory? </s>
 <s> The lack of `display_name` is caused by a user not having a display name set in their profile. </s>
-<s> Incorrect usernames. </s>
-<s> . </s>
-<s> . </s>
+<s> Incorrect usernames... </s>
 <s> do you have an example of that? </s>
 <s> What's the purpose of a Riddle? </s>
 <s> If you get some kind of reward, shouldn't it be a SpecialSquare also? </s>
@@ -2686,8 +2415,7 @@
 <s> Does that mean I am allowed to create my own version of the algorithms? </s>
 <s> or should I need to follow a pseudo code from a standard governing body like NSIT? </s>
 <s> please, can you explain what do you mean? </s>
-<s> I ask question and I need the solution if you have. </s>
-<s> . </s>
+<s> I ask question and I need the solution if you have.. </s>
 <s> Is there is any problem with my question? </s>
 <s> And what's your problem, exactly? </s>
 <s> What have you tried so far? </s>
@@ -2715,8 +2443,7 @@
 <s> @Markos Fragkakis Can you show your Seam component and your page ? </s>
 <s> ear or war ? </s>
 <s> @Oscar: What type of database are you willing to use? </s>
-<s> Access, MS SQL, MySQL, Oracle, or other? </s>
-<s> ? </s>
+<s> Access, MS SQL, MySQL, Oracle, or other?? </s>
 <s> I feel a bit daft asking, but how is a tomato a citrus food? </s>
 <s> Is there some terminology I'm not aware of? </s>
 <s> I don't understand how a folder-based file system is not a hierarchical system. </s>
@@ -2730,8 +2457,7 @@
 <s> @JK, Welcome to Stack Overflow! </s>
 <s> Could you tell us what your thought process has been on this problem so far? </s>
 <s> Its not a homework people, my colleaugue asked me to help him with some algorithm, this is only a part of that, I simplified it in terms of normal array objects, anyways the data consist of approximately 1000 elements, so if you could help us with atleast a better( efficient algorithm). </s>
-<s> and who tagged this is as homework? </s>
-<s> ? </s>
+<s> and who tagged this is as homework?? </s>
 <s> I had to look at the source of if_javascript() to understand how atrocious it is. </s>
 <s> There are plenty of alternative solutions for any problem if_javascript() was trying to solve, so could you give us some specifics? </s>
 <s> This is actually a question about recovering deleted files, it doesn't really make any differene that they are images. </s>
@@ -2742,9 +2468,7 @@
 <s> e. </s>
 <s> inline code) to a code-beside file? </s>
 <s> What benefits would you have from doing it? </s>
-<s> I think it is more trouble than it's worth. </s>
-<s> . </s>
-<s> . </s>
+<s> I think it is more trouble than it's worth... </s>
 <s> After all, the names should be read by the users anyway, shouldn't they? </s>
 <s> Never did it, but I'm curious! </s>
 <s> Isn't it too "starchy"? </s>
@@ -2753,9 +2477,7 @@
 <s> What are the constraints? </s>
 <s> That is is one temp variable too much? </s>
 <s> You could simply use a bunch of XML files in a zip file, and whatever file extension you want. </s>
-<s> Why the verylongtagnumbers? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Why the verylongtagnumbers??? </s>
 <s> To clarify: Are you using the same connection object to perform all the queries in your application? </s>
 <s> What specific connection class are you using? </s>
 <s> WTF? </s>
@@ -2763,24 +2485,18 @@
 <s> What for? </s>
 <s> Is it easy to use the small pump? </s>
 <s> Have you noticed some differences? </s>
-<s> I think the question that is most looming on my mind is. </s>
-<s> . </s>
-<s> . </s>
+<s> I think the question that is most looming on my mind is... </s>
 <s> what could possibly be the purpose of decrementing an auto increment id from mysql? </s>
 <s> Have you considered that maybe what you are trying to do is just not good? </s>
 <s> This is most likely a problem due to the encoding of your input. </s>
 <s> In what encoding is it in? </s>
 <s> For those times when the understanding gained comes to use. </s>
 <s> Since this question came up - do we have figures on which is faster and by *how much* ? </s>
-<s> @Noldorin: this [wikipedia page](http://en. </s>
-<s> wikipedia. </s>
-<s> org/wiki/Ansatz) will disagree with you. </s>
+<s> @Noldorin: this [wikipedia page]( <url> will disagree with you. </s>
 <s> Indeed when reading mathematical and physical literature (both books and papers) I encounter this word far more often than I would like :-) What's the proper English term, by the way? </s>
 <s> Any more incite from either of you? </s>
 <s> Or anyone else for that matter? </s>
-<s> The Wikipedia article on Boyer-Moore (http://en. </s>
-<s> wikipedia. </s>
-<s> org/wiki/Boyer%E2%80%93Moore_string_search_algorithm) includes an explanation of Horspool's. </s>
+<s> The Wikipedia article on Boyer-Moore ( <url> includes an explanation of Horspool's. </s>
 <s> Which parts of that explanation do you find unclear? </s>
 <s> What's the declaration for v1 and v2? </s>
 <s> Are they of the correct type for %f? </s>
@@ -2789,9 +2505,7 @@
 <s> are you refreshing the cache on deleting the post? </s>
 <s> and what type of caching you are using page, action or fragment? </s>
 <s> How did you import it into the project? </s>
-<s> "Add to build path. </s>
-<s> . </s>
-<s> . </s>
+<s> "Add to build path... </s>
 <s> "? </s>
 <s> Is the ceiling smooth or textured? </s>
 <s> Is it drywall or plaster? </s>
@@ -2818,8 +2532,7 @@
 <s> Is this the headset microphone or microphone-microphone? </s>
 <s> Or could you link to the product? </s>
 <s> Welcome, but you might want to rephrase your question - there is a rule of 'not asking how to make an entire game'. </s>
-<s> Maybe 'What resources exist for solitaire like games? </s>
-<s> ' </s>
+<s> Maybe 'What resources exist for solitaire like games?' </s>
 <s> I think you might be missing the point of the assignment. </s>
 <s> Hint: what can regular expressions parse, what can't they? </s>
 <s> And which version of DF are you trying to run? </s>
@@ -2833,17 +2546,12 @@
 <s> the last one doesn't work if i'm working on battery power </s>
 <s> Is their a solution for this? </s>
 <s> What do you mean with "limit"? </s>
-<s> Limit the length of the product name or . </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> Limit the length of the product name or ...? </s>
 <s> Could you elaborate on what is happening? </s>
 <s> Is the method being called at all? </s>
 <s> This is related to algorithm/programming. </s>
 <s> Why is it closed? </s>
-<s> Maybe mine is a stupid question, but. </s>
-<s> . </s>
-<s> . </s>
+<s> Maybe mine is a stupid question, but... </s>
 <s> Are you running the program normally? </s>
 <s> or using the debug button? </s>
 <s> According to your comments to some of the answers you don't want to use neither locks nor interlocked operations, yet you want the operation to be locked. </s>
@@ -2890,9 +2598,7 @@
 <s> I'd suggest you get an iPod Touch to develop on then. </s>
 <s> Don't tell me you need something iPhone specific for your application like GPS? </s>
 <s> :) </s>
-<s> "without cycles". </s>
-<s> . </s>
-<s> . </s>
+<s> "without cycles"... </s>
 <s> "i need to find out the minimum numbers of cycles"? </s>
 <s> You mean chains, right? </s>
 <s> Do we have to assume that you are considering a fixed set of predictors, i. </s>
@@ -2961,9 +2667,7 @@
 <s> windows, mac, other? </s>
 <s> With 6 rows you will end up with ids 1-5 having value 166 and id 6 with value 170. </s>
 <s> Sure you want that? </s>
-<s> That's. </s>
-<s> . </s>
-<s> . </s>
+<s> That's... </s>
 <s> pretty cool, actually. </s>
 <s> Would love to see this with a harder tire, though. </s>
 <s> Do you have manufacturer's ordering information? </s>
@@ -3000,13 +2704,9 @@
 <s> I am not sure why you feel that in regression you will get R2 = 1 if you try to predict the predicted variable. </s>
 <s> Can you clarify? </s>
 <s> Thanks for the help, +1. </s>
-<s> Could you, please, specify, should I include the phrase "per the email. </s>
-<s> . </s>
-<s> . </s>
+<s> Could you, please, specify, should I include the phrase "per the email... </s>
 <s> " before the salutation in the email or after it? </s>
-<s> Is the function given the ready-made number (`1491625. </s>
-<s> . </s>
-<s> . </s>
+<s> Is the function given the ready-made number (`1491625... </s>
 <s> `) or does it have to compute it itself? </s>
 <s> Extracting the nth digit should be easy (regardless of the base - but I assume you talk about base 10? </s>
 <s> ). </s>
@@ -3029,9 +2729,7 @@
 <s> you want to draw up some kind of tournament bracket in HTML? </s>
 <s> Would `ABABABAB` be `4(AB)` or `2(2(AB))`? </s>
 <s> or `2(ABAB)`? </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
+<s> ... </s>
 <s> since your're quoting something, mind sharing what you're quoting? </s>
 <s> A homework assignment perhaps? </s>
 <s> Arora and Barak's textbook on computational complexity covers derandomization fairly well. </s>
@@ -3096,17 +2794,11 @@
 <s> Sorry, but I re-read your answer several times, and failed to understand what are you talking about. </s>
 <s> Can you please explain things more carefully? </s>
 <s> I recommend the [$0. </s>
-<s> 5M 1THz Agilent VNA](http://cp. </s>
-<s> literature. </s>
-<s> agilent. </s>
-<s> com/litweb/pdf/5989-7620EN. </s>
-<s> pdf). </s>
-<s> £1~$1070, right? </s>
+<s> 5M 1THz Agilent VNA]( <url> £1~$1070, right? </s>
 <s> :D </s>
 <s> hmmm. </s>
 <s> off topic? </s>
-<s> I put your code in a [fiddle](http://jsfiddle. </s>
-<s> net/JDrb8/) but I don't see the next or previous arrows. </s>
+<s> I put your code in a [fiddle]( <url> but I don't see the next or previous arrows. </s>
 <s> Am I missing something? </s>
 <s> That's an interesting question. </s>
 <s> How do they do it for the flavored beans that you can buy? </s>
@@ -3121,13 +2813,9 @@
 <s> @Mike: Can we give this some traction? </s>
 <s> I don't understand the question fully, so you can probably give some example? </s>
 <s> What part of that are you confused about? </s>
-<s> [this](http://www. </s>
-<s> quirksmode. </s>
-<s> org/js/this. </s>
-<s> html)? </s>
+<s> [this]( <url> </s>
 <s> I'd prefer it to be more generic, but that it SHOULD include the UK. </s>
-<s> Surely there must be Mint. </s>
-<s> com clones that have worldwide coverage? </s>
+<s> Surely there must be Mint com clones that have worldwide coverage? </s>
 <s> Thanks. </s>
 <s> are you suggesting that might be the source of my problem, or is just a general best practice? </s>
 <s> The commenter is merely saying that the solutions hard code the "multiples of three and five" conditions. </s>
@@ -3144,23 +2832,11 @@
 <s> So, then why is it 0? </s>
 <s> I love the idea of getting a coffee when you're angry. </s>
 <s> Maybe you could mix it up occasionally and have a vodka + red bull? </s>
-<s> That site has two versions of each image, [colour](http://www. </s>
-<s> cineramabios. </s>
-<s> nl/_covers/_color/400x240/890. </s>
-<s> jpg) and [grayscale](http://www. </s>
-<s> cineramabios. </s>
-<s> nl/_covers/_black/400x240/890. </s>
-<s> jpg). </s>
-<s> Are you going to do the same, or do you need the grayscale images to be created dynamically? </s>
+<s> That site has two versions of each image, [colour]( <url> and [grayscale]( <url> Are you going to do the same, or do you need the grayscale images to be created dynamically? </s>
 <s> My answer would be: What kind of lame ass product searches for palindromes in a string. </s>
 <s> May I take a closer look at your business plan, please? </s>
 <s> I am not super familiar with android development. </s>
-<s> Can't you use java util Preferences http://download. </s>
-<s> oracle. </s>
-<s> com/javase/1. </s>
-<s> 4. </s>
-<s> 2/docs/api/java/util/prefs/Preferences. </s>
-<s> html ? </s>
+<s> Can't you use java util Preferences <url> ? </s>
 <s> Advantages over what? </s>
 <s> What's your alternative? </s>
 <s> i cant use 6x3 as there are 600 x 300 possible points. </s>
@@ -3231,9 +2907,7 @@
 <s> Also, could you elaborate on how you will ''prevent'' vandalism? </s>
 <s> Hi, <url> moved <url> to <url>, and then a bot came in to correct a double redirect so that the page can't simply be moved back again. </s>
 <s> Can you use your administrative powers to make it so? </s>
-<s> Sorry? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Sorry??? </s>
 <s> Which comment are you referring to? </s>
 <s> Right from the first version you created, this article says she was born in both 1976 and 1985! </s>
 <s> Could you sort it out, please? </s>
@@ -3251,19 +2925,11 @@
 <s> Why? </s>
 <s> Apologies, I was busy prod'ding this article when you speedily deleted it, so I inadvertently re-created it. </s>
 <s> Can you delete it again, please? </s>
-<s> And ". </s>
-<s> . </s>
-<s> . </s>
-<s> definitions. </s>
-<s> . </s>
-<s> . </s>
+<s> And "... </s>
+<s> definitions... </s>
 <s> ". </s>
-<s> What do you mean by ". </s>
-<s> . </s>
-<s> . </s>
-<s> definitions. </s>
-<s> . </s>
-<s> . </s>
+<s> What do you mean by "... </s>
+<s> definitions... </s>
 <s> "? </s>
 <s> I'm in Outer Mongolia from the 27th till the 10th, UB, Hovsgol, UB. </s>
 <s> Maybe we can meet? </s>
@@ -3275,8 +2941,7 @@
 <s> Maybe you should also look at how you interact with others? </s>
 <s> Tomblin's official website says he's the 35th Governor. </s>
 <s> Also, why would Farnsworth be governor & Tomblin not? </s>
-<s> Hi, Are you able to archive any more of the discussion sections at Fruitarianism. </s>
-<s> ? </s>
+<s> Hi, Are you able to archive any more of the discussion sections at Fruitarianism.? </s>
 <s> I noticed that the A team article for Australia is at <url> instead of <url>. </s>
 <s> Is that intentional, or something we should fix with a page move? </s>
 <s> You recently attached a <nowiki><person></nowiki> tag to an article about an Azeri poet. </s>
@@ -3289,8 +2954,7 @@
 <s> Know anyone to do a proper translation? </s>
 <s> Are you an admin? </s>
 <s> Do you want to be one? </s>
-<s> Judo, Taekwondo, Boxing etc. </s>
-<s> ? </s>
+<s> Judo, Taekwondo, Boxing etc.? </s>
 <s> I used <url> as precedence. </s>
 <s> Thoughts? </s>
 <s> Accepting that military aircraft accidents are generally not notable enough for a stand alone article, what are your thoughts on the crash of a Mosquito at an airshow at Manston in 1948 that killed ten members of the public as well as both crew. </s>
@@ -3304,8 +2968,7 @@
 <s> "I will be retiring to the Cayman Islands shortly with the riches I'm gathering through my Wikipedia editing of political pages. </s>
 <s> " - ''(From your userpage)'' - You're joking, right? </s>
 <s> Oh, and you're also joking about being a Republican too? </s>
-<s> Do you disagree with this reasoning? </s>
-<s> . </s>
+<s> Do you disagree with this reasoning?. </s>
 <s> If so, could you explain why? </s>
 <s> You're joking? </s>
 <s> <person> and <person> have no word play in spite of the same kanji? </s>
@@ -3338,13 +3001,9 @@
 <s> How did you come upon this matter? </s>
 <s> Do the titles of WP articles generally pass partisan judgment on the subject under discussion? </s>
 <s> Should they? </s>
-<s> On second thought, the mix of pseudo-politeness, vulgarity and threats is. </s>
-<s> . </s>
-<s> . </s>
+<s> On second thought, the mix of pseudo-politeness, vulgarity and threats is... </s>
 <s> really creepy. </s>
-<s> Could ya. </s>
-<s> . </s>
-<s> . </s>
+<s> Could ya... </s>
 <s> stop? </s>
 <s> Gah! </s>
 <s> What just happned? </s>
@@ -3371,13 +3030,9 @@
 <s> I'm confused by <url>. </s>
 <s> Why French? </s>
 <s> True, true. </s>
-<s> But at least ''half'' that small minority are editing these articles ;-) And it's such a nice sentence to introduce the constitutional aspects. </s>
-<s> . </s>
-<s> . </s>
+<s> But at least ''half'' that small minority are editing these articles ;-) And it's such a nice sentence to introduce the constitutional aspects... </s>
 <s> Perhaps I should re-frame it as legality ''"at the time"''? </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
+<s> ... </s>
 <s> is discouraged, but should redirects be created for situations like <url>? </s>
 <s> Inclusively, I believe you once told me that something like <url> should be changed per the guideline? </s>
 <s> If you're not using your user page, you should try redirecting it to your talk. </s>
@@ -3422,9 +3077,7 @@
 <s> Should we not turn those redlinks blue? </s>
 <s> Sigh. </s>
 <s> Did arbcomm teach you nothing? </s>
-<s> I'm a whole-hearted believer in AGF, but I also feel like I have a good nose for BS. </s>
-<s> . </s>
-<s> . </s>
+<s> I'm a whole-hearted believer in AGF, but I also feel like I have a good nose for BS... </s>
 <s> If what they said was true (''and it showed me what HE added in 1 box, and what I added in another box. </s>
 <s> '') then the edits they made would also have appeared in the edit log by another editor right before them, right? </s>
 <s> The above templated message explains pretty clearly why the image was deleted. </s>
@@ -3434,9 +3087,7 @@
 <s> Are you taking AP Exams by any chance? </s>
 <s> No-one's saying you can't edit anything, but what we are saying is that introducing grammatically incorrect phrases, POV, weasel words and things discussed and discounted in the numerous PRs and FLCs this article went through is inappropriate. </s>
 <s> Buc, stop it please, I'm getting tired of this, why not work on being constructive to articles that aren't at featured status? </s>
-<s> Don't you think you should remove the welcoming plate of cookies you left at User:Dococe page? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Don't you think you should remove the welcoming plate of cookies you left at User:Dococe page??? </s>
 <s> Holy steaming <url>. </s>
 <s> I presume you know about the <url>, yes? </s>
 <s> Huh? </s>
@@ -3490,9 +3141,7 @@
 <s> Hi, just saw your conversion of this page to use an automatic taxobox, and tried to add the genus authority (<url>), but it didn't work. </s>
 <s> Is there a way to do that with the automatic taxobox? </s>
 <s> Thanks for adding stuff to the update. </s>
-<s> Would you like to help out with the notifications (the real pain of this . </s>
-<s> . </s>
-<s> . </s>
+<s> Would you like to help out with the notifications (the real pain of this ... </s>
 <s> grrr)? </s>
 <s> Gosh, I didn't realise it was so many. </s>
 <s> Would that include 20 batches of DYK hooks (totalling 100 total hooks)? </s>
@@ -3533,9 +3182,7 @@
 <s> Wouldn't you say that creating a <url> instead of just "in Europe", and functioning as a subcategory of <url>, would have been a better solution? </s>
 <s> I'm not sure how I feel about you adding coordinates to locations all over the place, but rather than get into that, let's start with something easy: "<url>" does not equal "<url>". </s>
 <s> Do you need me to explain why, or was that just a typo? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
+<s> ??? </s>
 <s> You wat? </s>
 <s> I strongly agree with deleting poorly sourced articles, articles about people in the news enjoying their 15 minutes of fame, memorials, articles merely linking to the subjects website, articles about internet phenomena which are sourced onlyu to blogs or fansites. </s>
 <s> We are in accord on many things, but I have one question: On your user page you say "The name of my dog is not "human knowledge"-it's unverifiable . </s>
@@ -3552,18 +3199,13 @@
 <s> Is there some sort of guideline for using direct personal evidence? </s>
 <s> Liked that <url> I tore into that spammer? </s>
 <s> Got a box with a gun? </s>
-<s> Can I help update this bank or does it not need any updating? </s>
-<s> ? </s>
+<s> Can I help update this bank or does it not need any updating?? </s>
 <s> Do you still feel there is a POV/NPOV dispute on the article? </s>
 <s> Do you feel mediation is still needed? </s>
 <s> I uploaded a new version of the Desert Storm map, with Egyptian, Syrian and multinational forces labeled (<url>). </s>
 <s> How does it look now? </s>
-<s> ahhh. </s>
-<s> . </s>
-<s> . </s>
-<s> so 'Wikipediholic' is preferred to 'Wikipediaddiction' . </s>
-<s> . </s>
-<s> . </s>
+<s> ahhh... </s>
+<s> so 'Wikipediholic' is preferred to 'Wikipediaddiction' ... </s>
 <s> so the malady is at least recognised, good. </s>
 <s> Where can one obtain help to fight this insidious addiction? </s>
 <s> Hi. </s>
@@ -3604,9 +3246,7 @@
 <s> Errr, okay. </s>
 <s> But let's make sure our answers are accurate by using <url> rather than something we heard someone say, eh? </s>
 <s> Hi - I noticed the same, and was wondering how you do it! </s>
-<s> I've been trying to get <url> next to my name by default and I can't seem to manage it. </s>
-<s> . </s>
-<s> . </s>
+<s> I've been trying to get <url> next to my name by default and I can't seem to manage it... </s>
 <s> any help? </s>
 <s> It seems like the bot hasn't made any contributions in quite a while. </s>
 <s> Is something wrong? </s>
@@ -3657,8 +3297,7 @@
 <s> It has a few problems, could you help me with it? </s>
 <s> Thanks for reverting <url> - that was actually me, unlogged in. </s>
 <s> OK if I re-revert? </s>
-<s> I don't understand why did you add that message at the bottom of this page? </s>
-<s> ? </s>
+<s> I don't understand why did you add that message at the bottom of this page?? </s>
 <s> One of your edits concerns me - <url>. </s>
 <s> Maybe a copyedit would be good, but was it really required to be deleted completely? </s>
 <s> The topic is a good one I think, but the year of closure should be listed. </s>
@@ -3688,10 +3327,7 @@
 <s> Please, don't delete another person's work without such deletion passing through regular Wikipedian deletion-process. </s>
 <s> And which templates did you delete, if I may ask? </s>
 <s> The above username has been indefinitely banned as a phishing account. </s>
-<s> Now why would they want my login details. </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> Now why would they want my login details...? </s>
 <s> You told me to message you in here. </s>
 <s> Could you tell me how you do them? </s>
 <s> Yes, I took that photo last night on my iPhone. </s>
@@ -3712,9 +3348,7 @@
 <s> Would you mind blocking this school for even longer than 1 month? </s>
 <s> After having collected some users willing to come, I created <url> subpage. </s>
 <s> Would you be so kind and add your ideas? </s>
-<s> <url>? </s>
-<s> ? </s>
-<s> ? </s>
+<s> <url>??? </s>
 <s> Hey, so your move of this, and wanted to point out that the reason I put a disambig title on it, was because there are two different labor unions of the same name, either one of which could wind up with an article. </s>
 <s> But, I don't know that that means the article should automatically get the title, is there a standard for this situation? </s>
 <s> Hi JoJan. </s>
@@ -3743,9 +3377,7 @@
 <s> By the way, are you honestly ok with me bothering you like this? </s>
 <s> I've noticed the Commons message boxes on <url> and find their colours quite interesting. </s>
 <s> What do you think? </s>
-<s> i searched through the history and the question at http://en. </s>
-<s> wikipedia. </s>
-<s> org/wiki/Talk:Telephone_numbering_plan#coincidence. </s>
+<s> i searched through the history and the question at <url> #coincidence. </s>
 <s> 3F relates to infomation <url>. </s>
 <s> could you possiblly answer it? </s>
 <s> At first I couldn't see it, but now that I've taken a closer look I see what you mean. </s>
@@ -3764,10 +3396,8 @@
 <s> Who changed that? </s>
 <s> What's your issue with noting the copyright registration date for this piece? </s>
 <s> Also, could you point me to the consensus you mentioned? </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
-<s> come to think of it, this is kind of a really nitpicky question, but <url> ''does'' count as current head of the "main" Matsudaira family, right? </s>
+<s> .. </s>
+<s> com e to think of it, this is kind of a really nitpicky question, but <url> ''does'' count as current head of the "main" Matsudaira family, right? </s>
 <s> Since it only became renamed and all but it's still the continuation of the same family? </s>
 <s> Hello. </s>
 <s> Can you please pass the pilot whale article? </s>
@@ -3801,27 +3431,17 @@
 <s> But could it also cover wikiversity and perhaps the other sister projects? </s>
 <s> PS I am planning on starting an article on ''<url>'' (<url>). </s>
 <s> Maybe you'd like to help? </s>
-<s> He keeps coming back, and keeps getting blocked again. </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
+<s> He keeps coming back, and keeps getting blocked again.... </s>
 <s> When will they learn? </s>
 <s> OK, the 3920th is done. </s>
 <s> Any further thoughts? </s>
-<s> Eeeeerrrrr. </s>
-<s> . </s>
-<s> . </s>
-<s> Could you type a little slower, I am having trouble with the above! </s>
-<s> ? </s>
+<s> Eeeeerrrrr... </s>
+<s> Could you type a little slower, I am having trouble with the above!? </s>
 <s> "two pigeons in a row constitute a half-wave antenna at 700 MHz" That's a pretty cool intersection of radio invisible waves seems-like-magic and real-life objects! </s>
 <s> On the other hand, did you perhaps just crack the secret for implementing <url>? </s>
 <s> As a timid Wikipedia end-user who never makes more than a rare grammatical or spelling edit, learning the history to be found on this talk page and Kate's userpage history makes me sad. </s>
-<s> Why is it that so many communities change the way they do as the size of the project they revolve around increases. </s>
-<s> . </s>
-<s> ? </s>
-<s> On the third reading. </s>
-<s> . </s>
-<s> . </s>
+<s> Why is it that so many communities change the way they do as the size of the project they revolve around increases..? </s>
+<s> On the third reading... </s>
 <s> Why not include an edit summary that tells me this? </s>
 <s> Why not revert my revert? </s>
 <s> The reason for the malfunctioning redirects is that the character immediately after "REDIRECT" is not an ordinary space, but a "non-breaking space", hex code 0xA0. </s>
@@ -3856,9 +3476,7 @@
 <s> And what do you plan to rewrite exactly? </s>
 <s> Hi, just returned from a longer vacation where I was 100% offline and can look at it soon if it is not too late. </s>
 <s> What is the deadline? </s>
-<s> It's not that, it's just feels . </s>
-<s> . </s>
-<s> . </s>
+<s> It's not that, it's just feels ... </s>
 <s> wrong. </s>
 <s> An admin especially should be accountable for all his dealings, so why delete the history? </s>
 <s> Who deleted it? </s>
@@ -3911,8 +3529,7 @@
 <s> Thoughts? </s>
 <s> I don't see how you can use this to discount his trustworthiness and oppose him. </s>
 <s> If there is consensus to promote among several bureaucrats, what's it matter who actually presses the button? </s>
-<s> I see the dilemma with separate series. </s>
-<s> . </s>
+<s> I see the dilemma with separate series.. </s>
 <s> in the case with (untranslated) Spirou there are no such problems, but it seems to make more sense, with no english publication, to switch the brackets for english and original titles (ex: <url>). </s>
 <s> Does this create a problem with continuity? </s>
 <s> Thanks. </s>
@@ -3970,9 +3587,7 @@
 <s> ' What is that template? </s>
 <s> I removed that second paragraph entirely, since the information is covered in the article. </s>
 <s> Do you feel that the lead should be larger? </s>
-<s> By my reckoning he has been in every episode, and thats 10 so far. </s>
-<s> . </s>
-<s> . </s>
+<s> By my reckoning he has been in every episode, and thats 10 so far... </s>
 <s> I am confused as to why you changed it from 9 to 7? </s>
 <s> Yes, nearly every church category seems messed up, going either up or down. </s>
 <s> It seems a major task to do the whole lot - would it make sense simply to move the Catholics (say) out of the primate tree (by an edit) or is this bypassing the cfd process in some sneaky fashion? </s>
@@ -3980,9 +3595,7 @@
 <s> Do you need some help? </s>
 <s> Thanks for the quick response. </s>
 <s> Would you have any suggestions on editors who would be interested in this field, or who might have experience with FA reviews? </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
+<s> ... </s>
 <s> then you have to at least meet me half-way. </s>
 <s> For instance, "''<url>'' described the episode as displaying "an exhilarating flair for rapid change of comic gear" and made commented positively on the scene. </s>
 <s> " Can you see the problem here? </s>
@@ -4002,9 +3615,7 @@
 <s> What about the other related articles? </s>
 <s> Is there really any serious debate that Mobile IE is remotely comparable to Safari mobile? </s>
 <s> What source would be acceptable to show this? </s>
-<s> What changes are you referring to? </s>
-<s> ? </s>
-<s> ? </s>
+<s> What changes are you referring to??? </s>
 <s> Found this awesome shot of a <url>, but cannot figure out how to make the picture show on the English language <url> page. </s>
 <s> Any clues? </s>
 <s> It should be possible to export from mathematica to eps I believe, or even to other formats, like png or gif (maybe from the "File" menu). </s>
@@ -4043,9 +3654,7 @@
 <s> Um - no. </s>
 <s> And I take it you delieve all racist and fascist groups are "right wing"? </s>
 <s> I haven't done an 'official investigation' but perhaps it would be revealing. </s>
-<s> Alright then, save us the time. </s>
-<s> . </s>
-<s> . </s>
+<s> Alright then, save us the time... </s>
 <s> enlighten us--how many links have you added to WP that are owned by Stephen Barrett? </s>
 <s> Posted to <url>. </s>
 <s> What category are you talking about? </s>
@@ -4060,8 +3669,7 @@
 <s> Regarding your time setting, I'm a little unsure what you want to do - there are only two things you can change - the timezone offset from GMT, which you set at the bottom of the screen by selecting the correct offset for your location from the list - I'm guessing Asia/Calcutta would be about right, and the way the date/time is displayed, which you choose from the list of five options at the top of the screen. </s>
 <s> What problems are you having ? </s>
 <s> Could you please check over the article of <url>. </s>
-<s> I edited a couple of things and added a few images. </s>
-<s> . </s>
+<s> I edited a couple of things and added a few images.. </s>
 <s> could you reply your opinion please? </s>
 <s> Yeah, but that suggests that pounds alone aren't included. </s>
 <s> Also, what would be the corresponding names for the other two templates? </s>
@@ -4100,8 +3708,7 @@
 <s> Or possibly some stills? </s>
 <s> Hi Josiah- I'm a touch concerned about the entry on Ian Levine's bio about his comparison to the Abzorbaloff thing. </s>
 <s> Even if critics have speculated about it- is this really needed on a biographical page? </s>
-<s> Hey, why do you edit the standings when a game isnxb4t over? </s>
-<s> ? </s>
+<s> Hey, why do you edit the standings when a game isnxb4t over?? </s>
 <s> I noticed you added the Arabic for <url>'s name. </s>
 <s> Do you know the <url>? </s>
 <s> The race was advertised and billed as the 100th Indy 500. </s>
@@ -4118,8 +3725,7 @@
 <s> Do you want me to tie it all in or do you want to work on it? </s>
 <s> Wikipedia has a strict rule about ''not'' simultaneously filing an article in both a parent category ''and'' a subcategory of the same parent. </s>
 <s> Could you please ''not'' add <url> to a category if it's already in <url>, <url> or a country-specific record labels category? </s>
-<s> Hi, I wanted to ask what do you follow to create redirects on this <url>? </s>
-<s> ? </s>
+<s> Hi, I wanted to ask what do you follow to create redirects on this <url>?? </s>
 <s> And individually changing the refs defeats the purpose, unless the genus is apart of the url, like in nomen. </s>
 <s> at. </s>
 <s> Do you think there is any to work with this? </s>
@@ -4181,13 +3787,8 @@
 <s> Thank you for taking the time to dig up the references. </s>
 <s> Are you planning on integrating them into the article sometime soon? </s>
 <s> Could you please explain to me what the buttons do? </s>
-<s> How do you "Not accept" a change, that's what. </s>
-<s> . </s>
-<s> . </s>
-<s> you revert it, don't you. </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> How do you "Not accept" a change, that's what... </s>
+<s> you revert it, don't you...? </s>
 <s> You just added it again. </s>
 <s> Maybe you should look over the guidelines for inclusion of the tag? </s>
 <s> Da ti mene nisi sa nekim pobrkao? </s>
@@ -4196,10 +3797,8 @@
 <s> I think I may have mis-understood you point, are you saying that I can only revert three times if its vandalism, or that my edits were vandalims? </s>
 <s> Referring to the Nomination for Deletion <url>, you suggest that Bill4Time be "mentioned" under List of Legal Software. </s>
 <s> Would that enable the Bill4Time Wikipedia page to still exist? </s>
-<s> Out of interest (I might check) . </s>
-<s> . </s>
-<s> do you know how the Australian Bureau of statitics classes/categories Australian Aborigines/ Aboriginal Australians? </s>
-<s> ? </s>
+<s> Out of interest (I might check) .. </s>
+<s> do you know how the Australian Bureau of statitics classes/categories Australian Aborigines/ Aboriginal Australians?? </s>
 <s> Do you think we're good to go with the proposal, maybe later tonight, or tomorrow? </s>
 <s> Any other problems with the proposal as it stands? </s>
 <s> I would specifically appreciate an outside view at the thread <url>. </s>
@@ -4215,8 +3814,7 @@
 <s> Does Conway mention this? </s>
 <s> I haven't tagged/assessed anything in quite some time. </s>
 <s> Which article are you referring to? </s>
-<s> sir. </s>
-<s> . </s>
+<s> sir.. </s>
 <s> can i still write an article? </s>
 <s> do you have any facebook account? </s>
 <s> Reply: I have just found your edits to the talk page of the above article - not impressive at all? </s>
@@ -4249,8 +3847,7 @@
 <s> You think this is Merkey? </s>
 <s> I am looking for help improving the dermatology content on wikipedia. </s>
 <s> Would you be willing to help, or do you have any friends interested in derm that would be interested in helping? </s>
-<s> Is it in order to boot him from a wikiproject etc. </s>
-<s> ? </s>
+<s> Is it in order to boot him from a wikiproject etc.? </s>
 <s> I was wondering why I couldn't edit the list of micronations article to correct the alphabetical order. </s>
 <s> was I blocked? </s>
 <s> If you're not going to reply then I will undo the edit. </s>
@@ -4273,9 +3870,7 @@
 <s> Has there actually been some evidence of wrongdoing on anyone's part? </s>
 <s> I'm doing the same. </s>
 <s> Hey, can you please tell me if <url> has been fixed enough by being stub-ified? </s>
-<s> I took a stab at editing the page. </s>
-<s> . </s>
-<s> . </s>
+<s> I took a stab at editing the page... </s>
 <s> but really think the page should just be deleted with a redirection from <url> to either <url> or <url>. </s>
 <s> How do we make that happen? </s>
 <s> an IP user changed Liam's Name into Reim in <url> and i havent seen anyone undo his edit. </s>
@@ -4292,9 +3887,7 @@
 <s> Do you have to change the count manually, or does it detect vandalism itself? </s>
 <s> Hi, Thank you for closing <url> as "delete", but much of the material immediately re-appeared at <url> (see <url>) so the questionable content hasn't been deleted at all. </s>
 <s> Can we do something about this? </s>
-<s> Ahhhh. </s>
-<s> . </s>
-<s> . </s>
+<s> Ahhhh... </s>
 <s> My apologies. </s>
 <s> You wouldn't be using the google toolbar perchance? </s>
 <s> 1900 articles! </s>
@@ -4305,9 +3898,7 @@
 <s> Would u agree with such page moves? </s>
 <s> Here's my current warning to him: <url>, and the diff<url>, which also included adding lengthy honorifics to Barelvi scholars. </s>
 <s> Do we need to see more of a this-week pattern of POV-pushing and hate-speech, or can he be blocked for clear and consistent malicious intent? </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
+<s> ... </s>
 <s> just vandalized my page again. </s>
 <s> What level warning is appropriate? </s>
 <s> About the arrow pawn: it moves one square per turn (if it's not Persson's variant), right? </s>
@@ -4332,9 +3923,7 @@
 <s> :) Are you not familiar with the technique of doubling your edit count using typos? </s>
 <s> Again, what would be the point of redirection? </s>
 <s> Who on earth is going to fall on the redirect first? </s>
-<s> Both get across the same thing. </s>
-<s> . </s>
-<s> . </s>
+<s> Both get across the same thing... </s>
 <s> the first is prettier. </s>
 <s> But, you at least agree with my edit removing the redundancies, no? </s>
 <s> If Doxiedana comes back to Wikipedia and asks me to restore her userpage, I will consider it. </s>
@@ -4344,11 +3933,7 @@
 <s> I think we're ready for FAC now. </s>
 <s> As the two top contributors, perhaps we should co-nom? </s>
 <s> Yeah, at the moment. </s>
-<s> Unless there are any other dryandras on the cusp of GA-hood. </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> Unless there are any other dryandras on the cusp of GA-hood....? </s>
 <s> I see you reverted another image move back to below the accompanying text. </s>
 <s> Your summary was "add to discussion" - can you explain? </s>
 <s> I asked you a question. </s>
@@ -4356,16 +3941,13 @@
 <s> You also say that I am participating in a high-tech lynching. </s>
 <s> Isn't that what you did when you put SamuraiClinton on RFA? </s>
 <s> Hey ! </s>
-<s> There is a little problem on that image you uploaded from Lambiek : Caran d'Ache is supposed to be 2 years old in 1860, but his ''moustache'' and tallness let me think he is not so young. </s>
-<s> . </s>
-<s> . </s>
+<s> There is a little problem on that image you uploaded from Lambiek : Caran d'Ache is supposed to be 2 years old in 1860, but his ''moustache'' and tallness let me think he is not so young... </s>
 <s> Do you know where to find the real date of the picture ? </s>
 <s> Hi there. </s>
 <s> On a tangential note, would you happen to be <person>? </s>
 <s> Thanks! </s>
 <s> Rhetorical question: is it really so difficult to read our username policy? </s>
-<s> What's wrong with having everything look the same, the links are for the Official website of the channel so I don't see the problem? </s>
-<s> ? </s>
+<s> What's wrong with having everything look the same, the links are for the Official website of the channel so I don't see the problem?? </s>
 <s> that's all it said on the description of the object, I myself do not know as well what the museum means with "old". </s>
 <s> Maybe it came from the theater from a previous renovation? </s>
 <s> Misrepresenting a person's actions to portray them in a bad light is one of the more common (and transparent) forms of personal attack. </s>
@@ -4374,9 +3956,7 @@
 <s> ''' Can't you work ''with'' me, and not ''against'' me? </s>
 <s> I have noticed that you added the reference to him living in NZ. </s>
 <s> Do you know anymore? </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
+<s> ... </s>
 <s> I have no clue what you're asking me about or seeking me to do. </s>
 <s> And what does "RTL wikies" mean? </s>
 <s> Should be discussed on-wiki at one of the policy pages. </s>
@@ -4385,16 +3965,12 @@
 <s> And do you really think the RfC expressed consensus support for such a position? </s>
 <s> Nice addition to the <url> article. </s>
 <s> If you have the works from which those thoughts are taken, could you add a citation(s) for them? </s>
-<s> Just curious. </s>
-<s> . </s>
-<s> . </s>
+<s> Just curious... </s>
 <s> Where did it come from? </s>
 <s> Where did you cut and paste it from? </s>
 <s> I actually went to the long term abuse page right now, and tried to block them, but it seems that those accounts don't exist. </s>
 <s> Have they been listed incorrectly? </s>
-<s> Somehow. </s>
-<s> . </s>
-<s> . </s>
+<s> Somehow... </s>
 <s> we appear to be the only administrators updating the queues on DYK and I'm still learning at this. </s>
 <s> How can we make the process more efficient/better? </s>
 <s> This editor, blocked as a sock of <person>, is currently requesting an unblock, and appears to want your particular attention. </s>
@@ -4524,26 +4100,14 @@
 <s> Can you link TC's CU and name the master? </s>
 <s> I'm an admin, I'd be happy to do it. </s>
 <s> You want me to do it now? </s>
-<s> But someone actually remade the article here, http://en. </s>
-<s> wikipedia. </s>
-<s> org/wiki/User:DOSGuy/Joe_Siegler it's a subset of someone's user profile, but they are essentially circumventing a deleted article. </s>
+<s> But someone actually remade the article here, <url> it's a subset of someone's user profile, but they are essentially circumventing a deleted article. </s>
 <s> Is this against wikipedia policy? </s>
-<s> I thought this problem (non-Latin characters being changed to ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
+<s> I thought this problem (non-Latin characters being changed to ??????? </s>
 <s> when people edit in certain browsers) had been fixed, but maybe there are browsers out there that don't support Unicode even with the fix? </s>
 <s> Hi Cm, I noticed your edits with the edit summary "unicodify" when removing mdash and ndash. </s>
 <s> Are you sure this is correct and are you preserving the n/m distinction? </s>
-<s> Hmm. </s>
-<s> . </s>
-<s> . </s>
-<s> I'm new here at Wikipedia and your explanation is a little cloudy. </s>
-<s> . </s>
-<s> . </s>
+<s> Hmm... </s>
+<s> I'm new here at Wikipedia and your explanation is a little cloudy... </s>
 <s> Should I delink the references website? </s>
 <s> I see you created a nonsense article yesterday because you were bored. </s>
 <s> If I unblock you will you disrupt more? </s>
@@ -4580,9 +4144,7 @@
 <s> What's the point of reverting them again if they'll be removed, anyway? </s>
 <s> At least he keeps the same account, some users manage to get into an edit war, find their own way to WP:3RR, and edit their monobook --all on their first day! </s>
 <s> It's enough to make a person wonder, what did your block log look like before you used the SomUsr account? </s>
-<s> Since I have no purpose I don't need to use wikipedia, so can you change my username to <url> (<url>)? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Since I have no purpose I don't need to use wikipedia, so can you change my username to <url> (<url>)??? </s>
 <s> Your block of the <url> article came immediately after three edits that blanked sourced content without any explanation. </s>
 <s> These edits were unrelated to the edit war that got the article blocked, so could you please to restore the content? </s>
 <s> I'm getting a little nervous that the FAC's not attracting much attention. </s>
@@ -4641,10 +4203,7 @@
 <s> I don't understand. </s>
 <s> So then you decide by yourself, and the people who stated their support for the original are ignored? </s>
 <s> When am I changing nationalities? </s>
-<s> I do remove flags when I encounter them per <url> and <url>, but changing them. </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> I do remove flags when I encounter them per <url> and <url>, but changing them...? </s>
 <s> Very nice. </s>
 <s> Did you visit also Romania or not? </s>
 <s> CG, seems <url> is under attack as having an insufficiently global focus. </s>
@@ -4669,9 +4228,7 @@
 <s> hmm, I've done something wrong -- it's hiding them, but it's not showing the link that says "more info"? </s>
 <s> AnonEMouse, I have noticed today that there are many recent comments on the <url> talk page that do not show in "history". </s>
 <s> How can that happen? </s>
-<s> Should I assume you have eliminated the paragraph "A high moisture content usually prevents ignition and slows propagation,<url>. </s>
-<s> . </s>
-<s> . </s>
+<s> Should I assume you have eliminated the paragraph "A high moisture content usually prevents ignition and slows propagation,<url>... </s>
 <s> "? </s>
 <s> Could that information be used elsewhere? </s>
 <s> I've tweaked it further: It's now accurate, to within my ability to describe a complicated subject, but rather too complicated. </s>
@@ -4687,11 +4244,8 @@
 <s> I created this for you. </s>
 <s> However as a registered user, do you know you can create categories by yourself? </s>
 <s> This is what you wrote: "In the book 'Inventing Elliot' written by Graham Gardener, the book, 1948 is mentioned numerous times. </s>
-<s> " What book, 1948? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
+<s> " What book, 1948?? </s>
+<s> ??? </s>
 <s> That's really nice! </s>
 <s> Did you decide against seeing vervandelt as dependent on "sich"? </s>
 <s> I would advise against creating seperate articles for individual characters and stick to the list. </s>
@@ -4739,8 +4293,7 @@
 <s> Do you have any good reasons for me to remain? </s>
 <s> Re: <url> and <url>, if you think they are better off as redirects to the suburb/town rather than substubs on the lakes with a <nowiki><person></nowiki> tagline, you only need to overwrite the article with a redirect (or revert to a previous version that was a redirect), leaving the substub in the article history. </s>
 <s> How come you speedied them before redirecting? </s>
-<s> Hi. </s>
-<s> . </s>
+<s> Hi.. </s>
 <s> I'd actually like to move all images in <url> to the Commons. </s>
 <s> Is there a way that I can do it myself? </s>
 <s> As the most developed of the articles, it may be worth opening a generalist peer review on it, to try and get some idea of whether there's anything we ''aren't'' aware of. </s>
@@ -4796,10 +4349,7 @@
 <s> You removed the border issue coverage in <url>, and your explanation was that it's covered in another article. </s>
 <s> Where is it covered? </s>
 <s> I might have just done a wrong revert on this art - what do you think? </s>
-<s> Small cf Singapores Changi maybe - but, . </s>
-<s> . </s>
-<s> . </s>
-<s> ? </s>
+<s> Small cf Singapores Changi maybe - but, ...? </s>
 <s> Dear DGG, you post on your WP biography you discuss matters via email. </s>
 <s> Where can one find your e-mail address ? </s>
 <s> Links to attack sites and so are not allowed. </s>
@@ -4808,14 +4358,10 @@
 <s> I asked a question yesterday(18 March)if it was possible to transform desert into arable farmland,I received various answers one of which was interesting because it goes along with my own train of thought. </s>
 <s> Firstly, to construct a man made hole in a suitable place and then tow an iceberg to that place to make a lake. </s>
 <s> You would of course need a canal system to get the iceberg to the hole and for distribution,but is it possible? </s>
-<s> sir. </s>
-<s> . </s>
-<s> what is the exact time will it be deleted. </s>
-<s> . </s>
-<s> sir. </s>
-<s> . </s>
-<s> do you have any facebook account. </s>
-<s> ? </s>
+<s> sir.. </s>
+<s> what is the exact time will it be deleted.. </s>
+<s> sir.. </s>
+<s> do you have any facebook account.? </s>
 <s> Ok! </s>
 <s> First things first, is there anything in particular you would like me to help you out with? </s>
 <s> Not that clear to me. </s>
@@ -4826,12 +4372,8 @@
 <s> Who has a "secret opinion"? </s>
 <s> You deleted this, but somehow it still shows up on the parent category's page <url>. </s>
 <s> Is this normal and/or can you fix this? </s>
-<s> I see you moved and renamed. </s>
-<s> . </s>
-<s> . </s>
-<s> um, it. </s>
-<s> . </s>
-<s> . </s>
+<s> I see you moved and renamed... </s>
+<s> um, it... </s>
 <s> to <url>. </s>
 <s> Are you sure about that, given the conventions at <url>? </s>
 <s> Its been over a week now and I see you still haven't passed or failed the article. </s>
@@ -4894,16 +4436,13 @@
 <s> Will you revert THAT and accuse me of vandalizing? </s>
 <s> Hey, you seem to know a bit about coding, so I figured you might have an answer here. </s>
 <s> If I want use code to grab the target of a page known to be a redirect, how would I do that? </s>
-<s> Hi, what does this mean - if I am to be a named party in the case I at least need ot understand what it is about, please explain - ""Feuding and BLPs" a case to examine meta behavioral issues and reconcile the applicable principles? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Hi, what does this mean - if I am to be a named party in the case I at least need ot understand what it is about, please explain - ""Feuding and BLPs" a case to examine meta behavioral issues and reconcile the applicable principles??? </s>
 <s> - what do you perceive this is related to? </s>
 <s> Thanks terribly for looking it up. </s>
 <s> Would it be alright for me to use the new source in Europe, economy section then? </s>
 <s> PS. </s>
 <s> Is <url> more relevant to explain the analogy? </s>
-<s> Can I get some time to finish what I am doing without everything being deleted? </s>
-<s> ? </s>
+<s> Can I get some time to finish what I am doing without everything being deleted?? </s>
 <s> I was about to ask the same question on <url>. </s>
 <s> Did you ever find out? </s>
 <s> I hate categorizing and I'm guessing you know which would be most appropriate for <url> article. </s>
@@ -4915,35 +4454,23 @@
 <s> Erica, I understand you are a figure skating enthusiast. </s>
 <s> Are you still active in those types of articles? </s>
 <s> Oops. </s>
-<s> Hmm. </s>
-<s> . </s>
-<s> . </s>
-<s> yeah. </s>
-<s> . </s>
-<s> . </s>
-<s> that sounds like a good idea. </s>
-<s> . </s>
-<s> . </s>
+<s> Hmm... </s>
+<s> yeah... </s>
+<s> that sounds like a good idea... </s>
 <s> why not go ahead? </s>
 <s> Regarding comment on "length of Performance reviews" section - the intention here is to provide support for the statement in the biography that "Latsabidze is already regarded by many as one of the more significant performers of his generation". </s>
 <s> Do you recommend that I just delete this statement, or is there some other way to support it other than providing representative critical reviews that say so? </s>
 <s> Most of the editors who would care about the deletion of KiK's threads are the ones who would agree with him, so it's pointless to warn them. </s>
-<s> Hell . </s>
-<s> . </s>
-<s> . </s>
+<s> Hell ... </s>
 <s> come to think of it, hasn't KiK been all over their talk pages, with them high-fiving each other? </s>
-<s> Hate to be a bother. </s>
-<s> . </s>
-<s> . </s>
+<s> Hate to be a bother... </s>
 <s> but need help with getting the bot running? </s>
 <s> Anything I can do as a non programmer? </s>
 <s> I hope this makes my concerns clearer. </s>
 <s> Perhaps we can work together to resolve them? </s>
 <s> I wasn't home, but I sent you an e-mail answering the questions asked. </s>
 <s> Did you receive it? </s>
-<s> . </s>
-<s> . </s>
-<s> . </s>
+<s> ... </s>
 <s> This may just mean that I'm willing to expand my view of the word "ancestor" arbitrarily far, although finding a ribosome-like organism sans nucleic acids and a replicating RNA-like organism sans proteins would probably break it. </s>
 <s> On the other hand, it'd be really cool and help explain abiogensis, so, who'd really care? </s>
 <s> Mel, is the above comment from you? </s>
@@ -4954,9 +4481,7 @@
 <s> Comments? </s>
 <s> OK, we are talking about two remaining articles here. </s>
 <s> The categories serve absolutely no categorization purpose, so why are you being stubborn about it? </s>
-<s> Wait, I thought algorithms were named for <url>? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Wait, I thought algorithms were named for <url>??? </s>
 <s> There's a lot of unfilled requests to become a verified user at WP:OP. </s>
 <s> Could you possibly look through them? </s>
 <s> The Olbermann thing is being discussed on the <url> talk page. </s>
@@ -4998,8 +4523,7 @@
 <s> Is this really notable? </s>
 <s> Time for an AfD nom? </s>
 <s> Which little tag are you referring to? </s>
-<s> As for your second question, that does depend on a couple of things- you can send it through the official OTRS address, if you like, and someone will get to you in due course, but you're welcome to forward the email to me personally at jmilburninfaerun AT gmail. </s>
-<s> com, and I'll take a look at it for you, and upload the image/explain why it's not possible? </s>
+<s> As for your second question, that does depend on a couple of things- you can send it through the official OTRS address, if you like, and someone will get to you in due course, but you're welcome to forward the email to me personally at jmilburninfaerun AT gmail com , and I'll take a look at it for you, and upload the image/explain why it's not possible? </s>
 <s> Are you trying to help him milk the publicity over the WR incident? </s>
 <s> if it ends up on google with lots of nns why would that matter? </s>
 <s> There's so much of work related to Prague: I once created <url> but every bridge in Prague deserves an article. </s>
@@ -5014,31 +4538,8 @@
 <s> Meanwhile, can you think of a good line for a <url> submission? </s>
 <s> Sure, but what's the deal with fair use and cropping? </s>
 <s> I thought the Zatanna one got removed? </s>
-<s> Why do you have this user name? </s>
-<s> ? </s>
-<s> And what did I do wrong? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Why do you have this user name?? </s>
+<s> And what did I do wrong??????????????????????? </s>
 <s> Then, I am curious. </s>
 <s> Why did you create the redirect in the first place? </s>
 <s> Thanks for adding that pmc= support to <url>. </s>
@@ -5062,14 +4563,10 @@
 <s> Why are you leaving? </s>
 <s> What is the policy when someone writes something like <url> ? </s>
 <s> Does their IP get banned and their comment purged from the talk page? </s>
-<s> hi, tell us what you think <url>. </s>
-<s> ? </s>
-<s> ? </s>
+<s> hi, tell us what you think <url>.?? </s>
 <s> Update is four hours late. </s>
 <s> Any chance you could post it? </s>
-<s> Hmm, I'm not sure. </s>
-<s> . </s>
-<s> . </s>
+<s> Hmm, I'm not sure... </s>
 <s> maybe you need to clear your cache? </s>
 <s> Or did you create the new username first, before asking me to change your old one? </s>
 <s> Regarding <url>, <url>, <url>, <url>, <url> and <url>, may I redirect them? </s>
@@ -5093,10 +4590,7 @@
 <s> Perhaps you would like to comment there? </s>
 <s> Okay, I've read through it, and I'm willing to accept that it's your granddaughter. </s>
 <s> Shall I delete it? </s>
-<s> Why did you delete the article on anal stretching? </s>
-<s> ? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Why did you delete the article on anal stretching???? </s>
 <s> On that topic, not every DOS game on Wikipedia has a screenshot. </s>
 <s> Do you plan on taking any yourself? </s>
 <s> You did a WPMILHIST assessment on this page a while ago; one of your comments was that the "battle honours" section was difficult to read, but weren't sure what to do about it. </s>
@@ -5117,8 +4611,7 @@
 <s> :) Did you see my note in a section above about another user who likes to work on comics creator articles? </s>
 <s> Hi, Leandrod - my computer is slow, and your last two edits were made on top of vandalism that needed to be reverted - I can't tell if I reverted legit changes by you or not? </s>
 <s> If I did, I'm sorry, can you have a look? </s>
-<s> Why would one want to re-create GNAA? </s>
-<s> ? </s>
+<s> Why would one want to re-create GNAA?? </s>
 <s> Okay, so yeah, it's possible that that's his intent, but I even if it were, I don't see why the file has less value. </s>
 <s> Are interviews with BLP subjects not considered valid EL's general? </s>
 <s> I'm not totally sure what you mean. </s>
@@ -5141,9 +4634,7 @@
 <s> Are you asking to be banned? </s>
 <s> Seems like <url> has conveniently "quit" the wiki all of a sudden. </s>
 <s> That wasn't one of ''your'' sockpuppets, was it? </s>
-<s> Who? </s>
-<s> ? </s>
-<s> ? </s>
+<s> Who??? </s>
 <s> I re-drew the captions on the tugboat diagram <url>. </s>
 <s> Do they render correctly for you now? </s>
 <s> So far so good? </s>
@@ -5169,9 +4660,7 @@
 <s> I am being serious - what business was it of yours exactly? </s>
 <s> I sent you a Christmas message via e-mail. </s>
 <s> Did you receive it? </s>
-<s> Hello De728631, you reverted <url> edit of mine because they are . </s>
-<s> . </s>
-<s> . </s>
+<s> Hello De728631, you reverted <url> edit of mine because they are ... </s>
 <s> rather unprofessional fan art. </s>
 <s> I get your point, but why are they on Commons? </s>
 <s> yes, but we are hardly debating that edit that hasnt stood in the last few days anywway and certainly isnt an issue right now. </s>
