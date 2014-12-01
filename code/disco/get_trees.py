@@ -102,9 +102,10 @@ def parse_trees(sentences,prefix,return_trees=1):
 
 def get_trees(data,prefix='temp'):
 	"""
-	Returns the trees of the data, please define a prefix for the files that are stored.
-	If the data is a string, the string will be parsed, if the data is a list, each element will be parsed and 
-	a list keeping track of indices will be returned as well.
+	Returns a list of trees (string) for each sentence detected in data. 
+	The data can be a single string, or a list of strings.
+	In the latter case, a list keeping track of indices will be returned as well
+	If a prefix is given, files containing the trees and sentences are stored localy (prefix_trees.txt,prefix)
 	"""
 
 	if isinstance(data, basestring):
