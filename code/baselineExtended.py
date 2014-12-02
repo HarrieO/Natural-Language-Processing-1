@@ -1,3 +1,4 @@
+import re
 import numpy as np
 import post
 from computeEntropy import *
@@ -18,8 +19,10 @@ def get_counts(classCutOff,classes):
 		scoreArr[i] = float(scores[i])
 	scoreArr =  scoreArr - np.mean(scoreArr)
 	for i in range(len(contents)):
-		words = contents[i].split()
+		#words = contents[i].split()
+		words = re.findall(r"[\w']+|[.,!?;]",contents[i])
 		for word in words:
+			#word = word[0]
 			if not (word in wordClass.keys()):
 				wordClass[word]=Col.Counter()
 				for entry in classes:
