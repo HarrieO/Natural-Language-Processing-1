@@ -3,7 +3,7 @@ import tornado.web
 import os.path
 import sys
 from tornado.options import define, options, parse_command_line
-sys.path.append('../disco')
+sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 discodop = True
 if discodop == True:
 	from get_trees import *

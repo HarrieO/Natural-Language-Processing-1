@@ -4,7 +4,7 @@ import subprocess, os, sys, re, shutil
 import numpy as np
 
 # In order to import the main project code
-sys.path.append('..')
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 # import the data reader
 import post 
 
