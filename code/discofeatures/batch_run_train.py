@@ -2,13 +2,15 @@ from clean_train import *
 import time
 
 # Maximum number of features: 261396
-feature_values = np.delete(logRange(261396,150),0) #drop the first element because we don't want to test feature reduction to 0
+feature_values = np.delete(logRange(2,2),0) #drop the first element because we don't want to test feature reduction to 0
 
 #read in data
 print "Reading data."
-training = read_data("trainset.csv")
-test     = read_data("testset.csv")
-y,r = getLabels(training,test)
+#training = read_data("trainset.csv")
+#test     = read_data("testset.csv")
+#y,r = getLabels(training,test)
+
+classifier_names = 
 
 
 for feature_value in feature_values:
@@ -20,9 +22,9 @@ for feature_value in feature_values:
 	X, Xtest = feature2vector(training,test,feature_value)
 
 	#construct classifier
-	classifier_name = 'naive_bayes';
-	classifier_settings = 'name=gaussianNB'
-	classifier = naive_bayes.GaussianNB()
+	classifier_name = 'svm';
+	classifier_settings = 'SVMC'
+	classifier = svm.SVMC()
 
 	#fit classifier
 	print "Fitting classifier"
