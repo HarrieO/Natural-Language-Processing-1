@@ -5,7 +5,7 @@
 class FeatureDeduction(object):
     def __init__(self, feature_count):
         self.featureMap = {}
-        with open('informationGain.txt') as f:
+        with open('../../datasets/preprocessed/informationGain.txt') as f:
             for line in f:
                 fid, entropy = line.split(',',1)
                 self.featureMap[int(fid)] = float(entropy)

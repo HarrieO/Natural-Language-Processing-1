@@ -8,10 +8,10 @@ from subprocess import call
 from treepost import *
 
 
-treeposts = read_posts('discotrain.csv')
+treeposts = read_posts('../../datasets/preprocessed/discotrain.csv')
 
 indices = []
-with open('indices.txt') as f:
+with open('../../datasets/preprocessed/indices.txt') as f:
     for line in f:
         indices.append(int(line))
 
@@ -42,14 +42,14 @@ for tree, sentDict in result.items():
             featureMatrix[indices[key]][tree]               = count
     treeIndex += 1
    
-with open("trainset.csv", 'wb') as csvfile:
+with open("../../datasets/preprocessed/trainset.csv", 'wb') as csvfile:
     writerObject = csv.writer(csvfile, delimiter=',')
     writerObject.writerow(["id","content","score","community","features"]) 
     for post in treeposts:
         writerObject.writerow([post.id, post.content, post.score, post.community, post.fragments])  
 
 
-file = open("indicesToTrees.txt", "w")
+file = open("../../datasets/preprocessed/indicesToTrees.txt", "w")
 for i in range(treeIndex):
     file.write(str(i) + ' ')
     file.write(treeToIndices[i].encode("utf-8"))

@@ -21,7 +21,7 @@ def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):
 	# Read the file line by line
 	i = 0
 	for tree in trees:
-		punctuation = "\.\?"
+		punctuation = r"[.,!?;]"
 		wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
 		for wordTag in wordTags:
 			# Get rid of the brackets and split into word and tag
@@ -139,7 +139,7 @@ totalScores		= dict()
 
 
 # Running starts here
-extract('disco/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
+extract('../../datasets/preprocessed/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
 wordTag_entropy = word_entropy(classCount, wordTagCount)
 scores = average_scores(totalScores, wordTagCount)
 print "Ordered scores"
@@ -154,5 +154,5 @@ print zip(orderList,scoreList)
 print "Word tag counts"
 newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
 
-outputHistograms('disco/discotrain.csv', 'trainHist.csv', classes, classCutOff, newCounts.keys())
+outputHistograms('../../datasets/preprocessed/discotrain.csv', '../../datasets/preprocessed/trainHist.csv', classes, classCutOff, newCounts.keys())
 #print newCounts

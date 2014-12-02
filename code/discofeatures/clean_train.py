@@ -76,8 +76,8 @@ def main():
 	Main function. Runs and tests naive bayes on the data
 	"""
 	print "Reading training data."
-	training = read_data("trainset.csv")
-	test     = read_data("testset.csv")
+	training = read_data("../../datasets/preprocessed/trainset.csv")
+	test     = read_data("../../datasets/preprocessed/testset.csv")
 
 
 	X, Xtest = feature2vector(training,test,1000)

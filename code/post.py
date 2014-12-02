@@ -46,9 +46,9 @@ def read_table(fileName):
 		return table
 
 if __name__ == "__main__":
-	contents    = read_column(0,'train.csv')
-	scores      = read_column(1,'train.csv')
-	communities = read_column(2,'train.csv')
+	contents    = read_column(0,'../../datasets/preprocessed/train.csv')
+	scores      = read_column(1,'../../datasets/preprocessed/train.csv')
+	communities = read_column(2,'../../datasets/preprocessed/train.csv')
 	print contents[0:2]
 	print scores[0:2]
 	print communities[0:2]
