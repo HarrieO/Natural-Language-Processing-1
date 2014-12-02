@@ -2,10 +2,7 @@ from clean_train import *
 import time
 
 # Maximum number of features: 261396
-feature_values = np.delete(logRange(10000,16),0) #drop the first element because we don't want to test feature reduction to 0
-
-#load to csv file to append the results
-fd = open('classifier_results.csv','a')
+feature_values = np.delete(logRange(261396,100),0) #drop the first element because we don't want to test feature reduction to 0
 
 #read in data
 print "Reading data."
@@ -16,6 +13,9 @@ y,r = getLabels(training,test)
 
 for feature_value in feature_values:
 	
+	#load to csv file to append the results. Do this in the loop to update the file live
+	fd = open('classifier_results.csv','a')
+
 	#do feature deduction
 	X, Xtest = feature2vector(training,test,feature_value)
 
@@ -42,4 +42,5 @@ for feature_value in feature_values:
 	#reset classifier
 	classifier = None
 
-fd.close()
+	#close again
+	fd.close()
