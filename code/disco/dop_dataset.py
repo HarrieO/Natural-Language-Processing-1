@@ -11,7 +11,7 @@ sys.path.append('..')
 # import the data reader
 import post 
 
-table = post.read_table('../train.csv')
+table = post.read_table('../../datasets/preprocessed/train.csv')
 
 def write_csv(data,fileName):
     with open(fileName, 'wb') as csvfile:
@@ -48,7 +48,7 @@ result = [[ "id", "content", "score", "community", "trees" ]]
 for i,row in enumerate(table):
     result += [[i, " ".join(row[0].split())] + row[1:] + [" ".join(treeList[i].split())]]
 
-write_csv(result,"discotrain.csv")
+write_csv(result,"../../datasets/preprocessed/discotrain.csv")
 
 
 #The tokenizer which splits sentences
@@ -56,5 +56,5 @@ def split_sentences(txt):
 	return (re.findall(r'(?ms)\s*(.*?(?:\.|\?|!))', txt))  # split sentences
 
 # Read the comments in.
-contents    = post.read_column(0,'../train.csv')
+contents    = post.read_column(0,'../../datasets/preprocessed/train.csv')
 

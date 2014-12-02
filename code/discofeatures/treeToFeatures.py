@@ -4,7 +4,7 @@ from discodop import treebank, treetransforms, fragments
 from bracketStringReader import BracketStringReader
 
 featureMap = {}
-with open('featureSpace.txt') as f:
+with open('../../datasets/preprocessed/featureSpace.txt') as f:
     for line in f:
         i, tree = line.split(' ',1)
         tree = tree.strip()

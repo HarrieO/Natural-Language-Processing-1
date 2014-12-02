@@ -139,7 +139,7 @@ totalScores		= dict()
 
 
 # Running starts here
-extract('disco/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
+extract('../../datasets/preprocessed/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
 wordTag_entropy = word_entropy(classCount, wordTagCount)
 scores = average_scores(totalScores, wordTagCount)
 print "Ordered scores"
@@ -154,5 +154,5 @@ print zip(orderList,scoreList)
 print "Word tag counts"
 newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
 
-outputHistograms('disco/discotrain.csv', 'trainHist.csv', classes, classCutOff, newCounts.keys())
+outputHistograms('../../datasets/preprocessed/discotrain.csv', '../../datasets/preprocessed/trainHist.csv', classes, classCutOff, newCounts.keys())
 #print newCounts

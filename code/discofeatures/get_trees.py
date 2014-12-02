@@ -73,7 +73,7 @@ def parse_trees(sentences,prefix,return_trees=1):
 	and return a list of trees.
 	"""
 
-	BLLIP_PATH = '/users/tiesvanrozendaal/NLP/Project/libraries/bllip-parser-BLLIP_ON_MAVERICKS'
+	BLLIP_PATH = '/home/joostvandoorn.com/politenessdemo/bllip-parser/'
 
 	#Store sentences
 	file = open(prefix + '_sentences.txt', 'w')
@@ -120,8 +120,8 @@ def get_trees(data,prefix='temp'):
 
 def main():
 	# Read the comments in.
-	train_comments   = post.read_column(0,'../train.csv')
-	test_comments    = post.read_column(0,'../test.csv')
+	train_comments   = post.read_column(0,'../../datasets/preprocessed/train.csv')
+	test_comments    = post.read_column(0,'../../datasets/preprocessed/test.csv')
 
 	train_sents, train_indices = batch_split_sentences(train_comments)
 	test_sents,  test_indices  = batch_split_sentences(test_comments)
@@ -131,11 +131,11 @@ def main():
 	print 'Test    : Datapoints: {0}, Sentences: {1}'.format(len(test_indices), len(set(test_indices)) )
 
 	#store indices
-	file = open("train_indices.txt", "w")
+	file = open("../../datasets/preprocessed/train_indices.txt", "w")
 	[file.write('{0} \n'.format(n)) for n in train_indices]
 	file.close()
 
-	file = open("test_indices.txt", "w")
+	file = open("../../datasets/preprocessed/test_indices.txt", "w")
 	[file.write('{0} \n'.format(n)) for n in test_indices]
 	file.close()
 

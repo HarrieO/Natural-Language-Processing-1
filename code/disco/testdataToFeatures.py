@@ -9,22 +9,22 @@ from treepost import *
 from bracketStringReader import BracketStringReader
 
 featureMap = {}
-with open('indicesToTrees.txt') as f:
+with open('../../datasets/preprocessed/indicesToTrees.txt') as f:
     for line in f:
         i, tree = line.split(' ',1)
         tree = tree.strip()
         featureMap[tree] = i
 
-treeposts = read_posts('test.csv')
+treeposts = read_posts('../../datasets/preprocessed/test.csv')
 
 indices = []
-with open('test_comment_indices.txt') as f:
+with open('../../datasets/preprocessed/test_comment_indices.txt') as f:
     for line in f:
         indices.append(int(line))
 
 vectorizer = feature_extraction.DictVectorizer(sparse=True)
 
-treeStrings = [ line[:-1] for line in io.open('test_trees.txt', encoding='utf-8')]
+treeStrings = [ line[:-1] for line in io.open('../../datasets/preprocessed/test_trees.txt', encoding='utf-8')]
 print "Total of", len(treeStrings), "trees in test set."
 treeStrings.extend(treeStrings[:])
 
@@ -58,7 +58,7 @@ for tree, sentDict in result.items():
 
 print "Found", found, "out of", total,"trees in featurespace."
 
-with open("testset.csv", 'wb') as csvfile:
+with open("../../datasets/preprocessed/testset.csv", 'wb') as csvfile:
     writerObject = csv.writer(csvfile, delimiter=',')
     writerObject.writerow(["id","content","score","community","features"]) 
     for post in treeposts:

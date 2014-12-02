@@ -15,7 +15,7 @@ def getClass(score,classCutOff,classes):
 			i = i + 1
 	return classes[i]
 
-def reduceDatapoints(fileName='featureData.csv', classes=[0,1,2], classCutOff=[-0.5,0.5],fractionKept=0.01, start=0, end=270000):
+def reduceDatapoints(fileName='../../datasets/preprocessed/featureData.csv', classes=[0,1,2], classCutOff=[-0.5,0.5],fractionKept=0.01, start=0, end=270000):
 	print "Reading data"
 	posts = read_data(fileName)
 	print "Finished reading data, started accumulating counts"
@@ -36,7 +36,7 @@ def reduceDatapoints(fileName='featureData.csv', classes=[0,1,2], classCutOff=[-
 	 	wordEntropy = entropy(wordCountClasses[:,i])*probWord[i] +(1.0-probWord[i]) *entropy(classCount-wordCountClasses[:,i])
 		dictWord[i] = wordEntropy-initialEntropy 
 	ordered = sorted(dictWord, key=dictWord.get)
-	file = open("informationGain.txt", "w")
+	file = open("../../datasets/preprocessed/informationGain.txt", "w")
 	for feature in ordered:
 	 	file.write(str(feature)+','+str(dictWord[feature])+ '\n')
 	file.close()

@@ -6,15 +6,15 @@ feature_values = np.delete(logRange(261396,150),0) #drop the first element becau
 
 #read in data
 print "Reading data."
-training = read_data("trainset.csv")
-test     = read_data("testset.csv")
+training = read_data("../../datasets/preprocessed/trainset.csv")
+test     = read_data("../../datasets/preprocessed/testset.csv")
 y,r = getLabels(training,test)
 
 
 for feature_value in feature_values:
 	
 	#load to csv file to append the results. Do this in the loop to update the file live
-	fd = open('classifier_results.csv','a')
+	fd = open('../../results/classifier_results.csv','a')
 
 	#do feature deduction
 	X, Xtest = feature2vector(training,test,feature_value)
