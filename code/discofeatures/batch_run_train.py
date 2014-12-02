@@ -2,7 +2,7 @@ from clean_train import *
 import time
 
 # Maximum number of features: 261396
-feature_values = np.delete(logRange(261396,100),0) #drop the first element because we don't want to test feature reduction to 0
+feature_values = np.delete(logRange(261396,150),0) #drop the first element because we don't want to test feature reduction to 0
 
 #read in data
 print "Reading data."
