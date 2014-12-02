@@ -2,7 +2,7 @@
 # coding=utf-8
 import gc
 import numpy as np
-from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm, naive_bayes, decomposition
+from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm, naive_bayes, decomposition, tree
 import sklearn
 from featureDeduction import FeatureDeduction
 from datapoint import *
@@ -14,7 +14,7 @@ test     = read_data("testset.csv")
 
 print "Converting to feature matrix."
 
-deduct = FeatureDeduction(500)
+deduct = FeatureDeduction(200)
 
 featureMatrix = [deduct.featureDeduct(post.fragments) for post in training]
 testMatrix = [deduct.featureDeduct(post.fragments) for post in test]
@@ -65,7 +65,7 @@ r = labelEncoder.transform(real)
 
 print "Fitting classifier"
 
-classifier = svm.SVC()
+classifier = ensemble.AdaBoostClassifier()
 classifier.fit(X, y)
 
 print "Fit classifier, calculating scores"
