@@ -7,10 +7,10 @@ import sklearn
 from featureDeduction import FeatureDeduction
 from datapoint import *
 
-def feature2matrix(train_data,test_data,feature_deduction=None):
+def feature2vector(train_data,test_data,feature_deduction=None):
 	"""
-	Takes train and test data as read from the csv file.
-	Returns X and Xtest, sparse matrices.
+	Takes train and test_data data as read from the csv file.
+	Returns X and Xtest_data, sparse matrices.
 	If set, feature deduction is done as well
 	"""
 
@@ -19,12 +19,12 @@ def feature2matrix(train_data,test_data,feature_deduction=None):
 		deduct = FeatureDeduction(feature_deduction)
 
 		print "Converting to feature matrix."
-		featureMatrix = [deduct.featureDeduct(post.fragments) for post in training]
-		testMatrix = [deduct.featureDeduct(post.fragments) for post in test]
+		featureMatrix = [deduct.featureDeduct(post.fragments) for post in train_data]
+		testMatrix = [deduct.featureDeduct(post.fragments) for post in test_data]
 
 	print "Converting to feature matrix."
-	featureMatrix = [post.fragments for post in training]
-	testMatrix = [post.fragments for post in test]
+	featureMatrix = [post.fragments for post in train_data]
+	testMatrix = [post.fragments for post in test_data]
 
 	print "Vectorizing data."
 
@@ -39,7 +39,7 @@ def feature2matrix(train_data,test_data,feature_deduction=None):
 
 	return X, Xtest
 
-def getLabels(training, test):
+def getLabels(training_data, test_data):
 
 	print "Setting up target"
 
@@ -52,14 +52,14 @@ def getLabels(training, test):
 	        return 'impolite'
 
 	target = []
-	for post in training:
+	for post in training_data:
 	    target.append(giveLabel(post.score))
 	real = []
-	for post in test:
+	for post in test_data:
 	    real.append(giveLabel(post.score))
 
-	training = None
-	test = None
+	training_data = None
+	test_data = None
 
 	labelEncoder = preprocessing.LabelEncoder()
 
