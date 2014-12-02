@@ -8,13 +8,15 @@ h1 {
 	max-width: 800px;
 }
 #input {
-	margin: 40px;
+	margin: 20px 40px;
 	min-height: 400px;
 }
 #inputWrap {
 	background-color: #fff;
 	max-width: 880px;
-	margin: 0px auto;
+	margin: 20px auto;
+	padding: 0px;
+	overflow: auto;
 }
 #footer {
 	color: #898989;
@@ -43,8 +45,15 @@ h1 {
 .sentence-result span {
 	display: inline-block;
 }
+.no-input {
+	padding: 4px;
+	color: #ccc;
+}
 .polite, .impolite {
 	padding: 4px;
+}
+.neutral {
+	padding: 4px 0px;
 }
 .polite {
 	background-color: rgba(0, 240, 0, 0.5);
@@ -56,4 +65,29 @@ h1 {
 	float: right;
 	padding: 4px;
 	color: #fff;
+}
+@media screen and (max-width: 900px){
+	#inputWrap {
+		margin: 20px 20px 0px 20px;
+	}
+
+}
+@media screen and (max-width: 860px){
+	#created-by {
+		margin: 0px 30px;
+	}
+
+}
+@media screen and (max-width: 600px){
+	#inputWrap {
+		margin: 12px;
+	}
+	#input {
+		margin: 10px 20px 0px 20px;
+	}
+}
+@media screen and (max-width: 350px){
+	#inputWrap {
+		margin: 5px;
+	}
 }
