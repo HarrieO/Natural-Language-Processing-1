@@ -4,6 +4,7 @@ import gc
 import numpy as np
 from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm, naive_bayes, decomposition
 import sklearn
+from featureDeduction import FeatureDeduction
 from datapoint import *
 
 print "Reading training data."
@@ -13,9 +14,11 @@ test     = read_data("testset.csv")
 
 print "Converting to feature matrix."
 
-featureMatrix = [post.fragments for post in training]
+deduct = FeatureDeduction(1000)
 
-testMatrix = [post.fragments for post in test]
+featureMatrix = [deduct.featureDeduct(post.fragments) for post in training]
+
+testMatrix = [deduct.featureDeduct(post.fragments) for post in test]
 
 print "Vectorizing data."
 

@@ -9,7 +9,11 @@ class DataPoint(object):
 		self.content   = " ".join(content.split())
 		self.score     = float(score)
 		self.community = community
-		self.fragments = ast.literal_eval(fragments)
+		frag = ast.literal_eval(fragments)
+		self.fragments = {}
+		for key, elem in frag.items():
+			self.fragments[int(key)] = float(elem)
+
 
 maxInt = int(2**31-1)
 csv.field_size_limit(maxInt)
