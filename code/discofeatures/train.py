@@ -14,11 +14,14 @@ test     = read_data("testset.csv")
 
 print "Converting to feature matrix."
 
-deduct = FeatureDeduction(1000)
+deduct = FeatureDeduction(500)
 
 featureMatrix = [deduct.featureDeduct(post.fragments) for post in training]
-
 testMatrix = [deduct.featureDeduct(post.fragments) for post in test]
+
+# featureMatrix = [post.fragments for post in training]
+# testMatrix    = [post.fragments for post in test]
+
 
 print "Vectorizing data."
 
@@ -30,8 +33,6 @@ Xtest = vectorizer.transform(testMatrix)
 
 featureMatrix = None
 testMatrix = None
-
-gc.collect()
 
 print "Setting up target"
 
@@ -54,8 +55,6 @@ for post in test:
 training = None
 test = None
 
-gc.collect()
-
 labelEncoder = preprocessing.LabelEncoder()
 
 # train targets
@@ -66,22 +65,10 @@ r = labelEncoder.transform(real)
 
 print "Fitting classifier"
 
-classifier = naive_bayes.GaussianNB()
+classifier = svm.SVC()
 classifier.fit(X, y)
 
 print "Fit classifier, calculating scores"
-
-# correct = 0
-# total   = 0
-# for x,t in zip(X,y):
-#     p = classifier.predict(x)
-#     if p == t:
-#         correct += 1
-#         print p, t
-#     total += 1.0
-#     print "Accuracy", (correct/total), "with", correct, "out of", total
-
-
 
 print "Accuracy on test set:    ", classifier.score(Xtest,r)
 print "Accuracy on training set:", classifier.score(X,y)
