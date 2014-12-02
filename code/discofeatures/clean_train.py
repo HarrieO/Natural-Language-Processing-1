@@ -21,10 +21,11 @@ def feature2vector(train_data,test_data,feature_deduction=None):
 		print "Converting to feature matrix."
 		featureMatrix = [deduct.featureDeduct(post.fragments) for post in train_data]
 		testMatrix = [deduct.featureDeduct(post.fragments) for post in test_data]
+	else:
 
-	print "Converting to feature matrix."
-	featureMatrix = [post.fragments for post in train_data]
-	testMatrix = [post.fragments for post in test_data]
+		print "Converting to feature matrix."
+		featureMatrix = [post.fragments for post in train_data]
+		testMatrix = [post.fragments for post in test_data]
 
 	print "Vectorizing data."
 
@@ -41,22 +42,20 @@ def feature2vector(train_data,test_data,feature_deduction=None):
 
 def getLabels(training_data, test_data):
 
-	print "Setting up target"
-
 	def giveLabel(score):
-	    if post.score > 0.5:
-	        return 'polite'
-	    elif post.score > -0.5:
-	        return 'neutral'
-	    else:
-	        return 'impolite'
+		if post.score > 0.5:
+			return 'polite'
+		elif post.score > -0.5:
+			return 'neutral'
+		else:
+			return 'impolite'
 
 	target = []
 	for post in training_data:
-	    target.append(giveLabel(post.score))
+		target.append(giveLabel(post.score))
 	real = []
 	for post in test_data:
-	    real.append(giveLabel(post.score))
+		real.append(giveLabel(post.score))
 
 	training_data = None
 	test_data = None
@@ -82,6 +81,8 @@ def main():
 
 
 	X, Xtest = feature2vector(training,test,1000)
+	
+	print "Setting up target"
 	y,r = getLabels(training,test)
 
 	print "Fitting classifier"
@@ -105,6 +106,29 @@ def main():
 	print "Accuracy on test set:    ", classifier.score(Xtest,r)
 	print "Accuracy on training set:", classifier.score(X,y)
 
+def logRange(limit, n=10):
+	"""
+	returns an array of logaritmicly spaced integers untill limit of size n
+	"""
+	if n > limit: raise Exception("n>limit!")
+
+	result = [1]
+	if n>1:  # just a check to avoid ZeroDivisionError
+		ratio = (float(limit)/result[-1]) ** (1.0/(n-len(result)))
+	while len(result)<n:
+		next_value = result[-1]*ratio
+		if next_value - result[-1] >= 1:
+			# safe zone. next_value will be a different integer
+			result.append(next_value)
+		else:
+			# problem! same integer. we need to find next_value by artificially incrementing previous value
+			result.append(result[-1]+1)
+			# recalculate the ratio so that the remaining values will scale correctly
+			ratio = (float(limit)/result[-1]) ** (1.0/(n-len(result)))
+	# round, re-adjust to 0 indexing (i.e. minus 1) and return np.uint64 array
+	return np.array(map(lambda x: round(x)-1, result), dtype=np.uint64)
+
 if __name__ == '__main__':
+	
 	main()
 

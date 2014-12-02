@@ -2,13 +2,13 @@ from clean_train import *
 import time
 
 # Maximum number of features: 261396
-feature_values = range(3); #range(50) + range(50,500,50) + range(500,5000,500) + range(5000,50000,5000) + range(50000,261396,50000)
+feature_values = np.delete(logRange(10000,16),0) #drop the first element because we don't want to test feature reduction to 0
 
 #load to csv file to append the results
 fd = open('classifier_results.csv','a')
 
 #read in data
-print "Reading training data."
+print "Reading data."
 training = read_data("trainset.csv")
 test     = read_data("testset.csv")
 y,r = getLabels(training,test)
@@ -33,11 +33,11 @@ for feature_value in feature_values:
 	print "Fit classifier, calculating scores"
 	t0 = time.time()	
 	test_accuracy = classifier.score(Xtest,r)
-	train_accuracy = xlassifier.score(X,y)
+	train_accuracy = classifier.score(X,y)
 	score_time = time.time()- t0
 
 	#store results
-	fd.write(classifer_name + ",{0},{1},{2},{3},{4}".format(train_accuracy,test_accuracy,fit_time,score_time,feature_value) + classifier_settings)
+	fd.write("\n'" + classifier_name + "',{0},{1},{2},{3},{4},'".format(train_accuracy,test_accuracy,fit_time,score_time,feature_value) + classifier_settings + "'")
 
 	#reset classifier
 	classifier = None
