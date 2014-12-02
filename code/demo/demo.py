@@ -3,13 +3,22 @@ import tornado.web
 import os.path
 import sys
 from tornado.options import define, options, parse_command_line
+sys.path.append('../disco')
+discodop = True
+if discodop == True:
+	from get_trees import *
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("index.html")
 class PolitenessHandler(tornado.web.RequestHandler):
     def post(self):
+    	global discodop
     	sentence = self.get_argument("sentence", None)
+    	if discodop == True:
+    		sentence = get_trees(sentence)
+    		print sentence
+    		sentence = sentence[0]
         response = { 'sentences': [ {'sentence': " ".join(["<span class=\"neutral\">"+word+"</span>" for word in sentence.split(" ") if word != "" ]), 'sentenceClass': 'polite' } ]}
         self.write(response)
 

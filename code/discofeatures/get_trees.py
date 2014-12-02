@@ -73,7 +73,7 @@ def parse_trees(sentences,prefix,return_trees=1):
 	and return a list of trees.
 	"""
 
-	BLLIP_PATH = '/home/joostvandoorn.com/politenessdemo/bllip-parser/'
+	BLLIP_PATH = '/home/joostvandoorn.com/politenessdemo/bllip-parser'
 
 	#Store sentences
 	file = open(prefix + '_sentences.txt', 'w')
