@@ -1,11 +1,7 @@
 import numpy as np
-<<<<<<< HEAD
 import re, string, random, time
-=======
-import re, string
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../discofeatures'))
->>>>>>> ba1e610f61934cfcc0343bf1ec4a6b1faddcdf2c
 from datapoint import *
 pattern = re.compile('[\W_]+', re.UNICODE)
 
