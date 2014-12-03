@@ -1,5 +1,7 @@
 import numpy as np
 import re, string
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../discofeatures'))
 from datapoint import *
 pattern = re.compile('[\W_]+', re.UNICODE)
 

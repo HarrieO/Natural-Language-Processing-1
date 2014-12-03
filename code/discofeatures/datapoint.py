@@ -48,7 +48,7 @@ def read_table(fileName):
 		return table
 
 if __name__ == "__main__":
-	for post in read_posts('featureData.csv'):
+	for post in read_posts('../../datasets/preprocessed/featureData.csv'):
 		print post.id, post.fragments
 
 
