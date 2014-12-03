@@ -2,10 +2,13 @@ from clean_train import *
 import time, re
 from sklearn import *
 
-def logRange(limit, n=10):
+def logRange(limit, n=10,start_at_one=[]):
 	"""
 	returns an array of logaritmicly spaced integers untill limit of size n
 	"""
+
+	if start_at_one: n=n+1
+
 	if n > limit: raise Exception("n>limit!")
 
 	result = [1]
@@ -22,7 +25,12 @@ def logRange(limit, n=10):
 			# recalculate the ratio so that the remaining values will scale correctly
 			ratio = (float(limit)/result[-1]) ** (1.0/(n-len(result)))
 	# round, re-adjust to 0 indexing (i.e. minus 1) and return np.uint64 array
-	return np.array(map(lambda x: round(x)-1, result), dtype=np.uint64)
+	logRange = np.array(map(lambda x: round(x)-1, result), dtype=np.uint64)
+	if start_at_one:
+		return np.delete(logRange,0)
+	else:
+		return logRange
+
 
 
 def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,features,classifier_settings=''):
@@ -56,6 +64,7 @@ def batch_run(test_settings):
 		#import parameters
 		classifier 			= settings[0]
 		features 			= settings[1]
+		#fit_function		= settings[2]  TODO (lambda functions)
 		classifier_name 	= re.search(r".*'(.+)'.*", str(type(classifier))).groups()[0]
 		classifier_settings = ""  #not implemented yet
 		
@@ -67,7 +76,8 @@ def batch_run(test_settings):
 		else:
 
 			#do feature deduction if nesececary
-			if last_features != features: 
+			if not last_features == features: 
+				print 'aaa'
 				X, Xtest = feature2vector(training,test,features)
 				last_features = features
 
@@ -98,11 +108,11 @@ def main():
 	#			(tree.DecisionTreeClassifier(), 10000)]
 
 	classifiers=[linear_model.LinearRegression(),
-				 linear_model.Ridge,
-				 linear_model.Lasso,
+				 #linear_model.Ridge,
+				 #linear_model.Lasso,
 				 naive_bayes.GaussianNB(),
-				 naive_bayes.MultinomialNB,
-				 naive_bayes.BernoulliNB,
+				 #naive_bayes.MultinomialNB,
+				 #naive_bayes.BernoulliNB,
 				 svm.SVC(),
 				 tree.DecisionTreeClassifier(),
 				 ensemble.RandomForestClassifier(),
@@ -110,10 +120,13 @@ def main():
 				 	]
 
 
-	features_set = [1000,5000,10000];
+	# Maximum number of features: 261396
+	features_set = logRange(261396,15,1)
 
+	#combine
 	settings = ( (classifier, features) for features in features_set for classifier in classifiers)
 
+	#run
 	batch_run(settings)
 
 
