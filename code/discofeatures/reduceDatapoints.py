@@ -1,3 +1,5 @@
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from computeEntropy import *
 from datapoint import *
 import collections as col
