@@ -93,9 +93,26 @@ def batch_run(test_settings):
 def main():
 
 	#settings to test:
-	settings = [(naive_bayes.GaussianNB(), 10000),
-			    (svm.SVC(), 10000),
-				(tree.DecisionTreeClassifier(), 10000)]
+	#settings = [(naive_bayes.GaussianNB(), 10000),
+	#		    (svm.SVC(), 10000),
+	#			(tree.DecisionTreeClassifier(), 10000)]
+
+	classifiers=[linear_model.LinearRegression(),
+				 linear_model.Ridge,
+				 linear_model.Lasso,
+				 naive_bayes.GaussianNB(),
+				 naive_bayes.MultinomialNB,
+				 naive_bayes.BernoulliNB,
+				 svm.SVC(),
+				 tree.DecisionTreeClassifier(),
+				 ensemble.RandomForestClassifier(),
+				 neighbors.nearest_centroid.NearestCentroid(),
+				 	]
+
+
+	features_set = [1000,5000,10000];
+
+	settings = ( (classifier, features) for features in features_set for classifier in classifiers)
 
 	batch_run(settings)
 
