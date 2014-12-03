@@ -72,7 +72,7 @@ def batch_run(test_settings):
 				last_features = featuers
 
 			#fit classifier
-			print "Fitting classifier"
+			print "Fitting " + classifier_name
 			t0 = time.time()
 			classifier.fit(X, y)
 			fit_time = time.time() - t0
