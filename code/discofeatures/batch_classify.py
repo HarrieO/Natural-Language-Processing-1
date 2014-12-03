@@ -69,7 +69,7 @@ def batch_run(test_settings):
 			#do feature deduction if nesececary
 			if last_features != features: 
 				X, Xtest = feature2vector(training,test,features)
-				last_features = featuers
+				last_features = features
 
 			#fit classifier
 			print "Fitting " + classifier_name
