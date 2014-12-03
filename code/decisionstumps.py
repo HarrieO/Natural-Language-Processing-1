@@ -1,6 +1,7 @@
 import re
 import post
 import numpy as np
+from computeEntropy import word_entropy, entropy
 
 '''
 Settings
@@ -69,33 +70,6 @@ def average_scores(totalScores, wordClassCount):
 		scores[word] = score/sum([count[1] for count in wordClassCount[word].items()])
 	return scores
 
-# Returns the information gain for the input for the counts of each binary feature
-def word_entropy(classCount, wordClassCount):
-	# classCount = dictionary containing counts per class
-	# wordClassCount = dictionary containing dictionaries for each feature containing counts per class
-	classes = classCount.keys()
-	numClasses = len(classes)
-	countPerClass = np.zeros(numClasses)
-	for i in range(numClasses):
-		countPerClass[i]= classCount[classes[i]]
-	totalSentences = np.sum(countPerClass)
-	initialEntropy = entropy(countPerClass)
-
-	wordGain = dict() # information gain when splitting on the word
-	words = wordClassCount.keys()
-	for word in words:
-		countWordPerClass = np.zeros(numClasses)
-		for i in range(numClasses):
-			countWordPerClass[i]= wordClassCount[word][classes[i]]
-		probWord = np.sum(countWordPerClass)/totalSentences
-		wordEntropy= entropy(countWordPerClass)*probWord +(1.0-probWord) *entropy(countPerClass-countWordPerClass)
-		wordGain[word] = initialEntropy-wordEntropy 
-	return wordGain
-
-def entropy(countPerClass):
-	probs = countPerClass/np.sum(countPerClass)
-	return -np.sum(probs*np.log(probs))
-
 # Returns the counts of the selected wordTags
 def selectFeatures(featureEntropy, N, wordTagCount):
 	selectedFeatures = dict()
@@ -139,7 +113,7 @@ totalScores		= dict()
 
 
 # Running starts here
-extract('../../datasets/preprocessed/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
+extract('../datasets/preprocessed/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
 wordTag_entropy = word_entropy(classCount, wordTagCount)
 scores = average_scores(totalScores, wordTagCount)
 print "Ordered scores"
@@ -154,5 +128,5 @@ print zip(orderList,scoreList)
 print "Word tag counts"
 newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
 
-outputHistograms('../../datasets/preprocessed/discotrain.csv', '../../datasets/preprocessed/trainHist.csv', classes, classCutOff, newCounts.keys())
+outputHistograms('../datasets/preprocessed/discotrain.csv', '../datasets/preprocessed/trainHist.csv', classes, classCutOff, newCounts.keys())
 #print newCounts
