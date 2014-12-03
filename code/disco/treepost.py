@@ -58,7 +58,7 @@ def read_table(fileName):
 		return table
 
 if __name__ == "__main__":
-	for post in read_posts('discotrain.csv'):
+	for post in read_posts('../../datasets/preprocessed/discotrain.csv'):
 		print post.id, post.trees
 
 
