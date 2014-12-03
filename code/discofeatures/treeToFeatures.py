@@ -1,6 +1,8 @@
 #!/usr/bin/env python2
 # coding=utf-8
 from discodop import treebank, treetransforms, fragments
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 from bracketStringReader import BracketStringReader
 
 featureMap = {}

@@ -1,5 +1,5 @@
 # This is an example setting file
-# Save it as with your own settings:
+# Save it as (with your own settings):
 # 	settings.py
 
 # Set the path to the BLLIP tree parser here
