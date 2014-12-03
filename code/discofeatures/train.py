@@ -14,7 +14,7 @@ test     = read_data("testset.csv")
 
 print "Converting to feature matrix."
 
-deduct = FeatureDeduction(200)
+deduct = FeatureDeduction(10000)
 
 featureMatrix = [deduct.featureDeduct(post.fragments) for post in training]
 testMatrix = [deduct.featureDeduct(post.fragments) for post in test]
@@ -65,7 +65,7 @@ r = labelEncoder.transform(real)
 
 print "Fitting classifier"
 
-classifier = ensemble.AdaBoostClassifier()
+classifier = ensemble.AdaBoostClassifier(n_estimators=100)
 classifier.fit(X, y)
 
 print "Fit classifier, calculating scores"
