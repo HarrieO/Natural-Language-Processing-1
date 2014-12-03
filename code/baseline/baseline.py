@@ -41,24 +41,25 @@ def getClass(score,classCutOff,classes):
 	return classes[i]
 
 
-counts = get_counts()
-contents  = post.read_column(0,'../../datasets/preprocessed/test.csv')
-scores = post.read_column(1,'../../datasets/preprocessed/test.csv')
-# for i in range(10):
-# 	print contents[i]
-# 	print scores[i], " versus ", compute_score(contents[i],counts)
-classes			= ['negative','neutral','positive']
-classCutOff		= [-0.5,0.5]
+if __name__ == "__main__":
+	counts = get_counts()
+	contents  = post.read_column(0,'../../datasets/preprocessed/test.csv')
+	scores = post.read_column(1,'../../datasets/preprocessed/test.csv')
+	# for i in range(10):
+	# 	print contents[i]
+	# 	print scores[i], " versus ", compute_score(contents[i],counts)
+	classes			= ['negative','neutral','positive']
+	classCutOff		= [-0.5,0.5]
 
-misclassifications =0
-completeWrong = 0
-for i in range(len(contents)):
-	classified = getClass(compute_score(contents[i],counts),classCutOff, classes)
-	original = getClass(float(scores[i]), classCutOff, classes)
-	if classified != original:
-		misclassifications +=1
-		if not (original == 'neutral' or classified =='neutral'):
-			#print contents[i]
-			#print classified
-			completeWrong +=1
-print "Percentage wrong: ", misclassifications/float(len(contents))*100, "%, percentage complete wrong: ", completeWrong/float(len(contents))*100, "%"
+	misclassifications =0
+	completeWrong = 0
+	for i in range(len(contents)):
+		classified = getClass(compute_score(contents[i],counts),classCutOff, classes)
+		original = getClass(float(scores[i]), classCutOff, classes)
+		if classified != original:
+			misclassifications +=1
+			if not (original == 'neutral' or classified =='neutral'):
+				#print contents[i]
+				#print classified
+				completeWrong +=1
+	print "Percentage wrong: ", misclassifications/float(len(contents))*100, "%, percentage complete wrong: ", completeWrong/float(len(contents))*100, "%"

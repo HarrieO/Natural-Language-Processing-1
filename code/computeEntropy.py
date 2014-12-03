@@ -33,11 +33,12 @@ def entropy(countPerClass):
 	return -np.sum(probs*np.log(probs))
 
 
-classDict = dict()
-classDict[1]=10
-classDict[2]=12
-wordDict = dict()
-wordDict['a']=dict()
-wordDict['a'][1]=5
-wordDict['a'][2]=3
-# print word_entropy(classDict,wordDict)
+if __name__ == "__main__":
+	classDict = dict()
+	classDict[1]=10
+	classDict[2]=12
+	wordDict = dict()
+	wordDict['a']=dict()
+	wordDict['a'][1]=5
+	wordDict['a'][2]=3
+	print word_entropy(classDict,wordDict)

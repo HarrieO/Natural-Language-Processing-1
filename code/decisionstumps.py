@@ -104,29 +104,30 @@ def outputHistograms(inputfile, outputfile, classes, classCutOff, features):
 		f.write(",".join(str(x) for x in histogram)+","+getClass(scores[i],classCutOff,classes)+"\n")
 		i = i + 1
 
-# Data structures
-classes			= ['negative','neutral','positive']
-classCutOff		= [-0.5,0.5]
-classCount 		= emptyClassCount(classes)
-wordTagCount 	= dict()
-totalScores		= dict()
+if __name__ == "__main__":
+	# Data structures
+	classes			= ['negative','neutral','positive']
+	classCutOff		= [-0.5,0.5]
+	classCount 		= emptyClassCount(classes)
+	wordTagCount 	= dict()
+	totalScores		= dict()
 
 
-# Running starts here
-extract('../datasets/preprocessed/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
-wordTag_entropy = word_entropy(classCount, wordTagCount)
-scores = average_scores(totalScores, wordTagCount)
-print "Ordered scores"
-ordered = sorted(wordTag_entropy, key=wordTag_entropy.get)
-orderList=  ordered[-40:]
-scoreList=  [scores[word] for word in ordered[-40:]]
-print zip(orderList,scoreList)
-orderList=  ordered[:40]
-scoreList=  [scores[word] for word in ordered[:40]]
-print zip(orderList,scoreList)
-# Get the counts for the 100 word tags with the highest entropy
-print "Word tag counts"
-newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
+	# Running starts here
+	extract('../datasets/preprocessed/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
+	wordTag_entropy = word_entropy(classCount, wordTagCount)
+	scores = average_scores(totalScores, wordTagCount)
+	print "Ordered scores"
+	ordered = sorted(wordTag_entropy, key=wordTag_entropy.get)
+	orderList=  ordered[-40:]
+	scoreList=  [scores[word] for word in ordered[-40:]]
+	print zip(orderList,scoreList)
+	orderList=  ordered[:40]
+	scoreList=  [scores[word] for word in ordered[:40]]
+	print zip(orderList,scoreList)
+	# Get the counts for the 100 word tags with the highest entropy
+	print "Word tag counts"
+	newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
 
-outputHistograms('../datasets/preprocessed/discotrain.csv', '../datasets/preprocessed/trainHist.csv', classes, classCutOff, newCounts.keys())
-#print newCounts
+	outputHistograms('../datasets/preprocessed/discotrain.csv', '../datasets/preprocessed/trainHist.csv', classes, classCutOff, newCounts.keys())
+	#print newCounts
