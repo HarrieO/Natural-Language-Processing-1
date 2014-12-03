@@ -6,8 +6,8 @@ feature_values = np.delete(logRange(2,2),0) #drop the first element because we d
 
 #read in data
 print "Reading data."
-training = read_data("trainset.csv")
-test     = read_data("testset.csv")
+training = read_data("../../datasets/preprocessed/trainset.csv")
+test     = read_data("../../datasets/preprocessed/testset.csv")
 y,r = getLabels(training,test)
 
 
