@@ -53,8 +53,8 @@ class bllip_loader(Thread):
 	global rrp
 	print "Reloading"
 	rrp = RerankingParser()
-	rrp.load_parser_model('../../lib/bllip/DATA/EN')
-	rrp.load_reranker_model('../../lib/bllip/models/ec50spfinal/features.gz', '../../lib/bllip/models/ec50spfinal/cvlm-l1c10P1-weights.gz')
+	rrp.load_parser_model(os.path.join(os.path.dirname(__file__), '../../lib/bllip/DATA/EN'))
+	rrp.load_reranker_model(os.path.join(os.path.dirname(__file__), '../../lib/bllip/models/ec50spfinal/features.gz'), os.path.join(os.path.dirname(__file__), '../../lib/bllip/models/ec50spfinal/cvlm-l1c10P1-weights.gz'))
 	print "Done loading model"
 
 
