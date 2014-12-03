@@ -46,4 +46,5 @@ def contains_end(sequence,ignoreWords, addWords):
 	return number,positives
 
 
-print extract_features_word(['hi','there'], ['hi','are','bare'],['snare', 'hi'])
+if __name__ == "__main__":
+	print extract_features_word(['hi','there'], ['hi','are','bare'],['snare', 'hi'])

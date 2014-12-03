@@ -1,10 +1,12 @@
 #!/usr/bin/env python2
 # coding=utf-8
 from discodop import treebank, treetransforms, fragments
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 from bracketStringReader import BracketStringReader
 
 featureMap = {}
-with open('featureSpace.txt') as f:
+with open('../../datasets/preprocessed/featureSpace.txt') as f:
     for line in f:
         i, tree = line.split(' ',1)
         tree = tree.strip()

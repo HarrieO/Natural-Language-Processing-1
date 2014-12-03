@@ -7,10 +7,10 @@ import sklearn
 from featureDeduction import FeatureDeduction
 from datapoint import *
 
-def feature2matrix(train_data,test_data,feature_deduction=None):
+def feature2vector(train_data,test_data,feature_deduction=None):
 	"""
-	Takes train and test data as read from the csv file.
-	Returns X and Xtest, sparse matrices.
+	Takes train and test_data data as read from the csv file.
+	Returns X and Xtest_data, sparse matrices.
 	If set, feature deduction is done as well
 	"""
 
@@ -19,12 +19,13 @@ def feature2matrix(train_data,test_data,feature_deduction=None):
 		deduct = FeatureDeduction(feature_deduction)
 
 		print "Converting to feature matrix."
-		featureMatrix = [deduct.featureDeduct(post.fragments) for post in training]
-		testMatrix = [deduct.featureDeduct(post.fragments) for post in test]
+		featureMatrix = [deduct.featureDeduct(post.fragments) for post in train_data]
+		testMatrix = [deduct.featureDeduct(post.fragments) for post in test_data]
+	else:
 
-	print "Converting to feature matrix."
-	featureMatrix = [post.fragments for post in training]
-	testMatrix = [post.fragments for post in test]
+		print "Converting to feature matrix."
+		featureMatrix = [post.fragments for post in train_data]
+		testMatrix = [post.fragments for post in test_data]
 
 	print "Vectorizing data."
 
@@ -39,27 +40,25 @@ def feature2matrix(train_data,test_data,feature_deduction=None):
 
 	return X, Xtest
 
-def getLabels(training, test):
-
-	print "Setting up target"
+def getLabels(training_data, test_data):
 
 	def giveLabel(score):
-	    if post.score > 0.5:
-	        return 'polite'
-	    elif post.score > -0.5:
-	        return 'neutral'
-	    else:
-	        return 'impolite'
+		if post.score > 0.5:
+			return 'polite'
+		elif post.score > -0.5:
+			return 'neutral'
+		else:
+			return 'impolite'
 
 	target = []
-	for post in training:
-	    target.append(giveLabel(post.score))
+	for post in training_data:
+		target.append(giveLabel(post.score))
 	real = []
-	for post in test:
-	    real.append(giveLabel(post.score))
+	for post in test_data:
+		real.append(giveLabel(post.score))
 
-	training = None
-	test = None
+	training_data = None
+	test_data = None
 
 	labelEncoder = preprocessing.LabelEncoder()
 
@@ -77,11 +76,13 @@ def main():
 	Main function. Runs and tests naive bayes on the data
 	"""
 	print "Reading training data."
-	training = read_data("trainset.csv")
-	test     = read_data("testset.csv")
+	training = read_data("../../datasets/preprocessed/trainset.csv")
+	test     = read_data("../../datasets/preprocessed/testset.csv")
 
 
 	X, Xtest = feature2vector(training,test,1000)
+	
+	print "Setting up target"
 	y,r = getLabels(training,test)
 
 	print "Fitting classifier"
@@ -105,6 +106,8 @@ def main():
 	print "Accuracy on test set:    ", classifier.score(Xtest,r)
 	print "Accuracy on training set:", classifier.score(X,y)
 
+
 if __name__ == '__main__':
+	
 	main()
 
