@@ -7,6 +7,8 @@ import numpy as np
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 # import the data reader
 import post 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from settings import *
 
 #The tokenizer which splits sentences
 def split_sentences(txt):
@@ -73,7 +75,7 @@ def parse_trees(sentences,prefix,return_trees=1):
 	and return a list of trees.
 	"""
 
-	BLLIP_PATH = '/home/joostvandoorn.com/politenessdemo/bllip-parser'
+	global BLLIP_PATH
 
 	#Store sentences
 	file = open(prefix + '_sentences.txt', 'w')

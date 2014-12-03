@@ -4,8 +4,9 @@ import os.path
 import sys
 from tornado.options import define, options, parse_command_line
 sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
-discodop = True
-if discodop == True:
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from settings import *
+if USE_BLLIP == True:
 	from get_trees import *
 
 class MainHandler(tornado.web.RequestHandler):
@@ -13,12 +14,13 @@ class MainHandler(tornado.web.RequestHandler):
         self.render("index.html")
 class PolitenessHandler(tornado.web.RequestHandler):
     def post(self):
-    	global discodop
+    	global USE_BLLIP
     	sentence = self.get_argument("sentence", None)
-    	if discodop == True:
+    	if USE_BLLIP == True:
     		sentence = get_trees(sentence)
-    		print sentence
-    		sentence = sentence[0]
+    	else:
+    		sentence = [sentence]
+    	sentence = sentence[0]
         response = { 'sentences': [ {'sentence': " ".join(["<span class=\"neutral\">"+word+"</span>" for word in sentence.split(" ") if word != "" ]), 'sentenceClass': 'polite' } ]}
         self.write(response)
 
