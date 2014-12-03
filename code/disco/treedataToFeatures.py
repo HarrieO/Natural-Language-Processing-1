@@ -8,10 +8,10 @@ from subprocess import call
 from treepost import *
 
 
-treeposts = read_posts('discotrain.csv')
+treeposts = read_posts('../../datasets/preprocessed/discotrain.csv')
 
 indices = []
-with open('indices.txt') as f:
+with open('../../datasets/preprocessed/indices.txt') as f:
     for line in f:
         indices.append(int(line))
 
@@ -34,7 +34,7 @@ for tree, sentDict in result.items():
     treeToIndices.append(tree)
     #print '%3d\t%s' % (sum(b.values()), a)
     for key, count in sentDict.items():
-        if tree in treeposts[indices[key]].fragments:
+        if treeIndex in treeposts[indices[key]].fragments:
             treeposts[indices[key]].fragments[treeIndex]    += count
             featureMatrix[indices[key]][tree]               += count
         else:
@@ -42,15 +42,15 @@ for tree, sentDict in result.items():
             featureMatrix[indices[key]][tree]               = count
     treeIndex += 1
    
-with open("featureData.csv", 'wb') as csvfile:
+with open("../../datasets/preprocessed/trainset.csv", 'wb') as csvfile:
     writerObject = csv.writer(csvfile, delimiter=',')
+    writerObject.writerow(["id","content","score","community","features"]) 
     for post in treeposts:
         writerObject.writerow([post.id, post.content, post.score, post.community, post.fragments])  
 
 
-file = open("indicesToTrees.txt", "w")
+file = open("../../datasets/preprocessed/indicesToTrees.txt", "w")
 for i in range(treeIndex):
-    print str(i),treeToIndices[i]
     file.write(str(i) + ' ')
     file.write(treeToIndices[i].encode("utf-8"))
     file.write('\n')
@@ -59,23 +59,3 @@ for i in range(treeIndex):
 file.close()
 
 print "Added fragments to posts"
-
-# Convert list of dicts to a sparse matrix
-vectorizer = feature_extraction.DictVectorizer(sparse=True)
-X = vectorizer.fit_transform(featureMatrix)
-    
-# Trivial machine learning objective: detect long sentences
-target = []
-for post in treeposts:
-    if post.score > 0.5:
-        target.append('polite')
-    elif post.score > -0.5:
-        target.append('neutral')
-    else:
-        target.append('impolite')
-y = preprocessing.LabelEncoder().fit_transform(target)
-
-# Use an SVM-like classifier and 10-fold crossvalidation for evaluation
-classifier = linear_model.SGDClassifier(loss='hinge', penalty='elasticnet')
-cv = cross_validation.StratifiedKFold(y, n_folds=10, shuffle=True, random_state=42)
-print cross_validation.cross_val_score(classifier, X, y, cv=cv)

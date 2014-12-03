@@ -23,3 +23,5 @@
 *.out
 *.synctex.gz
 .DS_Store
+*.pyc
+code/settings.py

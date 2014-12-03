@@ -1,43 +1,59 @@
 #!/usr/bin/env python2
 # coding=utf-8
-import os, glob, sys, re, argparse, shutil, nltk.data
+import subprocess, os, sys, re, shutil
 import numpy as np
-from discodop import treebank, treetransforms, fragments
-from sklearn import linear_model, preprocessing, feature_extraction, cross_validation
-from subprocess import call
 
 # In order to import the main project code
-sys.path.append('..')
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 # import the data reader
 import post 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from settings import *
 
 #The tokenizer which splits sentences
 def split_sentences(txt):
-	
-	#conver unicode (special quotation marks etc.) tp ASCII
-	#punctuation = { 0x2018:0x27, 0x2019:0x27, 0x201C:0x22, 0x201D:0x22 }
-	#txt = txt.translate(punctuation).encode('ascii', 'ignore')
 
-	#this regex doesn deal with ... .NET and com.apple.bla
-	return re.findall(r'(?ms)\s*(.*?(?:\.|\?|!|$))', txt)
-	#this regex returns tuples so work around this :P
-	#return [sent[0] for sent in re.findall(r'(?ms)\s*(.*?(?:\.|\?|!|$))(\s|$)', txt)]
+	know_issues = [(".NET", "NET"), (".org","org"), (".com","com"),('i.e.','ie'),('e.g.','eg')]
 
-	return nltk.data.load('tokenizers/punkt/english.pickle').tokenize(txt)
+	def replace_know_issues(txt):
+		for wi, wo in know_issues:
+			txt = (" " + wo + " ").join(txt.split(wi))
+		return txt
+
+	def replace_urls(txt):
+		urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', txt)
+		for url in urls:
+			txt = " <url> ".join(txt.split(url))
+		return txt
+
+	# clean data of URLs and sorts
+	txt = replace_urls(txt)
+	txt = replace_know_issues(txt)
+
+	# perform an preliminary split
+	splitsents = re.findall(r'(?ms)\s*(.*?(?:\.|\?|!|$))', txt)
+
+	# fuse lone punctuation back into the sentence
+	sentences = []
+	for s in splitsents:
+		if len(s) == 1 and (s == "." or s == "," or s == "?" or "!"):
+			if len(sentences) > 0:
+				sentences[0] += s
+			else:
+				sentences = [s]
+		elif len(s) > 0:
+			sentences.append(s)
+
+	return sentences
 
 
-def replace_urls(txt):
-	urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', txt)
-	for url in urls:
-		txt = " <url> ".join(txt.split(url))
-	return txt
-
-def get_trees(comments):
+def batch_split_sentences(comments):
 	"""
-	Splits each individual comment into sentences and parses the trees.
-	Returns a list of trees for the individual sentences as well as a list of comment indices for each sent. 
-	Returns an array of trees
+	Splits sentences for a dataset and keeps track of the indices
 	"""
+
+	#if a single sentence is given, convert to a single element list
+	if isinstance(comments, basestring): comments = [comments]
 
 	#preallocate empty
 	sentences = list();
@@ -45,8 +61,7 @@ def get_trees(comments):
 
 	#for each datapoint split the datapoint, add to the file and store the number of sentences
 	for n,datapoint in enumerate(comments):
-		# clean data of URLs
-		#datapoint = replace_urls(datapoint)
+
 		#add the list of sents to the list of sentences and store the number of sents
 		new_sents = split_sentences(datapoint)
 		sentences.extend(new_sents);
@@ -54,25 +69,86 @@ def get_trees(comments):
 
 	return sentences, comment_indices
 
-def main():
-	# Read the comments in.
-	comments    = post.read_column(0,'../test.csv')
+def parse_trees(sentences,prefix,return_trees=1):
+	"""
+	Stores a sentence- and a tree file. If return_trees=true, the function will wait for the parsing to finish 
+	and return a list of trees.
+	"""
 
-	sentences, comment_indices = get_trees(comments)
+	global BLLIP_PATH
 
-	#Display statistics
-	print 'Datapoints: {0} \n Sentences: {1}'.format(len(comment_indices),len(set(comment_indices)) )
-
-	#Store
-	file = open("test_comment_indices.txt", "w")
-	[file.write('{0} \n'.format(n)) for n in comment_indices]
+	#Store sentences
+	file = open(prefix + '_sentences.txt', 'w')
+	[file.write('<s> ' + " ".join(sent.split()) + ' </s>\n') for sent in sentences if sent]
 	file.close()
 
-	#Store the sentences
-	file = open("test_sentences.txt", "w")
-	for n, sent in enumerate(sentences):
-	 	file.write('<s> ' + " ".join(sent.split()) + ' </s>\n')
 
+	tree_file = open(prefix + '_trees.txt', 'w')
+	MAIN_PATH = os.getcwd()
+
+	#copy the sentences to the parser folder
+	shutil.copy2(prefix + '_sentences.txt', BLLIP_PATH + '/sample-text/auto_copied_sents.txt')
+
+	#run the parser
+	os.chdir(BLLIP_PATH)
+	p = subprocess.Popen(['./parse.sh','sample-text/auto_copied_sents.txt'], stdout=tree_file)
+	#call([ './parse.sh', 'sample-text/sentences.txt'])
+	os.chdir(MAIN_PATH)
+	file.close()
+
+	if return_trees:
+		#wait for the process to finish and return the trees in the file
+		p.wait()
+		return open(prefix + "_trees.txt").readlines()
+	
+
+def get_trees(data,prefix='temp'):
+	"""
+	Returns a list of trees (string) for each sentence detected in data. 
+	The data can be a single string, or a list of strings.
+	In the latter case, a list keeping track of indices will be returned as well
+	If a prefix is given, files containing the trees and sentences are stored localy (prefix_trees.txt,prefix)
+	"""
+
+	if isinstance(data, basestring):
+		sentences = split_sentences(data)
+		return parse_trees(sentences,prefix,1)
+	else:
+		sentences, indices = batch_split_sentences(data)
+		return parse_trees(sentences,prefix,1) , indices
+
+
+
+
+def main():
+	# Read the comments in.
+	train_comments   = post.read_column(0,'../../datasets/preprocessed/train.csv')
+	test_comments    = post.read_column(0,'../../datasets/preprocessed/test.csv')
+
+	train_sents, train_indices = batch_split_sentences(train_comments)
+	test_sents,  test_indices  = batch_split_sentences(test_comments)
+
+	#Display statistics
+	print 'Training: Datapoints: {0}, Sentences: {1}'.format(len(train_indices),len(set(train_indices)) )
+	print 'Test    : Datapoints: {0}, Sentences: {1}'.format(len(test_indices), len(set(test_indices)) )
+
+	#store indices
+	file = open("../../datasets/preprocessed/train_indices.txt", "w")
+	[file.write('{0} \n'.format(n)) for n in train_indices]
+	file.close()
+
+	file = open("../../datasets/preprocessed/test_indices.txt", "w")
+	[file.write('{0} \n'.format(n)) for n in test_indices]
+	file.close()
+
+	#parse and store trees
+	#parse_trees(train_sents,'train')
+	#parse_trees(test_sents,'test')
+
+	#examples
+	#print get_trees(test_comments[0:3],'demo')
+	#print get_trees(test_comments[0],'demo')
+	print parse_trees(train_sents[0:1],'DEMO',1)
 
 if __name__ == '__main__':
 	main()

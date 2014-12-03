@@ -1,43 +1,74 @@
 #!/usr/bin/env python2
 # coding=utf-8
-import os, glob, sys, re, argparse,shutil, csv
+import gc
 import numpy as np
-from discodop import treebank, treetransforms, fragments
-from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm
+from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm, naive_bayes, decomposition, tree
 import sklearn
-from subprocess import call
+from featureDeduction import FeatureDeduction
 from datapoint import *
 
 print "Reading training data."
 
-posts = read_data("featureData.csv")
+training = read_data("../../datasets/preprocessed/trainset.csv")
+test     = read_data("../../datasets/preprocessed/testset.csv")
 
 print "Converting to feature matrix."
 
-featureMatrix = [post.fragments for post in posts]
+deduct = FeatureDeduction(200)
+
+featureMatrix = [deduct.featureDeduct(post.fragments) for post in training]
+testMatrix = [deduct.featureDeduct(post.fragments) for post in test]
+
+# featureMatrix = [post.fragments for post in training]
+# testMatrix    = [post.fragments for post in test]
+
 
 print "Vectorizing data."
 
 # Convert list of dicts to a sparse matrix
-vectorizer = feature_extraction.DictVectorizer(sparse=True)
+vectorizer = feature_extraction.DictVectorizer(sparse=False)
 X = vectorizer.fit_transform(featureMatrix)
+
+Xtest = vectorizer.transform(testMatrix)
+
+featureMatrix = None
+testMatrix = None
 
 print "Setting up target"
 
+def giveLabel(score):
+    if post.score > 0.5:
+        return 'polite'
+    elif post.score > -0.5:
+        return 'neutral'
+    else:
+        return 'impolite'
+
 # Trivial machine learning objective: detect long sentences
 target = []
-for post in posts:
-    if post.score > 0.5:
-        target.append('polite')
-    elif post.score > -0.5:
-        target.append('neutral')
-    else:
-        target.append('impolite')
-y = preprocessing.LabelEncoder().fit_transform(target)
+for post in training:
+    target.append(giveLabel(post.score))
+real = []
+for post in test:
+    real.append(giveLabel(post.score))
 
-print "Initiating cross validation"
+training = None
+test = None
 
-# Use an SVM-like classifier and 10-fold crossvalidation for evaluation
-classifier = svm.SVC(verbose=True)
-cv = cross_validation.StratifiedKFold(y, n_folds=4, shuffle=True, random_state=42)
-print cross_validation.cross_val_score(classifier, X.toarray(), y, cv=cv)
+labelEncoder = preprocessing.LabelEncoder()
+
+# train targets
+y = labelEncoder.fit_transform(target)
+# true values of test data
+r = labelEncoder.transform(real)
+
+
+print "Fitting classifier"
+
+classifier = ensemble.AdaBoostClassifier()
+classifier.fit(X, y)
+
+print "Fit classifier, calculating scores"
+
+print "Accuracy on test set:    ", classifier.score(Xtest,r)
+print "Accuracy on training set:", classifier.score(X,y)

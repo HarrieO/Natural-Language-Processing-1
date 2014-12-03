@@ -1,6 +1,7 @@
 import re
 import post
 import numpy as np
+from computeEntropy import word_entropy, entropy
 
 '''
 Settings
@@ -21,7 +22,7 @@ def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):
 	# Read the file line by line
 	i = 0
 	for tree in trees:
-		punctuation = "\.\?"
+		punctuation = r"[.,!?;]"
 		wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
 		for wordTag in wordTags:
 			# Get rid of the brackets and split into word and tag
@@ -69,33 +70,6 @@ def average_scores(totalScores, wordClassCount):
 		scores[word] = score/sum([count[1] for count in wordClassCount[word].items()])
 	return scores
 
-# Returns the information gain for the input for the counts of each binary feature
-def word_entropy(classCount, wordClassCount):
-	# classCount = dictionary containing counts per class
-	# wordClassCount = dictionary containing dictionaries for each feature containing counts per class
-	classes = classCount.keys()
-	numClasses = len(classes)
-	countPerClass = np.zeros(numClasses)
-	for i in range(numClasses):
-		countPerClass[i]= classCount[classes[i]]
-	totalSentences = np.sum(countPerClass)
-	initialEntropy = entropy(countPerClass)
-
-	wordGain = dict() # information gain when splitting on the word
-	words = wordClassCount.keys()
-	for word in words:
-		countWordPerClass = np.zeros(numClasses)
-		for i in range(numClasses):
-			countWordPerClass[i]= wordClassCount[word][classes[i]]
-		probWord = np.sum(countWordPerClass)/totalSentences
-		wordEntropy= entropy(countWordPerClass)*probWord +(1.0-probWord) *entropy(countPerClass-countWordPerClass)
-		wordGain[word] = initialEntropy-wordEntropy 
-	return wordGain
-
-def entropy(countPerClass):
-	probs = countPerClass/np.sum(countPerClass)
-	return -np.sum(probs*np.log(probs))
-
 # Returns the counts of the selected wordTags
 def selectFeatures(featureEntropy, N, wordTagCount):
 	selectedFeatures = dict()
@@ -130,29 +104,30 @@ def outputHistograms(inputfile, outputfile, classes, classCutOff, features):
 		f.write(",".join(str(x) for x in histogram)+","+getClass(scores[i],classCutOff,classes)+"\n")
 		i = i + 1
 
-# Data structures
-classes			= ['negative','neutral','positive']
-classCutOff		= [-0.5,0.5]
-classCount 		= emptyClassCount(classes)
-wordTagCount 	= dict()
-totalScores		= dict()
+if __name__ == "__main__":
+	# Data structures
+	classes			= ['negative','neutral','positive']
+	classCutOff		= [-0.5,0.5]
+	classCount 		= emptyClassCount(classes)
+	wordTagCount 	= dict()
+	totalScores		= dict()
 
 
-# Running starts here
-extract('disco/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
-wordTag_entropy = word_entropy(classCount, wordTagCount)
-scores = average_scores(totalScores, wordTagCount)
-print "Ordered scores"
-ordered = sorted(wordTag_entropy, key=wordTag_entropy.get)
-orderList=  ordered[-40:]
-scoreList=  [scores[word] for word in ordered[-40:]]
-print zip(orderList,scoreList)
-orderList=  ordered[:40]
-scoreList=  [scores[word] for word in ordered[:40]]
-print zip(orderList,scoreList)
-# Get the counts for the 100 word tags with the highest entropy
-print "Word tag counts"
-newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
+	# Running starts here
+	extract('../datasets/preprocessed/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
+	wordTag_entropy = word_entropy(classCount, wordTagCount)
+	scores = average_scores(totalScores, wordTagCount)
+	print "Ordered scores"
+	ordered = sorted(wordTag_entropy, key=wordTag_entropy.get)
+	orderList=  ordered[-40:]
+	scoreList=  [scores[word] for word in ordered[-40:]]
+	print zip(orderList,scoreList)
+	orderList=  ordered[:40]
+	scoreList=  [scores[word] for word in ordered[:40]]
+	print zip(orderList,scoreList)
+	# Get the counts for the 100 word tags with the highest entropy
+	print "Word tag counts"
+	newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
 
-outputHistograms('disco/discotrain.csv', 'trainHist.csv', classes, classCutOff, newCounts.keys())
-#print newCounts
+	outputHistograms('../datasets/preprocessed/discotrain.csv', '../datasets/preprocessed/trainHist.csv', classes, classCutOff, newCounts.keys())
+	#print newCounts
