@@ -217,3 +217,4 @@
 'sklearn.linear_model.base.LinearRegression',0.145565278893,-4.15933907599e+24,0.203116893768,0.00561690330505,146,'classification=False'
 'sklearn.linear_model.base.LinearRegression',0.197793589712,-2.40140110292e+24,0.544088125229,0.0153489112854,336,'classification=False'
 'sklearn.linear_model.base.LinearRegression',0.265132679666,-1.22076541624e+25,4.96145510674,0.25244307518,774,'classification=False'
+'sklearn.linear_model.base.LinearRegression',0.379168378518,-1.07268628339e+24,55.3840370178,0.369499921799,1779,'classification=False'
