@@ -12,6 +12,9 @@ from settings import *
 
 #The tokenizer which splits sentences
 def split_sentences(txt):
+	"""
+	Splits a string into single sentences.
+	"""
 
 	know_issues = [(".NET", "NET"), (".org","org"), (".com","com"),('i.e.','ie'),('e.g.','eg')]
 
