@@ -44,6 +44,7 @@ def batch_run(test_settings):
 	Please provide settings as a tuple list:
 	0:classifier object
 	1:number of features (left after feature deduction)
+	2:a string explaining aditional settings that you adjusted in the classifier
 	"""
 
 	#read in data
@@ -64,9 +65,8 @@ def batch_run(test_settings):
 		#import parameters
 		classifier 			= settings[0]
 		features 			= settings[1]
-		#fit_function		= settings[2]  TODO (lambda functions)
+		classifier_settings = settings[2]
 		classifier_name 	= re.search(r".*'(.+)'.*", str(type(classifier))).groups()[0]
-		classifier_settings = ""  #not implemented yet
 		
 		#check if a experiment with the current settings was allready conducted (also move pointer to end of file)
 		regexp = settings_to_string(classifier_name,".*",".*",".*",".*",features,classifier_settings)
@@ -124,7 +124,17 @@ def main():
 	features_set = logRange(261396,15,1)
 
 	#combine
-	settings = ( (classifier, features) for features in features_set for classifier in classifiers)
+	#settings = ( (classifier, features) for features in features_set for classifier in classifiers)
+
+
+
+
+	classifier 			= svm.SVC(class_weight="auto")
+	classifier_settings = 'class_weight="auto"';
+
+	#combine
+	settings = ( (classifier, features,classifier_settings) for features in features_set)
+
 
 	#run
 	batch_run(settings)

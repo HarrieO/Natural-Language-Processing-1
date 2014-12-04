@@ -206,3 +206,6 @@
 'sklearn.linear_model.base.LinearRegression',0.397349958717,6.51226815708e+24,5.62457609177,0.25169801712,774,'performance=MSE'
 'sklearn.linear_model.base.LinearRegression',0.335689739277,5.722328494e+23,62.0478920937,0.424125909805,1779,'performance=MSE'
 'sklearn.linear_model.base.LinearRegression',0.226037346427,6.36329421678e+23,699.12645793,0.627173185349,4087,'performance=MSE'
+'sklearn.svm.classes.SVC',0.248202670318,0.216339570972,6.89494895935,1.77602696419,1,'class_weight="auto"'
+'sklearn.svm.classes.SVC',0.554262238959,0.468735737106,8.53345608711,2.62715506554,4,'class_weight="auto"'
+'sklearn.svm.classes.SVC',0.552550496405,0.465540848927,10.0733749866,3.41024804115,11,'class_weight="auto"'
