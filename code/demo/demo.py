@@ -22,8 +22,8 @@ if USE_BLLIP == True:
         from get_trees import *
 
 
-baselineModel = pickle.load(open('../../results/models/baseline0.5'+'.p','rb'))
-wordScores = pickle.load(open('../../datasets/preprocessed/wordScores.p','rb'))
+baselineModel = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../results/models/baseline0.5'+'.p'),'rb'))
+wordScores = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/wordScores.p'),'rb'))
 
 def getClassWord(word):
     global wordScores
@@ -40,7 +40,7 @@ class MainHandler(tornado.web.RequestHandler):
         self.render("index.html")
 class PolitenessHandler(tornado.web.RequestHandler):
     def post(self):
-        global USE_BLLIP, BLLIP_TYPE, rrp, baselineModel, wordScores
+        global USE_BLLIP, BLLIP_TYPE, rrp #, baselineModel, wordScores
         sentence = self.get_argument("sentence", None)
         if USE_BLLIP == True:
             if BLLIP_TYPE == 'Python':
