@@ -1,12 +1,14 @@
 import re
 import post
+import os, sys
 import numpy as np
+import cPickle as pickle
 from computeEntropy import word_entropy, entropy
 
 '''
 Settings
 '''
-N = 1000 # The amount of features selected for the histogram
+N = 100000 # The amount of features selected for the histogram
 
 # Computes the word-tag count, the class count and the summed scores for each of the word-tag pairs.
 def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):	
@@ -23,7 +25,7 @@ def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):
 	i = 0
 	for tree in trees:
 		punctuation = r"[.,!?;]"
-		wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
+		wordTags = re.findall("(\(([a-zA-Z0-9]|"+punctuation+")* ([a-zA-Z0-9]|"+punctuation+")*\))",tree)
 		for wordTag in wordTags:
 			# Get rid of the brackets and split into word and tag
 			#[word, tag] = wordTag[0][1:-1].split(" ")
@@ -114,7 +116,7 @@ if __name__ == "__main__":
 
 
 	# Running starts here
-	extract('../datasets/preprocessed/discotrain.csv',classes,classCutOff,wordTagCount,classCount,totalScores);
+	extract(os.path.join(os.path.dirname(__file__), '../datasets/preprocessed/discotrain.csv'),classes,classCutOff,wordTagCount,classCount,totalScores);
 	wordTag_entropy = word_entropy(classCount, wordTagCount)
 	scores = average_scores(totalScores, wordTagCount)
 	print "Ordered scores"
@@ -128,6 +130,12 @@ if __name__ == "__main__":
 	# Get the counts for the 100 word tags with the highest entropy
 	print "Word tag counts"
 	newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
-
-	outputHistograms('../datasets/preprocessed/discotrain.csv', '../datasets/preprocessed/trainHist.csv', classes, classCutOff, newCounts.keys())
+	# Output for highlighting in the demo
+	scoreList = dict()
+	i = 0
+	for word in ordered[:N]:
+		scoreList[word.split()[1][:-1]] = scores[word]
+		i = i + 1
+	pickle.dump(scoreList,open(os.path.join(os.path.dirname(__file__), '../datasets/preprocessed/wordScores.p'),'w+b'))
+	outputHistograms(os.path.join(os.path.dirname(__file__), '../datasets/preprocessed/discotrain.csv'), os.path.join(os.path.dirname(__file__), '../datasets/preprocessed/trainHist.csv'), classes, classCutOff, newCounts.keys())
 	#print newCounts

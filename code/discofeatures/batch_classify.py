@@ -77,7 +77,6 @@ def batch_run(test_settings):
 
 			#do feature deduction if nesececary
 			if not last_features == features: 
-				print 'aaa'
 				X, Xtest = feature2vector(training,test,features)
 				last_features = features
 
@@ -107,7 +106,8 @@ def main():
 	#		    (svm.SVC(), 10000),
 	#			(tree.DecisionTreeClassifier(), 10000)]
 
-	classifiers=[linear_model.LinearRegression(),
+	classifiers=[#gaussian_process.GaussianProcess(),
+				 #linear_model.LinearRegression(),
 				 #linear_model.Ridge,
 				 #linear_model.Lasso,
 				 naive_bayes.GaussianNB(),
