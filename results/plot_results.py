@@ -25,7 +25,7 @@ def get_classifier_table(classifier_name,sort_ind=5):
 	Default sort = column 5 (features)
 	"""
 
-	classifier_settings = ''
+	classifier_settings = '.*' #not implemented yet
 
 	#get all lines with current classifier and current settings
 	regexp = settings_to_string(classifier_name,".*",".*",".*",".*",".*",classifier_settings)
@@ -33,6 +33,7 @@ def get_classifier_table(classifier_name,sort_ind=5):
 		lines = [line for line in fd if re.search(regexp, line) != None]
 
 	table = [];
+
 	for line in lines:
 		v = line.split(',')
 		#v[0] #classifier
@@ -75,7 +76,10 @@ def plot_classifier_results(classifier_name,plot_runtime=True):
 	ax1.plot(features, test_p, 'r-s', label='Test data')
 	ax1.set_xlabel('# of features')
 
-	ax1.set_ylabel('Performance (proportion correct)')
+	if classifier_name == 'sklearn.linear_model.base.LinearRegression':
+		ax1.set_ylabel('Mean squared error')
+	else:
+		ax1.set_ylabel('Performance (proportion correct)')
 
 	lines, labels = ax1.get_legend_handles_labels()
 	

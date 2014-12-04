@@ -28,7 +28,7 @@ def batch_regression(features_list):
 		#import parameters
 		classifier 			= linear_model.LinearRegression()
 		classifier_name 	= re.search(r".*'(.+)'.*", str(type(classifier))).groups()[0]
-		classifier_settings = "classification=False"  #not implemented yet
+		classifier_settings = "performance=MSE"  #for clarity
 		
 		#check if a experiment with the current settings was allready conducted (also move pointer to end of file)
 		regexp = settings_to_string(classifier_name,".*",".*",".*",".*",features,classifier_settings)
@@ -51,8 +51,10 @@ def batch_regression(features_list):
 			#calculate scores
 			print "Fit classifier, calculating scores"
 			t0 = time.time()	
-			test_accuracy = classifier.score(Xtest,r)
-			train_accuracy = classifier.score(X,y)
+			rPred = classifier.predict(Xtest)
+			yPred = classifier.predict(X)
+			test_accuracy  = sklearn.metrics.mean_squared_error(rPred,r)
+			train_accuracy = sklearn.metrics.mean_squared_error(yPred,y)
 			score_time = time.time()- t0
 
 			#store results
