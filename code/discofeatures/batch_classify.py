@@ -77,7 +77,6 @@ def batch_run(test_settings):
 
 			#do feature deduction if nesececary
 			if not last_features == features: 
-				print 'aaa'
 				X, Xtest = feature2vector(training,test,features)
 				last_features = features
 

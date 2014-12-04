@@ -88,7 +88,7 @@ def plot_classifier_results(classifier_name,plot_runtime=True):
 		lines.append(lines2[0])
 		labels.append(labels2[0])
 
-	ax1.legend(lines, labels, loc=0)
+	ax1.legend(lines, labels)
 
 	plt.title(classifier_name)
 	plt.grid()

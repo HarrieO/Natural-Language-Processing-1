@@ -50,15 +50,8 @@ def getLabels(training_data, test_data):
 		else:
 			return 'impolite'
 
-	target = []
-	for post in training_data:
-		target.append(giveLabel(post.score))
-	real = []
-	for post in test_data:
-		real.append(giveLabel(post.score))
-
-	training_data = None
-	test_data = None
+	target = [giveLabel(post.score) for post in training_data]
+	real   = [giveLabel(post.score) for post in test_data]
 
 	labelEncoder = preprocessing.LabelEncoder()
 
