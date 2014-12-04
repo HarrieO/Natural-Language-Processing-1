@@ -41,7 +41,8 @@ def get_counts(classCutOff,classes):
 	return wordCounts, ordered
 
 def compute_score(sentence, counts):
-	words  = sentence.split()
+	# words  = sentence.split()
+	words = re.findall(r"[\w']+|[.,!?;]",sentence)
 	score = 0.0
 	unused= 0
 	for word in words:
