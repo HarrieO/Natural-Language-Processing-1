@@ -58,6 +58,8 @@ class PolitenessHandler(tornado.web.RequestHandler):
             sentence = sentence
 
         scoreFound = compute_score(sentence,baselineModel)
+        if scoreFound is None:
+            scoreFound = 0
         classFound = 'neutral'
         if scoreFound >= 0.5:
             classFound = 'polite'
