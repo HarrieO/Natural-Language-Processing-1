@@ -146,17 +146,21 @@ class WordCounter(object):
     def conditional_distribution(self,dimension):
         (n,m) = dimension
         currentWord = self.sentenceWords[n][m]
+        currentTag = self.sentenceTags[n][m]
         logProbs = np.zeros(3) # log probabilty for labels 0,1,2
-        for i in range(3):
-            self.changeLabel(n,m,i)
+        for i in [self.labelsPerSentence[n][0],2]:
             delta = get_index(i)
+            if currentTag == i:
+                deltaVal=1.0
+            else:
+                deltaVal = 0.0
             sumTotal = 0
             for j in [0,1]:
-                value = self.alpha[delta]+(self.tagsPerSentence[delta,n]-1)*self.labelCount[j]
+                value = self.alpha[delta]+(self.tagsPerSentence[delta,n]-deltaVal)*self.labelCount[j]
                 prodTerms = value + np.arange(self.labelCount[j])
                 sumTotal += np.sum(np.log(prodTerms)) 
             Vi = sum(self.tagsPerWord[i,:]>0)
-            logProbs[i] = sumTotal+np.log(self.beta -1.0 +self.tagsPerWord[i,currentWord])-np.log(-1.0+self.V[i]+Vi*self.beta)
+            logProbs[i] = sumTotal+np.log(self.beta -deltaVal +self.tagsPerWord[i,currentWord])-np.log(-deltaVal+self.V[i]+Vi*self.beta)
         newLabel = pickIndexToLogProb(logProbs)
         self.changeLabel(n,m,newLabel)
         return newLabel
@@ -174,20 +178,27 @@ wordCounter = WordCounter(data,giveLabel)
 
 print "Took", time.time()-start, "seconds"
 
-print wordCounter.labelCount, wordCounter.tagsPerSentence[:,1]
-def gibbs_sample_topic_model(wordCounter, interestSentInd,num_samples=2, burn=1):
+def gibbs_sample_topic_model(wordCounter, interestSentInd,num_its=2):
     # burn = number of iterations used for burn-in
-    sample_index = 0
     samples_out = []
     X = wordCounter.sentenceTags
-    for i in range(burn + num_samples):
+    for i in range(num_its):
         for n in range(len(X)):
             for m in range(len(X[n])):
                 wordCounter.conditional_distribution((n,m))
-        if i >= burn:
-            samples_out.append(wordCounter.sentenceTags[interestSentInd])
-            sample_index += 1
+        samples_out.append(wordCounter.sentenceTags[interestSentInd])
     return samples_out
-print gibbs_sample_topic_model(wordCounter, 5)
-print wordCounter.sentenceWords[5]
-print wordCounter.sentenceTags[5]
+print "Labeling before Gibss sampling: "
+for i in range(10):
+    print wordCounter.getWords(wordCounter.sentenceWords[i])
+    print wordCounter.sentenceTags[i]
+
+start = time.time()
+num_its= 10
+print "Applying Gibbs sampling for", num_its, "iterations"
+gibbs_sample_topic_model(wordCounter, 5, num_its)
+print "Took", time.time()-start, "seconds"
+print "Labeling after Gibss sampling: "
+for i in range(10):
+    print wordCounter.getWords(wordCounter.sentenceWords[i])
+    print wordCounter.sentenceTags[i]
