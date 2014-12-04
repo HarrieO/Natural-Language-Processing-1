@@ -6,22 +6,20 @@ from datapoint import *
 pattern = re.compile('[\W_]+', re.UNICODE)
 
 def giveLabel(score):
-    if score > 0.5:
+    if score > 0.0:
         return 1
-    elif score < -0.5:
-        return -1
     return 0
 
 class WordCounter(object):
     def __init__(self, data, giveLabel):
-        V = np.zeros((3,1))
+        V = np.zeros((3,1)) 
 
-        wordmap           = {}
-        invwordmap        = []
+        wordmap           = {} 
+        invwordmap        = [] 
         vocabularySize    = 0
         numberOfSentences = len(data)
         labelsPerSentence = np.zeros((numberOfSentences,1))
-        labelCount = np.zeros((3,1))
+        labelCount = np.zeros((2,1))
 
         sentenceWords = []
         sentenceTags  = []
@@ -42,33 +40,33 @@ class WordCounter(object):
                         wordmap[word]   = vocabularySize
                         vocabularySize += 1
                     cleanWords.append(wordmap[word])
-                    z     = random.choice([0]+[label])
+                    z     = random.choice([2]+[label])
                     V[z] += 1
                     taggedWords.append(z)
             sentenceWords.append(np.array(cleanWords))
-            sentenceTags.append(np.array(taggedWords))
+            sentenceTags.append(np.array(taggedWords)) # z tags in sentence
 
         tagsPerWord     = np.zeros((3,vocabularySize))
         tagsPerSentence = np.zeros((3,numberOfSentences))
         for (i, (words, tags)) in enumerate(zip(sentenceWords,sentenceTags)):
             for word, tag in zip(words,tags):
-                tagsPerWord[tag,word]  += 1
-                tagsPerSentence[tag,i] += 1
+                tagsPerWord[tag,word]  += 1 
+                tagsPerSentence[tag,i] += 1 
 
         self.sentenceWords     = sentenceWords
         self.sentenceTags      = sentenceTags
-        self.tagsPerWord       = tagsPerWord
-        self.tagsPerSentence   = tagsPerSentence
+        self.tagsPerWord       = tagsPerWord # number of z tags per word
+        self.tagsPerSentence   = tagsPerSentence # number of z tags per sentences
         self.sentenceTags      = sentenceTags
-        self.V                 = V
+        self.V                 = V # stores labels for z, 0 = negative, 1 = positive, 2 = neutral
         self.labelCount        = labelCount
         self.numberOfSentences = numberOfSentences
         self.vocabularySize    = vocabularySize
-        self.wordmap           = wordmap
-        self.invwordmap        = invwordmap
+        self.wordmap           = wordmap # word -> index for invwordmap
+        self.invwordmap        = invwordmap # all words
         self.labelsPerSentence = labelsPerSentence
 
-    # converst indices back to words
+    # convert indices back to words
     def getWords(self,wordArray):
         return [self.invwordmap[i] for i in wordArray]
 
@@ -98,7 +96,7 @@ class WordCounter(object):
         self.labelsPerSentence = np.append(self.labelsPerSentence,np.array([[label]]) , axis=0)
         self.labelCount[label] += 1
         for i, word in enumerate(sent):
-            z       = random.choice([0]+[label])
+            z       = random.choice([2]+[label])
             self.V[z]   += 1
             print len(sent), i, tags.shape
             tags[i] = z
@@ -119,10 +117,6 @@ class WordCounter(object):
             self.V[label]                           += 1
             self.tagsPerWord[label,word]            += 1
             self.tagsPerSentence[label,sentence_i]  += 1
-
-
-
-
 
 print "Opening data"
 
