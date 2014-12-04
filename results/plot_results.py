@@ -76,7 +76,10 @@ def plot_classifier_results(classifier_name,plot_runtime=True):
 	ax1.plot(features, test_p, 'r-s', label='Test data')
 	ax1.set_xlabel('# of features')
 
-	ax1.set_ylabel('Performance (proportion correct)')
+	if classifier_name == 'sklearn.linear_model.base.LinearRegression':
+		ax1.set_ylabel('Mean squared error')
+	else:
+		ax1.set_ylabel('Performance (proportion correct)')
 
 	lines, labels = ax1.get_legend_handles_labels()
 	
