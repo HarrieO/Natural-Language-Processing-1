@@ -9,7 +9,6 @@ $(function () {
           success: (function(data) {
             var sentences = data.sentences;
             for (i = 0; i < sentences.length; i++) { 
-                console.log(sentences[i].sentenceClass);
                 showSentence(""+sentences[i].sentence, sentences[i].sentenceClass);
             }
             
@@ -56,6 +55,6 @@ function updateClass(newClass) {
         $("#results .class-label").removeClass("label-success");
         $("#results .class-label").addClass("label-default");
         $("#results .class-label").removeClass("label-danger");
-        $("#results .class-label").html("Neural");
+        $("#results .class-label").html("Neutral");
     }
 }

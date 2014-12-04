@@ -47,9 +47,10 @@ def compute_score(sentence, counts):
 	score = 0.0
 	unused= 0
 	for word in words:
-		if counts[word]==0:
+		if not word in counts or counts[word]==0:
 			unused +=1
-		score += counts[word]
+		else:
+			score += counts[word]
 		#print word, ", ", counts[word]
 	if unused < len(words):
 		return score*float((len(words))/(len(words)-unused))
@@ -83,7 +84,7 @@ if __name__ == "__main__":
 		# 	print contents[i]
 		# 	print scores[i], " versus ", compute_score(contents[i],counts)
 
-		pickle.dump(newWordCounts, open('../../results/models/baseline'+str(percentage)+'.p','w+b'))
+		pickle.dump(dict(newWordCounts), open('../../results/models/baseline'+str(percentage)+'.p','w+b'))
 
 		skip=0
 
