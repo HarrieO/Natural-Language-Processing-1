@@ -107,7 +107,8 @@ def main():
 	#		    (svm.SVC(), 10000),
 	#			(tree.DecisionTreeClassifier(), 10000)]
 
-	classifiers=[linear_model.LinearRegression(),
+	classifiers=[#gaussian_process.GaussianProcess(),
+				 #linear_model.LinearRegression(),
 				 #linear_model.Ridge,
 				 #linear_model.Lasso,
 				 naive_bayes.GaussianNB(),
