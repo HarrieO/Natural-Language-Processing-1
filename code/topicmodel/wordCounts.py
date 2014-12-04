@@ -126,8 +126,8 @@ class WordCounter(object):
 
 print "Opening data"
 
-data = read_data("../discofeatures/trainset.csv")
-data.extend(read_data("../discofeatures/testset.csv"))
+data = read_data("../../datasets/preprocessed/trainset.csv")
+data.extend(read_data("../../datasets/preprocessed/testset.csv"))
 
 print "Read data starting count"
 
