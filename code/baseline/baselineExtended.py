@@ -3,6 +3,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import re
 import numpy as np
 import post
+import cPickle as pickle
 from computeEntropy import *
 import collections as Col
 
@@ -65,7 +66,9 @@ def getClass(score,classCutOff,classes):
 if __name__ == "__main__":
 	classes			= [0,1,2]#['negative','neutral','positive']
 	classCutOff		= [-0.5,0.5]
+	print "Get counts"
 	wordCounts,ordered = get_counts(classCutOff,classes)
+	print "Done getting counts"
 	contents  = post.read_column(0,'../../datasets/preprocessed/test.csv')
 	scores = post.read_column(1,'../../datasets/preprocessed/test.csv')
 	percentages = [0.001,0.05,0.1,0.25,0.5,0.75,1.0]
@@ -79,6 +82,9 @@ if __name__ == "__main__":
 		# for i in range(10):
 		# 	print contents[i]
 		# 	print scores[i], " versus ", compute_score(contents[i],counts)
+
+		pickle.dump(newWordCounts, open('../../results/models/baseline'+str(percentage)+'.p','w+b'))
+
 		skip=0
 
 		confusionMatrix = np.zeros([len(classes),len(classes)])
