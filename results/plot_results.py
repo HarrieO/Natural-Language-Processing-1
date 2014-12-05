@@ -5,7 +5,6 @@ from operator import add
 
 sys.path.append('../code')
 sys.path.append('../code/discofeatures')
-#sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 
 import post
 from batch_classify import *
@@ -103,8 +102,9 @@ def plot_classifier_results(classifier_name,plot_runtime=True):
 	plt.show()
 
 
-def main():
 
+def main():
+	
 	classifier_list = get_classifier_list()
 
 	print classifier_list

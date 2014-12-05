@@ -31,6 +31,25 @@ def logRange(limit, n=10,start_at_one=[]):
 	else:
 		return logRange
 
+def sort_results_csv(input_file='classifier_results.csv',output_file='classifier_results.csv'):
+	"""
+	Sorts the results file on featues (6th column) and classifier name (1th column) and stores results
+	"""
+
+	#import header first
+	with open(input_file, 'r') as f:
+		header = f.readline()
+
+	table = np.recfromcsv(input_file,delimiter=',')
+	#sort on features
+	table = sorted(table, key=lambda tup: tup[5])
+	#sort on classifier
+	table = sorted(table, key=lambda tup: tup[0])
+
+	#store sorted file
+	with open(output_file,'w') as fd:
+		fd.write(header + "\n")
+		[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6]) + "\n") for tup in table]
 
 
 def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,features,classifier_settings=''):
@@ -94,45 +113,43 @@ def batch_run(test_settings):
 			score_time = time.time()- t0
 
 			#store results
-			fd.write("\n" + settings_to_string(classifier_name,train_accuracy,
-				test_accuracy,fit_time,score_time,features,classifier_settings))
+			fd.write(settings_to_string(classifier_name,train_accuracy,
+				test_accuracy,fit_time,score_time,features,classifier_settings) + "\n")
 
+		#save to csv file and sort csv file
 		fd.close()
+		sort_results_csv()
 		
 def main():
 
-	#settings to test:
-	#settings = [(naive_bayes.GaussianNB(), 10000),
-	#		    (svm.SVC(), 10000),
-	#			(tree.DecisionTreeClassifier(), 10000)]
-
+	#classifiers to test:
 	classifiers=[#gaussian_process.GaussianProcess(),
 				 #linear_model.LinearRegression(),
 				 #linear_model.Ridge(),
 				 #linear_model.Lasso(),
-				 #naive_bayes.GaussianNB(),
-				 #naive_bayes.MultinomialNB(),
-				 #naive_bayes.BernoulliNB(),
+				 naive_bayes.GaussianNB(),
+				 naive_bayes.MultinomialNB(),
+				 naive_bayes.BernoulliNB(),
 				 #svm.SVC(),
 				 #tree.DecisionTreeClassifier(),
 				 #ensemble.RandomForestClassifier(),
 				 #neighbors.nearest_centroid.NearestCentroid(),
-				 sklearn.ensemble.GradientBoostingClassifier(),
-				 sklearn.linear_model.Perceptron(),
-				 amueller_mlp.MLPClassifier(),
-				 sklearn.ensemble.AdaBoostClassifier()
+				 #sklearn.ensemble.GradientBoostingClassifier(),
+				 #sklearn.linear_model.Perceptron(),
+				 #amueller_mlp.MLPClassifier(),
+				 #sklearn.ensemble.AdaBoostClassifier()
 				 	]
 
 
 	# Maximum number of features: 261396
 	features_set = logRange(261396,15,1)
 
+	#in this case, settings are empty for all classifiers
 	classifier_settings = '';
 
-	#combine
+	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, classifier_settings, '') for features in features_set for classifier in classifiers)
 
-	
 	#run
 	batch_run(settings)
 
