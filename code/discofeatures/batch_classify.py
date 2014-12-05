@@ -117,8 +117,10 @@ def main():
 				 #tree.DecisionTreeClassifier(),
 				 #ensemble.RandomForestClassifier(),
 				 #neighbors.nearest_centroid.NearestCentroid(),
+				 sklearn.ensemble.GradientBoostingClassifier(),
 				 sklearn.linear_model.Perceptron(),
-				 amueller_mlp.MLPClassifier()
+				 amueller_mlp.MLPClassifier(),
+				 sklearn.ensemble.AdaBoostClassifier()
 				 	]
 
 
@@ -138,6 +140,7 @@ def main():
 
 	#run
 	batch_run(settings)
+
 
 
 if __name__ == '__main__':
