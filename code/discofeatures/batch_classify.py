@@ -1,10 +1,11 @@
 from clean_train import *
-import time, re
+import time, re, amueller_mlp
 from sklearn import *
 
 def logRange(limit, n=10,start_at_one=[]):
 	"""
 	returns an array of logaritmicly spaced integers untill limit of size n
+	starts at 0 unless if start_at_one = True
 	"""
 
 	if start_at_one: n=n+1
@@ -31,11 +32,39 @@ def logRange(limit, n=10,start_at_one=[]):
 	else:
 		return logRange
 
+def sort_results_csv(input_file='classifier_results.csv',output_file='classifier_results.csv'):
+	"""
+	Sorts the results csv file and writes to the same file.
+	Sort on classifier name first (1th column), then on features (6th column)
+	"""
+
+	#import header first
+	with open(input_file, 'r') as f:
+		header = f.readline()
+
+	table = np.recfromcsv(input_file,delimiter=',')
+	#sort on features
+	table = sorted(table, key=lambda tup: tup[5])
+	#sort on classifier
+	table = sorted(table, key=lambda tup: tup[0])
+
+	#store sorted file
+	with open(output_file,'w') as fd:
+		fd.write(header)
+		[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6]) + "\n") for tup in table]
 
 
 def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,features,classifier_settings=''):
-	return "'" + classifier_name + "',{0},{1},{2},{3},{4},'".format(train_accuracy,
-				test_accuracy,fit_time,score_time,features) + classifier_settings + "'"
+	"""
+	Get a string to store to csv file (also usefull for regexp)
+	"""
+	if not classifier_name[0]=="'": classifier_name = "'" + classifier_name
+	if not classifier_name[-1]=="'": classifier_name = classifier_name + "'"
+	if not classifier_settings[0]=="'": classifier_settings = "'" + classifier_settings
+	if not classifier_settings[-1]=="'": classifier_settings = classifier_settings + "'"
+	
+	return classifier_name + ",{0},{1},{2},{3},{4},".format(train_accuracy,
+				test_accuracy,fit_time,score_time,features) + classifier_settings
 
 
 def batch_run(test_settings):
@@ -94,50 +123,46 @@ def batch_run(test_settings):
 			score_time = time.time()- t0
 
 			#store results
-			fd.write("\n" + settings_to_string(classifier_name,train_accuracy,
-				test_accuracy,fit_time,score_time,features,classifier_settings))
+			fd.write(settings_to_string(classifier_name,train_accuracy,
+				test_accuracy,fit_time,score_time,features,classifier_settings) + "\n")
 
+		#save to csv file and sort csv file
 		fd.close()
+		sort_results_csv()
 		
 def main():
 
-	#settings to test:
-	#settings = [(naive_bayes.GaussianNB(), 10000),
-	#		    (svm.SVC(), 10000),
-	#			(tree.DecisionTreeClassifier(), 10000)]
-
+	#classifiers to test:
 	classifiers=[#gaussian_process.GaussianProcess(),
 				 #linear_model.LinearRegression(),
-				 #linear_model.Ridge,
-				 #linear_model.Lasso,
+				 #linear_model.Ridge(),
+				 #linear_model.Lasso(),
 				 naive_bayes.GaussianNB(),
-				 #naive_bayes.MultinomialNB,
-				 #naive_bayes.BernoulliNB,
-				 svm.SVC(),
-				 tree.DecisionTreeClassifier(),
-				 ensemble.RandomForestClassifier(),
-				 neighbors.nearest_centroid.NearestCentroid(),
+				 naive_bayes.MultinomialNB(),
+				 naive_bayes.BernoulliNB(),
+				 #svm.SVC(),
+				 #tree.DecisionTreeClassifier(),
+				 #ensemble.RandomForestClassifier(),
+				 #neighbors.nearest_centroid.NearestCentroid(),
+				 #sklearn.ensemble.GradientBoostingClassifier(),
+				 #sklearn.linear_model.Perceptron(),
+				 #amueller_mlp.MLPClassifier(),
+				 #sklearn.ensemble.AdaBoostClassifier()
 				 	]
 
 
 	# Maximum number of features: 261396
 	features_set = logRange(261396,15,1)
 
-	#combine
-	#settings = ( (classifier, features) for features in features_set for classifier in classifiers)
+	#in this case, settings are empty for all classifiers
+	classifier_settings = '';
 
-
-
-
-	classifier 			= svm.SVC(class_weight="auto")
-	classifier_settings = 'class_weight="auto"';
-
-	#combine
-	settings = ( (classifier, features,classifier_settings) for features in features_set)
-
+	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
+	settings = ( (classifier, classifier_settings, '') for features in features_set for classifier in classifiers)
 
 	#run
 	batch_run(settings)
+
 
 
 if __name__ == '__main__':

@@ -24,4 +24,5 @@
 *.synctex.gz
 .DS_Store
 *.pyc
+results/models/
 code/settings.py
