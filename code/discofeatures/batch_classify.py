@@ -1,5 +1,5 @@
 from clean_train import *
-import time, re
+import time, re, amueller_mlp
 from sklearn import *
 
 def logRange(limit, n=10,start_at_one=[]):
@@ -110,13 +110,15 @@ def main():
 				 #linear_model.LinearRegression(),
 				 #linear_model.Ridge(),
 				 #linear_model.Lasso(),
-				 naive_bayes.GaussianNB(),
+				 #naive_bayes.GaussianNB(),
 				 #naive_bayes.MultinomialNB(),
 				 #naive_bayes.BernoulliNB(),
-				 svm.SVC(),
-				 tree.DecisionTreeClassifier(),
-				 ensemble.RandomForestClassifier(),
-				 neighbors.nearest_centroid.NearestCentroid(),
+				 #svm.SVC(),
+				 #tree.DecisionTreeClassifier(),
+				 #ensemble.RandomForestClassifier(),
+				 #neighbors.nearest_centroid.NearestCentroid(),
+				 sklearn.linear_model.Perceptron(),
+				 amueller_mlp.MLPClassifier()
 				 	]
 
 
@@ -124,13 +126,14 @@ def main():
 	features_set = logRange(261396,15,1)
 
 	#combine
-	#settings = ( (classifier, features, '') for features in features_set for classifier in classifiers)
+	settings = ( (classifier, features, '') for features in features_set for classifier in classifiers)
 
-	classifier 			= sklearn.linear_model.LogisticRegression()
-	classifier_settings = '';
+	#classifier 			= amueller_mlp.MLPClassifier()
+	#classifier_settings = '';
+
 
 	#combine
-	settings = ( (classifier, features,classifier_settings) for features in features_set)
+	#settings = ( (classifier, features,classifier_settings) for features in features_set)
 
 
 	#run
