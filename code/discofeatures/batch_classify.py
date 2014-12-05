@@ -5,6 +5,7 @@ from sklearn import *
 def logRange(limit, n=10,start_at_one=[]):
 	"""
 	returns an array of logaritmicly spaced integers untill limit of size n
+	starts at 0 unless if start_at_one = True
 	"""
 
 	if start_at_one: n=n+1
@@ -33,7 +34,8 @@ def logRange(limit, n=10,start_at_one=[]):
 
 def sort_results_csv(input_file='classifier_results.csv',output_file='classifier_results.csv'):
 	"""
-	Sorts the results file on featues (6th column) and classifier name (1th column) and stores results
+	Sorts the results csv file and writes to the same file.
+	Sort on classifier name first (1th column), then on features (6th column)
 	"""
 
 	#import header first
@@ -53,6 +55,9 @@ def sort_results_csv(input_file='classifier_results.csv',output_file='classifier
 
 
 def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,features,classifier_settings=''):
+	"""
+	Get a string to store to csv file (also usefull for regexp)
+	"""
 	if not classifier_name[0]=="'": classifier_name = "'" + classifier_name
 	if not classifier_name[-1]=="'": classifier_name = classifier_name + "'"
 	if not classifier_settings[0]=="'": classifier_settings = "'" + classifier_settings
