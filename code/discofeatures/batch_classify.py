@@ -108,11 +108,11 @@ def main():
 
 	classifiers=[#gaussian_process.GaussianProcess(),
 				 #linear_model.LinearRegression(),
-				 #linear_model.Ridge,
-				 #linear_model.Lasso,
+				 #linear_model.Ridge(),
+				 #linear_model.Lasso(),
 				 naive_bayes.GaussianNB(),
-				 #naive_bayes.MultinomialNB,
-				 #naive_bayes.BernoulliNB,
+				 #naive_bayes.MultinomialNB(),
+				 #naive_bayes.BernoulliNB(),
 				 svm.SVC(),
 				 tree.DecisionTreeClassifier(),
 				 ensemble.RandomForestClassifier(),
@@ -124,13 +124,10 @@ def main():
 	features_set = logRange(261396,15,1)
 
 	#combine
-	#settings = ( (classifier, features) for features in features_set for classifier in classifiers)
+	#settings = ( (classifier, features, '') for features in features_set for classifier in classifiers)
 
-
-
-
-	classifier 			= svm.SVC(class_weight="auto")
-	classifier_settings = 'class_weight="auto"';
+	classifier 			= sklearn.linear_model.LogisticRegression()
+	classifier_settings = '';
 
 	#combine
 	settings = ( (classifier, features,classifier_settings) for features in features_set)
