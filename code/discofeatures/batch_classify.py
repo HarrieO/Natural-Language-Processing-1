@@ -127,17 +127,12 @@ def main():
 	# Maximum number of features: 261396
 	features_set = logRange(261396,15,1)
 
-	#combine
-	settings = ( (classifier, features, '') for features in features_set for classifier in classifiers)
-
-	#classifier 			= amueller_mlp.MLPClassifier()
-	#classifier_settings = '';
-
+	classifier_settings = '';
 
 	#combine
-	#settings = ( (classifier, features,classifier_settings) for features in features_set)
+	settings = ( (classifier, classifier_settings, '') for features in features_set for classifier in classifiers)
 
-
+	
 	#run
 	batch_run(settings)
 
