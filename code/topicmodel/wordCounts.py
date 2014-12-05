@@ -26,7 +26,7 @@ def pickIndexToLogProb(probs):
     return 0
 
 class WordCounter(object):
-    def __init__(self, data, giveLabel, alpha=(1.0,1.0),beta=2.0):
+    def __init__(self, data, giveLabel, alpha=(0.5,0.5),beta=0.5):
         V = np.zeros((3,1)) 
 
         wordmap           = {}
@@ -147,20 +147,20 @@ class WordCounter(object):
         (n,m) = dimension
         currentWord = self.sentenceWords[n][m]
         currentTag = self.sentenceTags[n][m]
-        logProbs = np.zeros(3) # log probabilty for labels 0,1,2
+        logProbs = np.zeros(3) # log probabilty for labels 0/1,2
         for i in [self.labelsPerSentence[n][0],2]:
-            delta = get_index(i)
+            #delta = get_index(i)
             if currentTag == i:
                 deltaVal=1.0
             else:
                 deltaVal = 0.0
-            sumTotal = 0
-            for j in [0,1]:
-                value = self.alpha[delta]+(self.tagsPerSentence[delta,n]-deltaVal)*self.labelCount[j]
-                prodTerms = value + np.arange(self.labelCount[j])
-                sumTotal += np.sum(np.log(prodTerms)) 
+            #sumTotal = 0
+            #for j in [0,1]:
+            #    value = self.alpha[delta]+(self.tagsPerSentence[delta,n]-deltaVal)*self.labelCount[j]
+            #    prodTerms = value + np.arange(self.labelCount[j])
+            #    sumTotal += np.sum(np.log(prodTerms)) 
             Vi = sum(self.tagsPerWord[i,:]>0)
-            logProbs[i] = sumTotal+np.log(self.beta -deltaVal +self.tagsPerWord[i,currentWord])-np.log(-deltaVal+self.V[i]+Vi*self.beta)
+            logProbs[i] = np.log(self.beta -deltaVal +self.tagsPerWord[i,currentWord])-np.log(-deltaVal+self.V[i]+Vi*self.beta)#+sumTotal
         newLabel = pickIndexToLogProb(logProbs)
         self.changeLabel(n,m,newLabel)
         return newLabel
@@ -194,7 +194,7 @@ for i in range(10):
     print wordCounter.sentenceTags[i]
 
 start = time.time()
-num_its= 10
+num_its= 20
 print "Applying Gibbs sampling for", num_its, "iterations"
 gibbs_sample_topic_model(wordCounter, 5, num_its)
 print "Took", time.time()-start, "seconds"
