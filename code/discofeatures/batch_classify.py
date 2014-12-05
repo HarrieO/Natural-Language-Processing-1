@@ -48,13 +48,18 @@ def sort_results_csv(input_file='classifier_results.csv',output_file='classifier
 
 	#store sorted file
 	with open(output_file,'w') as fd:
-		fd.write(header + "\n")
+		fd.write(header)
 		[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6]) + "\n") for tup in table]
 
 
 def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,features,classifier_settings=''):
-	return "'" + classifier_name + "',{0},{1},{2},{3},{4},'".format(train_accuracy,
-				test_accuracy,fit_time,score_time,features) + classifier_settings + "'"
+	if not classifier_name[0]=="'": classifier_name = "'" + classifier_name
+	if not classifier_name[-1]=="'": classifier_name = classifier_name + "'"
+	if not classifier_settings[0]=="'": classifier_settings = "'" + classifier_settings
+	if not classifier_settings[-1]=="'": classifier_settings = classifier_settings + "'"
+	
+	return classifier_name + ",{0},{1},{2},{3},{4},".format(train_accuracy,
+				test_accuracy,fit_time,score_time,features) + classifier_settings
 
 
 def batch_run(test_settings):
