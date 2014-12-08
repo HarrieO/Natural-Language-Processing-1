@@ -29,15 +29,16 @@ class WordCounter(object):
         V = np.zeros((3,1)) 
 
         wordmap           = {}
+        totalScorePerWord = {}
+        occurencesPerWord = {}
         invwordmap        = [] 
         vocabularySize    = 0
         numberOfSentences = len(data)
         labelsPerSentence = np.zeros((numberOfSentences,1))
-        labelCount = np.zeros((2,1))
-        tagCount = np.zeros(2)
+        labelCount        = np.zeros((2,1))
+        tagCount          = np.zeros(2)
 
         sentenceWords = []
-        sentenceTags  = []
         for i, post in enumerate(data):
             # raw Strings
             rawWords   = post.content.split()
@@ -46,7 +47,6 @@ class WordCounter(object):
             labelCount[label]   += 1
             # indices of words after removal of non alphanumeric characters
             cleanWords  = []
-            taggedWords = []
             for m,word in enumerate(post.content.split()):
                 word = pattern.sub('', word).lower()
                 if len(word) > 0:
@@ -55,14 +55,27 @@ class WordCounter(object):
                         wordmap[word]   = vocabularySize
                         vocabularySize += 1
                     cleanWords.append(wordmap[word])
-                    z     = random.choice([2]+[label])
-                    V[z] += 1
-                    taggedWords.append(z)
-                    tagCount[get_index(z)]+=1
+                    totalScorePerWord[wordmap[word]] = totalScorePerWord.get(wordmap[word],0) +post.score
+                    occurencesPerWord[wordmap[word]] = occurencesPerWord.get(wordmap[word],0) + 1
             sentenceWords.append(np.array(cleanWords))
+
+        averageScorePerWord = np.zeros((vocabularySize,1))
+        for word in wordmap.values():
+          averageScorePerWord[word] = totalScorePerWord[word]/float(occurencesPerWord[word])
+
+        sentenceTags  = []
+        for i, words in enumerate(sentenceWords):
+            label = labelsPerSentence[i,0]
+            taggedWords = []
+            for m,word in enumerate(words):
+                if abs(averageScorePerWord[word]) > 0.3:
+                    z = label
+                else:
+                    z = 2
+                V[z] += 1
+                taggedWords.append(z)
+                tagCount[get_index(z)]+=1
             sentenceTags.append(np.array(taggedWords)) # z tags in sentence
-            if i>100: # for testing topic model
-                break
 
         tagsPerWord     = np.zeros((3,vocabularySize))
         tagsPerSentence = np.zeros((2,numberOfSentences))
@@ -71,21 +84,22 @@ class WordCounter(object):
                 tagsPerWord[tag,word]  += 1 
                 tagsPerSentence[get_index(tag),i] += 1 
 
-        self.sentenceWords     = sentenceWords
-        self.sentenceTags      = sentenceTags
-        self.tagsPerWord       = tagsPerWord # number of z tags per word
-        self.tagsPerSentence   = tagsPerSentence # number of z tags per sentences
-        self.sentenceTags      = sentenceTags
-        self.V                 = V # stores labels for z, 0 = negative, 1 = positive, 2 = neutral
-        self.labelCount        = labelCount # C(0) = #negative sentences, C(1) = #positive sentences
-        self.numberOfSentences = numberOfSentences
-        self.vocabularySize    = vocabularySize
-        self.wordmap           = wordmap # word -> index for invwordmap
-        self.invwordmap        = invwordmap # all words
-        self.labelsPerSentence = labelsPerSentence
-        self.tagCount = tagCount
-        self.alpha = alpha
-        self.beta = beta
+        self.sentenceWords       = sentenceWords
+        self.sentenceTags        = sentenceTags
+        self.tagsPerWord         = tagsPerWord # number of z tags per word
+        self.tagsPerSentence     = tagsPerSentence # number of z tags per sentences
+        self.sentenceTags        = sentenceTags
+        self.V                   = V # stores labels for z, 0 = negative, 1 = positive, 2 = neutral
+        self.labelCount          = labelCount # C(0) = #negative sentences, C(1) = #positive sentences
+        self.numberOfSentences   = numberOfSentences
+        self.vocabularySize      = vocabularySize
+        self.wordmap             = wordmap # word -> index for invwordmap
+        self.invwordmap          = invwordmap # all words
+        self.labelsPerSentence   = labelsPerSentence
+        self.averageScorePerWord = averageScorePerWord
+        self.tagCount            = tagCount
+        self.alpha               = alpha
+        self.beta                = beta
 
     # convert indices back to words
     def getWords(self,wordArray):
@@ -112,9 +126,9 @@ class WordCounter(object):
     def addSentence(self, sentence, label):
         sent = self.convertSentence(sentence)
         tags = np.zeros((len(sent),1))
-        self.tagsPerSentence = np.concatenate((self.tagsPerSentence,np.zeros((3,1))),axis=1)
+        self.tagsPerSentence = np.concatenate((self.tagsPerSentence,np.zeros((2,1))),axis=1)
         self.sentenceTags.append(tags)
-        self.labelsPerSentence = np.append(self.labelsPerSentence,np.array([[label]]) , axis=0)
+        self.labelsPerSentence = np.append(self.labelsPerSentence,np.array([label]))
         self.labelCount[label] += 1
         for i, word in enumerate(sent):
             z       = random.choice([2]+[label])
@@ -122,7 +136,7 @@ class WordCounter(object):
             tags[i] = z
             self.tagsPerWord[z,word]  += 1
             self.tagsPerSentence[get_index(z),self.numberOfSentences] += 1
-            self.tagCount[get_index[z]]+=1
+            self.tagCount[get_index(z)]+=1
         self.numberOfSentences += 1
         self.sentenceWords.append(sent)
         self.sentenceTags.append(tags)
@@ -175,6 +189,7 @@ start = time.time()
 wordCounter = WordCounter(data,giveLabel)
 
 print "Took", time.time()-start, "seconds"
+
 
 def gibbs_sample_topic_model(wordCounter, interestSentInd,num_its=2):
     # burn = number of iterations used for burn-in

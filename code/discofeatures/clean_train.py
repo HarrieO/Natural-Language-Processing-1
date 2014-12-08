@@ -85,17 +85,6 @@ def main():
 
 	print "Fit classifier, calculating scores"
 
-	# correct = 0
-	# total   = 0
-	# for x,t in zip(X,y):
-	#     p = classifier.predict(x)
-	#     if p == t:
-	#         correct += 1
-	#         print p, t
-	#     total += 1.0
-	#     print "Accuracy", (correct/total), "with", correct, "out of", total
-
-
 	print "Accuracy on test set:    ", classifier.score(Xtest,r)
 	print "Accuracy on training set:", classifier.score(X,y)
 
