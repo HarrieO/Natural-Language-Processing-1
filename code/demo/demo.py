@@ -65,7 +65,7 @@ class PolitenessHandler(tornado.web.RequestHandler):
             classFound = 'polite'
         if scoreFound <= -0.5:
             classFound = 'impolite'
-        response = { 'sentences': [ {'sentence': " ".join(["<span class=\""+getClassWord(word)+"\">"+word+" "+"</span>" for word in re.findall(r"[\w']+|[.,!?;]",sentence) if word != "" ]), 'sentenceClass': classFound, 'confidence': scoreFound } ]}
+        response = { 'sentences': [ {'sentence': " ".join(["<span class=\""+getClassWord(word)+"\">"+word+" "+"</span>" for word in re.findall(r"[\w']+|[\W]",sentence) if word != "" ]), 'sentenceClass': classFound, 'confidence': scoreFound } ]}
         self.write(response)
 
 application = tornado.web.Application([
