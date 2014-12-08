@@ -1,65 +1,53 @@
+import re
 import os, sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import numpy as np
+import cPickle as pickle
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 import post
-import collections as Col
+import extractFeatures
+from decisionstumps import *
+from sklearn.naive_bayes import GaussianNB
 
-def get_counts():
-	wordCounts = Col.Counter()
-	numberWord = Col.Counter()
+'''
+Settings
+'''
+N = 1000 # The amount of features selected for the histogram
 
-	contents    = post.read_column(0,'../../datasets/preprocessed/train.csv')
-	scores      = post.read_column(1,'../../datasets/preprocessed/train.csv')
-	scoreArr = np.zeros(len(scores))
-	for i in range(len(scores)):
-		scoreArr[i] = float(scores[i])
-	scoreArr =  scoreArr - np.mean(scoreArr)
-	for i in range(len(contents)):
-		words = contents[i].split()
-		for word in words:
-			wordCounts[word] += scoreArr[i]
-			numberWord[word]+=1
-	# normalize counts
-	for word in numberWord.keys():
-		wordCounts[word] = wordCounts[word]/float(numberWord[word])
-	return wordCounts
-
-def compute_score(sentence, counts):
-	words  = sentence.split()
-	score = 0.0
-	for word in words:
-		score += counts[word]
-		#print word, ", ", counts[word]
-	return score
-
-# Returns to which class the score belongs
-def getClass(score,classCutOff,classes):
+def getFeatures(trees, ignoredFeatures, features):
+	results = list()
 	i = 0
-	for cutOff in classCutOff:
-		if cutOff < score:
-			i = i + 1
-	return classes[i]
-
+	for tree in trees:
+		wordTags = getWordTagsFromTree(tree)
+		results.append(extractFeatures.extract_features_word(wordTags, ignoredFeatures, features))
+		if (i % 1000) == 0:
+			print i
+		i += 1
+	return results
 
 if __name__ == "__main__":
-	counts = get_counts()
-	contents  = post.read_column(0,'../../datasets/preprocessed/test.csv')
-	scores = post.read_column(1,'../../datasets/preprocessed/test.csv')
-	# for i in range(10):
-	# 	print contents[i]
-	# 	print scores[i], " versus ", compute_score(contents[i],counts)
+	# Data structures
 	classes			= ['negative','neutral','positive']
 	classCutOff		= [-0.5,0.5]
+	classCount 		= emptyClassCount(classes)
+	wordTagCount 	= dict()
+	totalScores		= dict()
 
-	misclassifications =0
-	completeWrong = 0
-	for i in range(len(contents)):
-		classified = getClass(compute_score(contents[i],counts),classCutOff, classes)
-		original = getClass(float(scores[i]), classCutOff, classes)
-		if classified != original:
-			misclassifications +=1
-			if not (original == 'neutral' or classified =='neutral'):
-				#print contents[i]
-				#print classified
-				completeWrong +=1
-	print "Percentage wrong: ", misclassifications/float(len(contents))*100, "%, percentage complete wrong: ", completeWrong/float(len(contents))*100, "%"
+
+	# Running starts here
+	
+	# First extract the counts
+	counts, ignoredWordTags = reduceFeatureSpace(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'),classes,classCutOff,wordTagCount,classCount,totalScores, N)
+
+	# Extract the histograms based on the selected features
+	#outputHistograms(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'), os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/trainHist.csv'), classes, classCutOff, counts.keys())
+	
+	treesTrain = post.read_column(4,os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'))
+	trainFeatures = getFeatures(treesTrain,ignoredWordTags,counts.keys())
+	treesTest = open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/test_trees.txt'), 'r')
+	testFeatures = getFeatures(treesTest,ignoredWordTags,counts.keys())
+
+	# These counts are used for training the baseline classifier
+	gnb = GaussianNB()
+	#model = gnb.fit(iris.data, iris.target)
+
+

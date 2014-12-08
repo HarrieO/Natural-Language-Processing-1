@@ -15,8 +15,7 @@ def get_index(label):
         return 1
     return 0
 def pickIndexToLogProb(probs):
-    probs = np.exp(probs - logsumexp(probs))
-    ranNum = np.random.rand()
+    ranNum = np.random.rand()*np.sum(probs)
     for i,prob in enumerate(probs):
         ranNum -= prob
         if ranNum <=0:
@@ -26,19 +25,20 @@ def pickIndexToLogProb(probs):
     return 0
 
 class WordCounter(object):
-    def __init__(self, data, giveLabel, alpha=(1.0,1.0),beta=2.0):
+    def __init__(self, data, giveLabel, alpha=(0.5,0.5),beta=0.5):
         V = np.zeros((3,1)) 
 
         wordmap           = {}
-        dimensionToMN     = []
+        totalScorePerWord = {}
+        occurencesPerWord = {}
         invwordmap        = [] 
         vocabularySize    = 0
         numberOfSentences = len(data)
         labelsPerSentence = np.zeros((numberOfSentences,1))
-        labelCount = np.zeros((2,1))
+        labelCount        = np.zeros((2,1))
+        tagCount          = np.zeros(2)
 
         sentenceWords = []
-        sentenceTags  = []
         for i, post in enumerate(data):
             # raw Strings
             rawWords   = post.content.split()
@@ -47,7 +47,6 @@ class WordCounter(object):
             labelCount[label]   += 1
             # indices of words after removal of non alphanumeric characters
             cleanWords  = []
-            taggedWords = []
             for m,word in enumerate(post.content.split()):
                 word = pattern.sub('', word).lower()
                 if len(word) > 0:
@@ -56,14 +55,27 @@ class WordCounter(object):
                         wordmap[word]   = vocabularySize
                         vocabularySize += 1
                     cleanWords.append(wordmap[word])
-                    z     = random.choice([2]+[label])
-                    V[z] += 1
-                    taggedWords.append(z)
-                    dimensionToMN.append((i,m))
+                    totalScorePerWord[wordmap[word]] = totalScorePerWord.get(wordmap[word],0) +post.score
+                    occurencesPerWord[wordmap[word]] = occurencesPerWord.get(wordmap[word],0) + 1
             sentenceWords.append(np.array(cleanWords))
+
+        averageScorePerWord = np.zeros((vocabularySize,1))
+        for word in wordmap.values():
+          averageScorePerWord[word] = totalScorePerWord[word]/float(occurencesPerWord[word])
+
+        sentenceTags  = []
+        for i, words in enumerate(sentenceWords):
+            label = labelsPerSentence[i,0]
+            taggedWords = []
+            for m,word in enumerate(words):
+                if abs(averageScorePerWord[word]) > 0.3:
+                    z = label
+                else:
+                    z = 2
+                V[z] += 1
+                taggedWords.append(z)
+                tagCount[get_index(z)]+=1
             sentenceTags.append(np.array(taggedWords)) # z tags in sentence
-            if i>100: # for testing topic model
-                break
 
         tagsPerWord     = np.zeros((3,vocabularySize))
         tagsPerSentence = np.zeros((2,numberOfSentences))
@@ -72,21 +84,22 @@ class WordCounter(object):
                 tagsPerWord[tag,word]  += 1 
                 tagsPerSentence[get_index(tag),i] += 1 
 
-        self.sentenceWords     = sentenceWords
-        self.sentenceTags      = sentenceTags
-        self.tagsPerWord       = tagsPerWord # number of z tags per word
-        self.tagsPerSentence   = tagsPerSentence # number of z tags per sentences
-        self.sentenceTags      = sentenceTags
-        self.V                 = V # stores labels for z, 0 = negative, 1 = positive, 2 = neutral
-        self.labelCount        = labelCount # C(0) = #negative sentences, C(1) = #positive sentences
-        self.numberOfSentences = numberOfSentences
-        self.vocabularySize    = vocabularySize
-        self.wordmap           = wordmap # word -> index for invwordmap
-        self.invwordmap        = invwordmap # all words
-        self.labelsPerSentence = labelsPerSentence
-        self.alpha = alpha
-        self.beta = beta
-        self.dimensionToMN = dimensionToMN # list containing (n,m) tuples
+        self.sentenceWords       = sentenceWords
+        self.sentenceTags        = sentenceTags
+        self.tagsPerWord         = tagsPerWord # number of z tags per word
+        self.tagsPerSentence     = tagsPerSentence # number of z tags per sentences
+        self.sentenceTags        = sentenceTags
+        self.V                   = V # stores labels for z, 0 = negative, 1 = positive, 2 = neutral
+        self.labelCount          = labelCount # C(0) = #negative sentences, C(1) = #positive sentences
+        self.numberOfSentences   = numberOfSentences
+        self.vocabularySize      = vocabularySize
+        self.wordmap             = wordmap # word -> index for invwordmap
+        self.invwordmap          = invwordmap # all words
+        self.labelsPerSentence   = labelsPerSentence
+        self.averageScorePerWord = averageScorePerWord
+        self.tagCount            = tagCount
+        self.alpha               = alpha
+        self.beta                = beta
 
     # convert indices back to words
     def getWords(self,wordArray):
@@ -113,9 +126,9 @@ class WordCounter(object):
     def addSentence(self, sentence, label):
         sent = self.convertSentence(sentence)
         tags = np.zeros((len(sent),1))
-        self.tagsPerSentence = np.concatenate((self.tagsPerSentence,np.zeros((3,1))),axis=1)
+        self.tagsPerSentence = np.concatenate((self.tagsPerSentence,np.zeros((2,1))),axis=1)
         self.sentenceTags.append(tags)
-        self.labelsPerSentence = np.append(self.labelsPerSentence,np.array([[label]]) , axis=0)
+        self.labelsPerSentence = np.append(self.labelsPerSentence,np.array([label]))
         self.labelCount[label] += 1
         for i, word in enumerate(sent):
             z       = random.choice([2]+[label])
@@ -123,7 +136,7 @@ class WordCounter(object):
             tags[i] = z
             self.tagsPerWord[z,word]  += 1
             self.tagsPerSentence[get_index(z),self.numberOfSentences] += 1
-            self.dimensionToMN.append((self.numberOfSentences,i))
+            self.tagCount[get_index(z)]+=1
         self.numberOfSentences += 1
         self.sentenceWords.append(sent)
         self.sentenceTags.append(tags)
@@ -134,11 +147,13 @@ class WordCounter(object):
             word = self.sentenceWords[sentence_i][word_i]
             self.V[oldtag]                          -= 1
             self.tagsPerWord[oldtag,word]           -= 1
-            self.tagsPerSentence[get_index(oldtag),sentence_i] -= 1
+            #self.tagsPerSentence[get_index(oldtag),sentence_i] -= 1 ###currently used variable
+            self.tagCount[get_index(oldtag)]-=1
             self.sentenceTags[sentence_i][word_i]    = label
             self.V[label]                           += 1
             self.tagsPerWord[label,word]            += 1
-            self.tagsPerSentence[get_index(label),sentence_i]  += 1
+            #self.tagsPerSentence[get_index(label),sentence_i]  += 1 ###currently used variable
+            self.tagCount[get_index(label)]+=1
 
     # Topic model
     # 0 = negative, 1 = positive, 2 = neutral
@@ -147,21 +162,18 @@ class WordCounter(object):
         (n,m) = dimension
         currentWord = self.sentenceWords[n][m]
         currentTag = self.sentenceTags[n][m]
-        logProbs = np.zeros(3) # log probabilty for labels 0,1,2
+        probs = np.zeros(3) # probabilty for labels 0,1,2
+        total = self.alpha[0]+self.alpha[1]+self.tagCount[0]+self.tagCount[1]-1.0
         for i in [self.labelsPerSentence[n][0],2]:
             delta = get_index(i)
             if currentTag == i:
                 deltaVal=1.0
             else:
                 deltaVal = 0.0
-            sumTotal = 0
-            for j in [0,1]:
-                value = self.alpha[delta]+(self.tagsPerSentence[delta,n]-deltaVal)*self.labelCount[j]
-                prodTerms = value + np.arange(self.labelCount[j])
-                sumTotal += np.sum(np.log(prodTerms)) 
+            value = (self.tagCount[delta]+self.alpha[delta]-1.0)/total
             Vi = sum(self.tagsPerWord[i,:]>0)
-            logProbs[i] = sumTotal+np.log(self.beta -deltaVal +self.tagsPerWord[i,currentWord])-np.log(-deltaVal+self.V[i]+Vi*self.beta)
-        newLabel = pickIndexToLogProb(logProbs)
+            probs[i] = value*(self.beta -deltaVal +self.tagsPerWord[i,currentWord])/(-deltaVal+self.V[i]+Vi*self.beta)
+        newLabel = pickIndexToLogProb(probs)
         self.changeLabel(n,m,newLabel)
         return newLabel
 
@@ -178,6 +190,7 @@ wordCounter = WordCounter(data,giveLabel)
 
 print "Took", time.time()-start, "seconds"
 
+
 def gibbs_sample_topic_model(wordCounter, interestSentInd,num_its=2):
     # burn = number of iterations used for burn-in
     samples_out = []
@@ -190,7 +203,7 @@ def gibbs_sample_topic_model(wordCounter, interestSentInd,num_its=2):
     return samples_out
 print "Labeling before Gibss sampling: "
 for i in range(10):
-    print wordCounter.getWords(wordCounter.sentenceWords[i])
+    print " ".join(wordCounter.getWords(wordCounter.sentenceWords[i]))
     print wordCounter.sentenceTags[i]
 
 start = time.time()
@@ -200,5 +213,5 @@ gibbs_sample_topic_model(wordCounter, 5, num_its)
 print "Took", time.time()-start, "seconds"
 print "Labeling after Gibss sampling: "
 for i in range(10):
-    print wordCounter.getWords(wordCounter.sentenceWords[i])
+    print " ".join(wordCounter.getWords(wordCounter.sentenceWords[i]))
     print wordCounter.sentenceTags[i]

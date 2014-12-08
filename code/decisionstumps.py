@@ -8,7 +8,7 @@ from computeEntropy import word_entropy, entropy
 '''
 Settings
 '''
-N = 100000 # The amount of features selected for the histogram
+N = 1000 # The amount of features selected for the histogram
 
 # Computes the word-tag count, the class count and the summed scores for each of the word-tag pairs.
 def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):	
@@ -81,16 +81,18 @@ def selectFeatures(featureEntropy, N, wordTagCount):
 	ignoredFeatures = [key for key in wordTagCount.keys() if key not in selectedFeatures.keys()]
 	return selectedFeatures, ignoredFeatures
 
-def outputHistograms(inputfile, outputfile, classes, classCutOff, features):
-	trees = post.read_column(4,inputfile)
-	scores = map(float,post.read_column(2,inputfile))
-	f = open(outputfile, 'w')
+def getWordTagsFromTree(tree):
+	punctuation = "\.\?"
+	wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
+	return wordTags
+
+def getHistograms(trees, features):
 	# Read the file line by line
 	i = 0
+	histograms = [0] * len(trees)
 	for tree in trees:
-		punctuation = "\.\?"
-		wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
-		histogram = [0] * len(features)
+		histograms[i] = [0] * len(features)
+		wordTags = getWordTagsFromTree(tree)
 		for wordTag in wordTags:
 			try:
 				idx = features.index(wordTag[0])
@@ -98,13 +100,26 @@ def outputHistograms(inputfile, outputfile, classes, classCutOff, features):
 				idx = -1
 			if idx != -1:
 				# Include in the histogram
-				histogram[idx] = histogram[idx]+1
-			#else:
-			# Do something with the unknown word
-				
-		# Write the histogram to the file
-		f.write(",".join(str(x) for x in histogram)+","+getClass(scores[i],classCutOff,classes)+"\n")
+				histograms[i][idx] = histograms[i][idx]+1
 		i = i + 1
+	return histograms
+
+def outputHistograms(inputfile, outputfile, classes, classCutOff, features):
+	trees = post.read_column(4,inputfile)
+	scores = map(float,post.read_column(2,inputfile))
+	f = open(outputfile, 'w')
+	histograms = getHistograms(trees, features);
+	i = 0
+	for tree in trees:
+		# Write the histogram to the file
+		f.write(",".join(str(x) for x in histograms[i])+","+getClass(scores[i],classCutOff,classes)+"\n")
+		i = i + 1
+
+def reduceFeatureSpace(inputFile,classes,classCutOff,wordTagCount,classCount,totalScores, N):
+	extract(inputFile,classes,classCutOff,wordTagCount,classCount,totalScores);
+	wordTag_entropy = word_entropy(classCount, wordTagCount)
+	newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
+	return newCounts, ignoredWordTags
 
 if __name__ == "__main__":
 	# Data structures
