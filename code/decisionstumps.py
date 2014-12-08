@@ -8,7 +8,7 @@ from computeEntropy import word_entropy, entropy
 '''
 Settings
 '''
-N = 100000 # The amount of features selected for the histogram
+N = 1000 # The amount of features selected for the histogram
 
 # Computes the word-tag count, the class count and the summed scores for each of the word-tag pairs.
 def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):	
@@ -81,9 +81,10 @@ def selectFeatures(featureEntropy, N, wordTagCount):
 	ignoredFeatures = [key for key in wordTagCount.keys() if key not in selectedFeatures.keys()]
 	return selectedFeatures, ignoredFeatures
 
-def outputHistograms(inputfile, outputfile, classes, classCutOff, features):
+def outputHistograms(inputfile, outputfile, classes, classCutOff, features, noScores=False):
 	trees = post.read_column(4,inputfile)
-	scores = map(float,post.read_column(2,inputfile))
+	if not noScores:
+		scores = map(float,post.read_column(2,inputfile))
 	f = open(outputfile, 'w')
 	# Read the file line by line
 	i = 0
@@ -103,8 +104,17 @@ def outputHistograms(inputfile, outputfile, classes, classCutOff, features):
 			# Do something with the unknown word
 				
 		# Write the histogram to the file
-		f.write(",".join(str(x) for x in histogram)+","+getClass(scores[i],classCutOff,classes)+"\n")
+		if noScores:
+			f.write(",".join(str(x) for x in histogram)+"\n")
+		else:
+			f.write(",".join(str(x) for x in histogram)+","+getClass(scores[i],classCutOff,classes)+"\n")
 		i = i + 1
+
+def reduceFeatureSpace(inputFile,classes,classCutOff,wordTagCount,classCount,totalScores, N):
+	extract(inputFile,classes,classCutOff,wordTagCount,classCount,totalScores);
+	wordTag_entropy = word_entropy(classCount, wordTagCount)
+	newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
+	return newCounts, ignoredWordTags
 
 if __name__ == "__main__":
 	# Data structures
