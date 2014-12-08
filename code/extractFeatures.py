@@ -15,16 +15,16 @@ def extract_features_word(words,leaveOutWords, featureWords):
 		# count seen words
 		if word in featureWords:
 			features[word]+=1
-		else:
-			wordList = list(word)
-			# find largest last part that is the same a word that is already seen
-			for i in range(len(wordList)+1):
-				sequence = wordList[i:]
-				number, positives = contains_end(sequence,leaveOutWords,featureWords)
-				if len(positives) >0:
-					for entry in positives:
-						features[entry] += 1.0/float(number)
-					break
+		# else:
+		# 	wordList = list(word)
+		# 	# find largest last part that is the same a word that is already seen
+		# 	for i in range(len(wordList)+1):
+		# 		sequence = wordList[i:]
+		# 		number, positives = contains_end(sequence,leaveOutWords,featureWords)
+		# 		if len(positives) >0:
+		# 			for entry in positives:
+		# 				features[entry] += 1.0/float(number)
+		# 			break
 	return features
 
 def contains_end(sequence,ignoreWords, addWords):
