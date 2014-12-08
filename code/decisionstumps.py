@@ -45,6 +45,10 @@ def getClass(score,classCutOff,classes):
 			i = i + 1
 	return classes[i]
 
+
+def scoresToClass(scores,classCutOff,classes):
+	return [getClass(score,classCutOff,classes) from score in scores]
+
 # Stores the score in the dictionary for total scores
 def registerScore(wordTag,score,totalScores):
 	if wordTag not in totalScores:
@@ -82,8 +86,8 @@ def selectFeatures(featureEntropy, N, wordTagCount):
 	return selectedFeatures, ignoredFeatures
 
 def getWordTagsFromTree(tree):
-	punctuation = "\.\?"
-	wordTags = re.findall("(\(([a-zA-Z0-9"+punctuation+"])* ([a-zA-Z0-9"+punctuation+"])*\))",tree)
+	punctuation = r"[.,!?;]"
+	wordTags = re.findall("(\(([a-zA-Z0-9]|"+punctuation+")* ([a-zA-Z0-9]|"+punctuation+")*\))",tree)
 	return wordTags
 
 def getHistograms(trees, features):
@@ -94,6 +98,7 @@ def getHistograms(trees, features):
 		histograms[i] = [0] * len(features)
 		wordTags = getWordTagsFromTree(tree)
 		for wordTag in wordTags:
+			print wordTag
 			try:
 				idx = features.index(wordTag[0])
 			except ValueError:
