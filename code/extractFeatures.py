@@ -7,8 +7,8 @@ def extract_features_word(words,leaveOutWords, featureWords):
 	# featureWords = list of words that are seen as features 
 	features = dict()
 	# initialize counts
-	for word in featureWords:
-		features[word]=0
+	# for word in featureWords:
+	# 	features[word]=0
 	for word in words:
 		if word in leaveOutWords:
 			continue

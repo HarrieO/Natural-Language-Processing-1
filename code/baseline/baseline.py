@@ -4,13 +4,25 @@ import numpy as np
 import cPickle as pickle
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 import post
-from decisionstumps import reduceFeatureSpace, outputHistograms, emptyClassCount
+import extractFeatures
+from decisionstumps import *
 from sklearn.naive_bayes import GaussianNB
 
 '''
 Settings
 '''
 N = 1000 # The amount of features selected for the histogram
+
+def getFeatures(trees, ignoredFeatures, features):
+	results = list()
+	i = 0
+	for tree in trees:
+		wordTags = getWordTagsFromTree(tree)
+		results.append(extractFeatures.extract_features_word(wordTags, ignoredFeatures, features))
+		if (i % 1000) == 0:
+			print i
+		i += 1
+	return results
 
 if __name__ == "__main__":
 	# Data structures
@@ -24,16 +36,18 @@ if __name__ == "__main__":
 	# Running starts here
 	
 	# First extract the counts
-	newCounts, ignoredWordTags = reduceFeatureSpace(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'),classes,classCutOff,wordTagCount,classCount,totalScores, N);
+	counts, ignoredWordTags = reduceFeatureSpace(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'),classes,classCutOff,wordTagCount,classCount,totalScores, N)
 
 	# Extract the histograms based on the selected features
-	outputHistograms(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'), os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/trainHist.csv'), classes, classCutOff, newCounts.keys());
-	#outputHistograms(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/test_trees.txt'), os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/testHist.csv'), classes, classCutOff, newCounts.keys(), True);
-
-	# Load the histograms back in
+	#outputHistograms(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'), os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/trainHist.csv'), classes, classCutOff, counts.keys())
+	
+	treesTrain = post.read_column(4,os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'))
+	trainFeatures = getFeatures(treesTrain,ignoredWordTags,counts.keys())
+	treesTest = open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/test_trees.txt'), 'r')
+	testFeatures = getFeatures(treesTest,ignoredWordTags,counts.keys())
 
 	# These counts are used for training the baseline classifier
 	gnb = GaussianNB()
-	model = gnb.fit(iris.data, iris.target)
+	#model = gnb.fit(iris.data, iris.target)
 
 
