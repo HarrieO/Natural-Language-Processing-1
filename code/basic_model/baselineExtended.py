@@ -43,7 +43,7 @@ def get_counts(classCutOff,classes):
 
 def compute_score(sentence, counts):
 	# words  = sentence.split()
-	words = re.findall(r"[\w']+|[.,!?;]",sentence)
+	words = re.findall(r"[\w']+|[\W]",sentence)
 	score = 0.0
 	unused= 0
 	for word in words:

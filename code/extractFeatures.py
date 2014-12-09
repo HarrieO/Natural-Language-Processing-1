@@ -7,24 +7,24 @@ def extract_features_word(words,leaveOutWords, featureWords):
 	# featureWords = list of words that are seen as features 
 	features = dict()
 	# initialize counts
-	# for word in featureWords:
-	# 	features[word]=0
+	for word in featureWords:
+		features[word]=0
 	for word in words:
 		if word in leaveOutWords:
 			continue
 		# count seen words
 		if word in featureWords:
 			features[word]+=1
-		else:
-			wordList = list(word)
-			# find largest last part that is the same a word that is already seen
-			for i in range(len(wordList)+1):
-				sequence = wordList[i:]
-				number, positives = contains_end(sequence,leaveOutWords,featureWords)
-				if len(positives) >0:
-					for entry in positives:
-						features[entry] += 1.0/float(number)
-					break
+		# else:
+		# 	wordList = list(word)
+		# 	# find largest last part that is the same a word that is already seen
+		# 	for i in range(len(wordList)+1):
+		# 		sequence = wordList[i:]
+		# 		number, positives = contains_end(sequence,leaveOutWords,featureWords)
+		# 		if len(positives) >0:
+		# 			for entry in positives:
+		# 				features[entry] += 1.0/float(number)
+		# 			break
 	return features
 
 def contains_end(sequence,ignoreWords, addWords):
@@ -48,3 +48,4 @@ def contains_end(sequence,ignoreWords, addWords):
 
 if __name__ == "__main__":
 	print extract_features_word(['hi','there'], ['hi','are','bare'],['snare', 'hi'])
+	print extract_features_word(['(VB Thank)','(PRP you)'], [],['(DT the)', '(VB Thank)'])
