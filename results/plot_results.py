@@ -121,7 +121,7 @@ def main():
 	print "\n".join(classifier_list)
 
 
-	best_n = 2
+	best_n = 10
 
 	print "\n\n"
 	print "==============================================="
