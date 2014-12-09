@@ -75,9 +75,6 @@ def testTurksRandom(left=8, right =17):
 		turkIndex = random.randint(0,4)
 		if( classFromTurkScore(turkScoresSE[turkIndex, i], left, right)!= classFromScore(scoresSE[i])):
 			mistakes +=1
-
-
-	mistakes = 0
 	for i in range(len(scoresWIKlist)):
 		turkIndex = random.randint(0,4)
 		if( classFromTurkScore(turkScoresWIK[turkIndex, i], left, right)!= classFromScore(scoresWIK[i])):
@@ -85,6 +82,26 @@ def testTurksRandom(left=8, right =17):
 	percentage = (1.0-mistakes / float(len(scoresSElist)+len(scoresWIKlist))) * 100.0
 	print "For split (",left, ",", right, "), ", percentage, "% was classified correctly"
 	return percentage
+def testTurksAll(left=10, right =18):
+	allCorrect = 0
+	for i in range(len(scoresSElist)):
+		mistake = False
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresSE[turkIndex, i], left, right)!= classFromScore(scoresSE[i])):
+				mistake = True
+		if not mistake:
+			allCorrect+=1
+	for i in range(len(scoresWIKlist)):
+		mistake = False
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresWIK[turkIndex, i], left, right)!= classFromScore(scoresWIK[i])):
+				mistake = True
+		if not mistake:
+			allCorrect+=1
+	percentage = (1.0*allCorrect / float(len(scoresSElist)+len(scoresWIKlist))) * 100.0
+	print "For split (",left, ",", right, "), ", percentage, "% was classified correctly by all Turks"
+	return percentage
+testTurksAll()
 
 bestI = 2
 bestJ = 13
