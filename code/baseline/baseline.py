@@ -16,7 +16,7 @@ from sklearn.metrics import classification_report
 Settings
 '''
 N = 1000 # The amount of features selected for the histogram
-forceExtractFeautres = True # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
+forceExtractFeautres = False # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
 usePosTag = True
 
 def getFeatures(trees, ignoredFeatures, features):
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 	fileTrainData 	= '../../datasets/preprocessed/baselineTrainSet.p'
 	fileTestData	= '../../datasets/preprocessed/baselineTestSet.p'
 
-	for N in [10,100,300,500,800,1000,2000,4000,10000,20000]:
+	for N in [2000,4000,10000,20000]:
 		print "============="
 		print N
 		print "============="
@@ -88,17 +88,17 @@ if __name__ == "__main__":
 		maxCounts = trainClasses.count('negative')
 		i = 0
 		# Limit the class distribution
-		newTrainFeatures = list()
-		newTrainClasses = list()
-		while i<len(trainClasses):
-			if counts[trainClasses[i]]<maxCounts:
-				newTrainFeatures.append(trainFeatures[i])
-				newTrainClasses.append(trainClasses[i])
-				counts[trainClasses[i]]+=1
-			i += 1
-		print newTrainClasses[:10]
-		trainClasses = newTrainClasses
-		trainFeatures = newTrainFeatures
+		# newTrainFeatures = list()
+		# newTrainClasses = list()
+		# while i<len(trainClasses):
+		# 	if counts[trainClasses[i]]<maxCounts:
+		# 		newTrainFeatures.append(trainFeatures[i])
+		# 		newTrainClasses.append(trainClasses[i])
+		# 		counts[trainClasses[i]]+=1
+		# 	i += 1
+		# print newTrainClasses[:10]
+		# trainClasses = newTrainClasses
+		# trainFeatures = newTrainFeatures
 		print trainClasses.count('positive')
 		print trainClasses.count('neutral')
 		print trainClasses.count('negative')
@@ -109,7 +109,8 @@ if __name__ == "__main__":
 		# gnb = naive_bayes.GaussianNB()
 		# model = gnb.fit(X, trainClasses)
 		# {'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}
-		classifier = svm.SVC(kernel='rbf',gamma=0.1)
+		#classifier = svm.SVC(kernel='rbf',gamma=0.1)
+		classifier = svm.SVC(kernel='linear',class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960})
 		model = classifier.fit(X, trainClasses)
 
 
