@@ -14,7 +14,7 @@ def extract_features_word(words,leaveOutWords, featureWords):
 			continue
 		# count seen words
 		if word in featureWords:
-			if word not in features:
+			if not (word in features):
 				features[word]=0
 			features[word]+=1
 		# else:
