@@ -128,15 +128,15 @@ def batch_run(test_settings):
 			#Predict labels
 			print "Fit classifier, calculating scores"
 			t0 = time.time()	
-			r_pred = classifier.predict(Xtest)
 			y_pred = classifier.predict(X)
+			r_pred = classifier.predict(Xtest)
 			score_time = time.time()- t0
 
 			#calculate performances
-			test_accuracy  = accuracy_score(y,y_pred)
-			train_accuracy = accuracy_score(r,r_pred)
-			test_conf_matrix  = np.array_str(confusion_matrix(r,r_pred) ).replace("\n",' ')
+			train_accuracy  = accuracy_score(y,y_pred)
+			test_accuracy   = accuracy_score(r,r_pred)
 			train_conf_matrix = np.array_str(confusion_matrix(y,y_pred) ).replace("\n",' ')
+			test_conf_matrix  = np.array_str(confusion_matrix(r,r_pred) ).replace("\n",' ')
 
 			#store results
 			fd.write(settings_to_string(classifier_name,train_accuracy,
