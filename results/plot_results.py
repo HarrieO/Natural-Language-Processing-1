@@ -27,7 +27,7 @@ def get_classifier_table(classifier_name,sort_ind=5):
 	classifier_settings = '.*' #not implemented yet
 
 	#get all lines with current classifier and current settings
-	regexp = settings_to_string(classifier_name,".*",".*",".*",".*",".*",classifier_settings)
+	regexp = settings_to_string(classifier_name,".*",".*",".*",".*",".*",classifier_settings,".*",".*")
 	with open('classifier_results.csv','r') as fd:
 		lines = [line for line in fd if re.search(regexp, line) != None]
 
@@ -121,7 +121,7 @@ def main():
 	print "\n".join(classifier_list)
 
 
-	best_n = 10
+	best_n = 2
 
 	print "\n\n"
 	print "==============================================="

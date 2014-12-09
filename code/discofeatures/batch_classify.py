@@ -45,16 +45,21 @@ def sort_results_csv(input_file='../../results/classifier_results.csv',output_fi
 	with open(input_file, 'r') as f:
 		header = f.readline()
 
+	#load csv into table (automatically with correct datatypes)
 	table = np.recfromcsv(input_file,delimiter=',')
-	#sort on features
-	table = sorted(table, key=lambda tup: tup[5])
-	#sort on classifier
-	table = sorted(table, key=lambda tup: tup[0])
 
-	#store sorted file
-	with open(output_file,'w') as fd:
-		fd.write(header)
-		[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7],tup[8]) + "\n") for tup in table]
+	#only sort if we have more then one element (to prevent bugs)
+	if np.size(table) > 1:
+
+		#sort on features
+		table = sorted(table, key=lambda tup: tup[5])
+		#sort on classifier
+		table = sorted(table, key=lambda tup: tup[0])
+
+		#store sorted file
+		with open(output_file,'w') as fd:
+			fd.write(header)
+			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7],tup[8]) + "\n") for tup in table]
 
 
 def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,
@@ -103,7 +108,7 @@ def batch_run(test_settings):
 		classifier_name 	= re.search(r".*'(.+)'.*", str(type(classifier))).groups()[0]
 		
 		#check if a experiment with the current settings was allready conducted (also move pointer to end of file)
-		regexp = settings_to_string(classifier_name,".*",".*",".*",".*",features,classifier_settings)
+		regexp = settings_to_string(classifier_name,".*",".*",".*",".*",features,classifier_settings,".*",".*")
 		if len([1 for line in fd if re.search(regexp, line) != None]) > 0:
 			print "Experiment with current settings was allready conducted, skipping"
 
@@ -146,7 +151,7 @@ def main():
 
 	#classifiers to test:
 	classifiers=[#gaussian_process.GaussianProcess(),
-				 linear_model.LinearRegression(),
+				 #linear_model.LinearRegression(),
 				 #linear_model.Ridge(),
 				 #linear_model.Lasso(),
 				 naive_bayes.GaussianNB(),
