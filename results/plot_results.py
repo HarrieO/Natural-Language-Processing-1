@@ -117,10 +117,11 @@ def main():
 	print "==============================================="
 	print "All classifiers:"
 	print "==============================================="
+	#print "\n".join([str(n)+". "+str(c) for n,c in enumerate(classifier_list)])
 	print "\n".join(classifier_list)
 
 
-	best_n = 3
+	best_n = 10
 
 	print "\n\n"
 	print "==============================================="
@@ -130,8 +131,8 @@ def main():
 	print "\n"
 
 
-
-	#[plot_classifier_results(classifier_name) for classifier_name in classifier_list]
+	if raw_input('Plot graphs? (y/n):').lower()=='y':
+		[plot_classifier_results(classifier_name) for classifier_name in classifier_list]
 
 
 
