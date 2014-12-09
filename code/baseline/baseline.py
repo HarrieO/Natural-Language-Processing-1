@@ -76,8 +76,14 @@ if __name__ == "__main__":
 	gnb = GaussianNB()
 	print "X"
 	print np.shape(X)
+	print len(trainClasses)
 	print "Xtest"
 	print np.shape(Xtest)
-	model = gnb.fit(X, Xtest)
+	print len(testClasses)
+	model = gnb.fit(X, trainClasses)
 
 
+	print "Fit classifier, calculating scores"
+
+	print "Accuracy on training set:", model.score(X,trainClasses)
+	print "Accuracy on test set:    ", model.score(Xtest,testClasses)
