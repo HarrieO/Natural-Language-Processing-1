@@ -39,6 +39,7 @@ class WordCounter(object):
         tagCount          = np.zeros(2)
 
         sentenceWords = []
+        data = data[:100]
         for i, post in enumerate(data):
             # raw Strings
             rawWords   = post.content.split()
