@@ -27,7 +27,7 @@ def get_classifier_table(classifier_name,sort_ind=5):
 	classifier_settings = '.*' #not implemented yet
 
 	#get all lines with current classifier and current settings
-	regexp = settings_to_string(classifier_name,".*",".*",".*",".*",".*",classifier_settings)
+	regexp = settings_to_string(classifier_name,".*",".*",".*",".*",".*",classifier_settings,".*",".*")
 	with open('classifier_results.csv','r') as fd:
 		lines = [line for line in fd if re.search(regexp, line) != None]
 
@@ -51,6 +51,12 @@ def get_classifier_table(classifier_name,sort_ind=5):
 
 	#transpose table for easy indexing (each nested list is a variabele)
 	table = [list(x) for x in zip(*table)]
+
+	return table
+
+def best_classifiers():
+	table = np.recfromcsv('classifier_results.csv',delimiter=',')
+	table = sorted(table, key=lambda tup: tup[2], reverse=True)
 
 	return table
 
@@ -105,11 +111,28 @@ def plot_classifier_results(classifier_name,plot_runtime=True):
 
 def main():
 
+
 	classifier_list = get_classifier_list()
 
-	print classifier_list
+	print "==============================================="
+	print "All classifiers:"
+	print "==============================================="
+	#print "\n".join([str(n)+". "+str(c) for n,c in enumerate(classifier_list)])
+	print "\n".join(classifier_list)
 
-	[plot_classifier_results(classifier_name) for classifier_name in classifier_list]
+
+	best_n = 10
+
+	print "\n\n"
+	print "==============================================="
+	print "Best {0} classifiers:".format(best_n)
+	print "==============================================="
+	print "\n".join(["{0} with features={1} and settings={2}. Test:{3}, Train:{4}".format(tup[0],tup[5],tup[6],tup[2],tup[1]) for tup in best_classifiers()[0:best_n]])
+	print "\n"
+
+
+	if raw_input('Plot graphs? (y/n):').lower()=='y':
+		[plot_classifier_results(classifier_name) for classifier_name in classifier_list]
 
 
 

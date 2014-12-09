@@ -1,6 +1,7 @@
+from sklearn import *
 from clean_train import *
 import time, re, amueller_mlp
-from sklearn import *
+from sklearn.metrics import *
 
 def logRange(limit, n=10,start_at_one=[]):
 	"""
@@ -32,39 +33,48 @@ def logRange(limit, n=10,start_at_one=[]):
 	else:
 		return logRange
 
-def sort_results_csv(input_file='classifier_results.csv',output_file='classifier_results.csv'):
+def sort_results_csv(input_file='../../results/classifier_results.csv',output_file=''):
 	"""
 	Sorts the results csv file and writes to the same file.
 	Sort on classifier name first (1th column), then on features (6th column)
 	"""
 
+	if output_file =='': output_file = input_file
+
 	#import header first
 	with open(input_file, 'r') as f:
 		header = f.readline()
 
+	#load csv into table (automatically with correct datatypes)
 	table = np.recfromcsv(input_file,delimiter=',')
-	#sort on features
-	table = sorted(table, key=lambda tup: tup[5])
-	#sort on classifier
-	table = sorted(table, key=lambda tup: tup[0])
 
-	#store sorted file
-	with open(output_file,'w') as fd:
-		fd.write(header)
-		[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6]) + "\n") for tup in table]
+	#only sort if we have more then one element (to prevent bugs)
+	if np.size(table) > 1:
+
+		#sort on features
+		table = sorted(table, key=lambda tup: tup[5])
+		#sort on classifier
+		table = sorted(table, key=lambda tup: tup[0])
+
+		#store sorted file
+		with open(output_file,'w') as fd:
+			fd.write(header)
+			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7],tup[8]) + "\n") for tup in table]
 
 
-def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,features,classifier_settings=''):
+def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,
+						features,classifier_settings='',train_conf_matrix='', test_conf_matrix=''):
 	"""
 	Get a string to store to csv file (also usefull for regexp)
 	"""
-	if not classifier_name[0]=="'": classifier_name = "'" + classifier_name
-	if not classifier_name[-1]=="'": classifier_name = classifier_name + "'"
-	if not classifier_settings[0]=="'": classifier_settings = "'" + classifier_settings
-	if not classifier_settings[-1]=="'": classifier_settings = classifier_settings + "'"
+
+	#add quotation marks for the strings, if needed
+	if classifier_name==""     or not classifier_name[0]=="'":     classifier_name     = "'" + classifier_name	    + "'"
+	if classifier_settings=="" or not classifier_settings[0]=="'": classifier_settings = "'" + classifier_settings	+ "'"
 	
-	return classifier_name + ",{0},{1},{2},{3},{4},".format(train_accuracy,
-				test_accuracy,fit_time,score_time,features) + classifier_settings
+	return "{0},{1},{2},{3},{4},{5},{6},{7},{8}".format(classifier_name, train_accuracy,
+				test_accuracy,fit_time,score_time,features, classifier_settings, 
+				train_conf_matrix, test_conf_matrix)
 
 
 def batch_run(test_settings):
@@ -78,9 +88,9 @@ def batch_run(test_settings):
 
 	#read in data
 	print "Reading data."
-	training = read_data("../../datasets/preprocessed/trainset.csv")
-	test     = read_data("../../datasets/preprocessed/testset.csv")
-	y,r = getLabels(training,test)
+	training   = read_data("../../datasets/preprocessed/trainset.csv")
+	test       = read_data("../../datasets/preprocessed/testset.csv")
+	y,r 	   = getLabels(training,test)
 
 
 	#initialize
@@ -98,7 +108,7 @@ def batch_run(test_settings):
 		classifier_name 	= re.search(r".*'(.+)'.*", str(type(classifier))).groups()[0]
 		
 		#check if a experiment with the current settings was allready conducted (also move pointer to end of file)
-		regexp = settings_to_string(classifier_name,".*",".*",".*",".*",features,classifier_settings)
+		regexp = settings_to_string(classifier_name,".*",".*",".*",".*",features,classifier_settings,".*",".*")
 		if len([1 for line in fd if re.search(regexp, line) != None]) > 0:
 			print "Experiment with current settings was allready conducted, skipping"
 
@@ -115,16 +125,23 @@ def batch_run(test_settings):
 			classifier.fit(X, y)
 			fit_time = time.time() - t0
 
-			#calculate scores
+			#Predict labels
 			print "Fit classifier, calculating scores"
 			t0 = time.time()	
-			test_accuracy = classifier.score(Xtest,r)
-			train_accuracy = classifier.score(X,y)
+			y_pred = classifier.predict(X)
+			r_pred = classifier.predict(Xtest)
 			score_time = time.time()- t0
+
+			#calculate performances
+			train_accuracy  = accuracy_score(y,y_pred)
+			test_accuracy   = accuracy_score(r,r_pred)
+			train_conf_matrix = np.array_str(confusion_matrix(y,y_pred) ).replace("\n",' ')
+			test_conf_matrix  = np.array_str(confusion_matrix(r,r_pred) ).replace("\n",' ')
 
 			#store results
 			fd.write(settings_to_string(classifier_name,train_accuracy,
-				test_accuracy,fit_time,score_time,features,classifier_settings) + "\n")
+				test_accuracy,fit_time,score_time,features,classifier_settings,
+				train_conf_matrix, test_conf_matrix) + "\n")
 
 		#save to csv file and sort csv file
 		fd.close()
@@ -140,14 +157,14 @@ def main():
 				 naive_bayes.GaussianNB(),
 				 naive_bayes.MultinomialNB(),
 				 naive_bayes.BernoulliNB(),
-				 #svm.SVC(),
-				 #tree.DecisionTreeClassifier(),
-				 #ensemble.RandomForestClassifier(),
-				 #neighbors.nearest_centroid.NearestCentroid(),
+				 svm.SVC(),
+				 tree.DecisionTreeClassifier(),
+				 ensemble.RandomForestClassifier(),
+				 neighbors.nearest_centroid.NearestCentroid(),
 				 #sklearn.ensemble.GradientBoostingClassifier(),
-				 #sklearn.linear_model.Perceptron(),
-				 #amueller_mlp.MLPClassifier(),
-				 #sklearn.ensemble.AdaBoostClassifier()
+				 amueller_mlp.MLPClassifier(),
+				 sklearn.ensemble.AdaBoostClassifier(),
+				 sklearn.linear_model.Perceptron(n_iter=50)
 				 	]
 
 
@@ -158,7 +175,7 @@ def main():
 	classifier_settings = '';
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
-	settings = ( (classifier, classifier_settings, '') for features in features_set for classifier in classifiers)
+	settings = ( (classifier, features, classifier_settings) for features in features_set for classifier in classifiers)
 
 	#run
 	batch_run(settings)

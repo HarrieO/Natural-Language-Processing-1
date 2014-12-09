@@ -2,7 +2,6 @@
 # coding=utf-8
 import os, glob, sys, re, argparse,shutil, csv
 import numpy as np
-from discodop import treebank, treetransforms, fragments
 from sklearn import linear_model, preprocessing, feature_extraction, cross_validation
 from subprocess import call
 from treepost import *
@@ -21,7 +20,6 @@ def getPostsWithTrees(preprocessed_path):
             trees.append(line[:-1])
 
     for i, tree in enumerate(trees):
-        print i, len(indices)
         post_i   = indices[i]
         treepost = treeposts[post_i]
         treepost.trees.append(tree) 
