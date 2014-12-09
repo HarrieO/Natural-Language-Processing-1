@@ -10,6 +10,8 @@ class Post(object):
 		self.community = community
 		if trees:
 			self.trees = self.parseTrees(trees)
+		else:
+			self.trees = []
 		self.fragments = {}
 
 	def parseTrees(self, treesString):

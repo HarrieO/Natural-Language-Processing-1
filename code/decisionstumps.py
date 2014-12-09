@@ -24,7 +24,7 @@ def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):
 	# Read the file line by line
 	i = 0
 	for tree in trees:
-		punctuation = r"[\W]"
+		punctuation = r"[.,!?;]"
 		wordTags = re.findall("(\(([a-zA-Z0-9]|"+punctuation+")* ([a-zA-Z0-9]|"+punctuation+")*\))",tree)
 		for wordTag in wordTags:
 			# Get rid of the brackets and split into word and tag
@@ -47,7 +47,7 @@ def getClass(score,classCutOff,classes):
 
 
 def scoresToClass(scores,classCutOff,classes):
-	return [getClass(score,classCutOff,classes) from score in scores]
+	return [getClass(score,classCutOff,classes) for score in scores]
 
 # Stores the score in the dictionary for total scores
 def registerScore(wordTag,score,totalScores):

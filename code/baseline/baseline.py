@@ -7,6 +7,8 @@ import post
 import extractFeatures
 from decisionstumps import *
 from sklearn.naive_bayes import GaussianNB
+from sklearn import feature_extraction
+
 
 '''
 Settings
@@ -21,7 +23,8 @@ def getFeatures(trees, ignoredFeatures, features):
 		wordTags = getWordTagsFromTree(tree)
 		wordTags = [wordTag[0] for wordTag in wordTags]
 		# results.append(extractFeatures.extract_features_word(wordTags, ignoredFeatures, features))
-		extractFeatures.extract_features_word(wordTags, ignoredFeatures, features)
+		results.append(dict(extractFeatures.extract_features_word(wordTags, ignoredFeatures, features)))
+		# print str(float(i)/float(len(trees)))
 		# if (i % 1000) == 0:
 		# 	print i
 		i += 1
@@ -42,8 +45,8 @@ if __name__ == "__main__":
 	
 	if os.path.isfile(fileTrainData) and os.path.isfile(fileTestData) and not forceExtractFeautres:
 		# Skip file extraction if preprocessed files are available
-		trainFeatures = pickle.dump(open(fileTrainData,'rb'))
-		testFeatures = pickle.dump(open(fileTestData,'rb'))
+		trainFeatures = pickle.load(open(fileTrainData,'rb'))
+		testFeatures = pickle.load(open(fileTestData,'rb'))
 	else:
 		# First extract the counts
 		counts, ignoredWordTags = reduceFeatureSpace(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'),classes,classCutOff,wordTagCount,classCount,totalScores, N)
@@ -56,6 +59,7 @@ if __name__ == "__main__":
 		treesTest = open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/test_trees.txt'), 'r')
 		testFeatures = getFeatures(treesTest,ignoredWordTags,counts.keys())
 
+		print np.shape(trainFeatures[0])
 		pickle.dump(trainFeatures, open(fileTrainData,'w+b'))
 		pickle.dump(testFeatures, open(fileTestData,'w+b'))
 
@@ -63,7 +67,23 @@ if __name__ == "__main__":
 	testScores = post.read_column(1,'../../datasets/preprocessed/test.csv')
 	trainClasses = scoresToClass(trainScores,classCutOff,classes)
 	testClasses = scoresToClass(testScores,classCutOff,classes)
+
+
+
+	vectorizer = feature_extraction.DictVectorizer(sparse=False)
+	X     = vectorizer.fit_transform(trainFeatures)
+	Xtest = vectorizer.transform(testFeatures)
 	gnb = GaussianNB()
-	model = gnb.fit(trainFeatures, trainClasses)
+	print "X"
+	print np.shape(X)
+	print len(trainClasses)
+	print "Xtest"
+	print np.shape(Xtest)
+	print len(testClasses)
+	model = gnb.fit(X, trainClasses)
 
 
+	print "Fit classifier, calculating scores"
+
+	print "Accuracy on training set:", model.score(X,trainClasses)
+	print "Accuracy on test set:    ", model.score(Xtest,testClasses)
