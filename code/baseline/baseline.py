@@ -6,22 +6,28 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 import post
 import extractFeatures
 from decisionstumps import *
-from sklearn.naive_bayes import GaussianNB
-from sklearn import feature_extraction
+from sklearn import *
+sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
+from treedataToJoosttrees import getPostsWithTrees
 
 
 '''
 Settings
 '''
-N = 1000 # The amount of features selected for the histogram
+N = 5000 # The amount of features selected for the histogram
 forceExtractFeautres = False # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
+usePosTag = False
 
 def getFeatures(trees, ignoredFeatures, features):
+	global usePosTag
 	results = list()
 	i = 0
 	for tree in trees:
 		wordTags = getWordTagsFromTree(tree)
-		wordTags = [wordTag[0] for wordTag in wordTags]
+		if usePosTag:
+			wordTags = [wordTag[0] for wordTag in wordTags]
+		else:
+			wordTags = [wordTag[0].split(" ")[:-1] for wordTag in wordTags]
 		# results.append(extractFeatures.extract_features_word(wordTags, ignoredFeatures, features))
 		results.append(dict(extractFeatures.extract_features_word(wordTags, ignoredFeatures, features)))
 		# print str(float(i)/float(len(trees)))
@@ -42,6 +48,7 @@ if __name__ == "__main__":
 	fileTestData	= '../../datasets/preprocessed/baselineTestSet.p'
 
 	# Running starts here
+	testData = getPostsWithTrees('../../datasets/preprocessed/')
 	
 	if os.path.isfile(fileTrainData) and os.path.isfile(fileTestData) and not forceExtractFeautres:
 		# Skip file extraction if preprocessed files are available
@@ -55,19 +62,21 @@ if __name__ == "__main__":
 		#outputHistograms(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'), os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/trainHist.csv'), classes, classCutOff, counts.keys())
 	
 		treesTrain = post.read_column(4,os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'))
+
 		trainFeatures = getFeatures(treesTrain,ignoredWordTags,counts.keys())
-		treesTest = open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/test_trees.txt'), 'r')
+		# treesTest = open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/test_trees.txt'), 'r')
+		treesTest = [" ".join(row.trees) for row in testData]
 		testFeatures = getFeatures(treesTest,ignoredWordTags,counts.keys())
 
 		print np.shape(trainFeatures[0])
 		pickle.dump(trainFeatures, open(fileTrainData,'w+b'))
 		pickle.dump(testFeatures, open(fileTestData,'w+b'))
 
-	trainScores = post.read_column(1,'../../datasets/preprocessed/train.csv')
-	testScores = post.read_column(1,'../../datasets/preprocessed/test.csv')
+	trainScores = [float(row) for row in post.read_column(1,'../../datasets/preprocessed/train.csv')]
+	testScores = [row.score for row in testData]
+	# testScores = post.read_column(1,'../../datasets/preprocessed/test.csv')
 	trainClasses = scoresToClass(trainScores,classCutOff,classes)
 	testClasses = scoresToClass(testScores,classCutOff,classes)
-
 
 
 	vectorizer = feature_extraction.DictVectorizer(sparse=False)
@@ -81,6 +90,8 @@ if __name__ == "__main__":
 	print np.shape(Xtest)
 	print len(testClasses)
 	model = gnb.fit(X, trainClasses)
+	# classifier = svm.SVC()
+	# model = classifier.fit(X, trainClasses)
 
 
 	print "Fit classifier, calculating scores"
