@@ -32,11 +32,13 @@ def logRange(limit, n=10,start_at_one=[]):
 	else:
 		return logRange
 
-def sort_results_csv(input_file='classifier_results.csv',output_file='classifier_results.csv'):
+def sort_results_csv(input_file='../../results/classifier_results.csv',output_file=''):
 	"""
 	Sorts the results csv file and writes to the same file.
 	Sort on classifier name first (1th column), then on features (6th column)
 	"""
+
+	if output_file =='': output_file = input_file
 
 	#import header first
 	with open(input_file, 'r') as f:
@@ -58,10 +60,10 @@ def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,sco
 	"""
 	Get a string to store to csv file (also usefull for regexp)
 	"""
-	if not classifier_name[0]=="'": classifier_name = "'" + classifier_name
-	if not classifier_name[-1]=="'": classifier_name = classifier_name + "'"
-	if not classifier_settings[0]=="'": classifier_settings = "'" + classifier_settings
-	if not classifier_settings[-1]=="'": classifier_settings = classifier_settings + "'"
+
+	#add quotation marks for the strings, if needed
+	if classifier_name==""     or not classifier_name[0]=="'":     classifier_name     = "'" + classifier_name	    + "'"
+	if classifier_settings=="" or not classifier_settings[0]=="'": classifier_settings = "'" + classifier_settings	+ "'"
 	
 	return classifier_name + ",{0},{1},{2},{3},{4},".format(train_accuracy,
 				test_accuracy,fit_time,score_time,features) + classifier_settings
@@ -140,14 +142,14 @@ def main():
 				 naive_bayes.GaussianNB(),
 				 naive_bayes.MultinomialNB(),
 				 naive_bayes.BernoulliNB(),
-				 #svm.SVC(),
-				 #tree.DecisionTreeClassifier(),
-				 #ensemble.RandomForestClassifier(),
-				 #neighbors.nearest_centroid.NearestCentroid(),
-				 #sklearn.ensemble.GradientBoostingClassifier(),
-				 #sklearn.linear_model.Perceptron(),
-				 #amueller_mlp.MLPClassifier(),
-				 #sklearn.ensemble.AdaBoostClassifier()
+				 svm.SVC(),
+				 tree.DecisionTreeClassifier(),
+				 ensemble.RandomForestClassifier(),
+				 neighbors.nearest_centroid.NearestCentroid(),
+				 sklearn.ensemble.GradientBoostingClassifier(),
+				 amueller_mlp.MLPClassifier(),
+				 sklearn.ensemble.AdaBoostClassifier(),
+				 sklearn.linear_model.Perceptron(n_iter=50)
 				 	]
 
 
@@ -158,7 +160,7 @@ def main():
 	classifier_settings = '';
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
-	settings = ( (classifier, classifier_settings, '') for features in features_set for classifier in classifiers)
+	settings = ( (classifier, features, classifier_settings) for features in features_set for classifier in classifiers)
 
 	#run
 	batch_run(settings)

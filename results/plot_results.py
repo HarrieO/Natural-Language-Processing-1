@@ -54,6 +54,12 @@ def get_classifier_table(classifier_name,sort_ind=5):
 
 	return table
 
+def best_classifiers():
+	table = np.recfromcsv('classifier_results.csv',delimiter=',')
+	table = sorted(table, key=lambda tup: tup[2], reverse=True)
+
+	return table
+
 def plot_classifier_results(classifier_name,plot_runtime=True):
 	"""
 	Plots the performance of current classifier of different features,
@@ -105,11 +111,27 @@ def plot_classifier_results(classifier_name,plot_runtime=True):
 
 def main():
 
+
 	classifier_list = get_classifier_list()
 
-	print classifier_list
+	print "==============================================="
+	print "All classifiers:"
+	print "==============================================="
+	print "\n".join(classifier_list)
 
-	[plot_classifier_results(classifier_name) for classifier_name in classifier_list]
+
+	best_n = 3
+
+	print "\n\n"
+	print "==============================================="
+	print "Best {0} classifiers:".format(best_n)
+	print "==============================================="
+	print "\n".join(["{0} with features={1} and settings={2}. Test:{3}, Train:{4}".format(tup[0],tup[5],tup[6],tup[2],tup[1]) for tup in best_classifiers()[0:best_n]])
+	print "\n"
+
+
+
+	#[plot_classifier_results(classifier_name) for classifier_name in classifier_list]
 
 
 
