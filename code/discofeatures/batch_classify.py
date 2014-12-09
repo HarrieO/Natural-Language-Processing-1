@@ -157,14 +157,14 @@ def main():
 				 naive_bayes.GaussianNB(),
 				 naive_bayes.MultinomialNB(),
 				 naive_bayes.BernoulliNB(),
-				 svm.SVC(),
 				 tree.DecisionTreeClassifier(),
 				 ensemble.RandomForestClassifier(),
 				 neighbors.nearest_centroid.NearestCentroid(),
 				 #sklearn.ensemble.GradientBoostingClassifier(),
 				 amueller_mlp.MLPClassifier(),
 				 sklearn.ensemble.AdaBoostClassifier(),
-				 sklearn.linear_model.Perceptron(n_iter=50)
+				 sklearn.linear_model.Perceptron(n_iter=50),
+				 svm.SVC()
 				 	]
 
 
@@ -175,7 +175,8 @@ def main():
 	classifier_settings = '';
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
-	settings = ( (classifier, features, classifier_settings) for features in features_set for classifier in classifiers)
+	#settings = ( (classifier, features, classifier_settings) for features in features_set for classifier in classifiers)
+	settings = ( (classifier, features, classifier_settings) for classifier in classifiers for features in features_set )
 
 	#run
 	batch_run(settings)
