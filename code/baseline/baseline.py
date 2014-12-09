@@ -9,12 +9,13 @@ from decisionstumps import *
 from sklearn import *
 sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 from treedataToJoosttrees import getPostsWithTrees
+from sklearn.metrics import classification_report
 
 
 '''
 Settings
 '''
-N = 5000 # The amount of features selected for the histogram
+N = 100 # The amount of features selected for the histogram
 forceExtractFeautres = False # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
 usePosTag = False
 
@@ -82,13 +83,7 @@ if __name__ == "__main__":
 	vectorizer = feature_extraction.DictVectorizer(sparse=False)
 	X     = vectorizer.fit_transform(trainFeatures)
 	Xtest = vectorizer.transform(testFeatures)
-	gnb = GaussianNB()
-	print "X"
-	print np.shape(X)
-	print len(trainClasses)
-	print "Xtest"
-	print np.shape(Xtest)
-	print len(testClasses)
+	gnb = naive_bayes.GaussianNB()
 	model = gnb.fit(X, trainClasses)
 	# classifier = svm.SVC()
 	# model = classifier.fit(X, trainClasses)
@@ -98,3 +93,7 @@ if __name__ == "__main__":
 
 	print "Accuracy on training set:", model.score(X,trainClasses)
 	print "Accuracy on test set:    ", model.score(Xtest,testClasses)
+
+	y_true = testClasses
+	y_pred = model.predict(Xtest)
+	print(classification_report(y_true, y_pred, target_names=classes))
