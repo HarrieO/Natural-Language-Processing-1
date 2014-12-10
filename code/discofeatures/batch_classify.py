@@ -151,51 +151,31 @@ def main():
 
 	#tuples of classifers to test, and a string with their settings (to store)
 	classifiers=[ (svm.SVC(kernel='poly'), 'kernel=poly'),
-				  (svm.SVC(kernel='linear'), 'kernel=linear')
+				  (svm.SVC(kernel='linear'), 'kernel=linear'),
+				  #(gaussian_process.GaussianProcess(),''),
+				  #(linear_model.LinearRegression(),''),
+				  #(linear_model.Ridge(),''),
+				  #(linear_model.Lasso(),''),
+				  (naive_bayes.GaussianNB(),''),
+				  (naive_bayes.MultinomialNB(),''),
+				  (naive_bayes.BernoulliNB(),''),
+				  (tree.DecisionTreeClassifier(),''),
+				  (ensemble.RandomForestClassifier(),''),
+				  (neighbors.nearest_centroid.NearestCentroid(),''),
+				  #(sklearn.ensemble.GradientBoostingClassifier(),''),
+				  (amueller_mlp.MLPClassifier(),''),
+				  (sklearn.ensemble.AdaBoostClassifier(),''),
+				  (sklearn.linear_model.Perceptron(n_iter=50),'n_iter=50'),
+				  (svm.SVC(),'')
+				 	]
 		]
 
 	# Maximum number of features: 261396
 	features_set = logRange(261396,3,1)
 
-	settings = [(classifier, features, classifier_settings) for classifier,classifier_settings in classifiers for features in features_set]
-
-	batch_run(settings)
-
-
-
-		
-def old_main():
-
-	#classifiers to test:
-	classifiers=[#gaussian_process.GaussianProcess(),
-				 #linear_model.LinearRegression(),
-				 #linear_model.Ridge(),
-				 #linear_model.Lasso(),
-				 naive_bayes.GaussianNB(),
-				 naive_bayes.MultinomialNB(),
-				 naive_bayes.BernoulliNB(),
-				 tree.DecisionTreeClassifier(),
-				 ensemble.RandomForestClassifier(),
-				 neighbors.nearest_centroid.NearestCentroid(),
-				 #sklearn.ensemble.GradientBoostingClassifier(),
-				 amueller_mlp.MLPClassifier(),
-				 sklearn.ensemble.AdaBoostClassifier(),
-				 sklearn.linear_model.Perceptron(n_iter=50),
-				 svm.SVC()
-				 	]
-
-
-	# Maximum number of features: 261396
-	features_set = logRange(261396,15,1)
-
-	#in this case, settings are empty for all classifiers
-	classifier_settings = '';
-
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
-	#settings = ( (classifier, features, classifier_settings) for features in features_set for classifier in classifiers)
-	settings = ( (classifier, features, classifier_settings) for classifier in classifiers for features in features_set )
+	settings = ( (classifier, features, classifier_settings) for classifier,classifier_settings in classifiers for features in features_set)
 
-	#run
 	batch_run(settings)
 
 
