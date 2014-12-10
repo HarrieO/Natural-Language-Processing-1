@@ -11,7 +11,7 @@ Settings
 N = 1000 # The amount of features selected for the histogram
 
 # Computes the word-tag count, the class count and the summed scores for each of the word-tag pairs.
-def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):	
+def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores,usePosTags=True):	
 	# inputfile = The file containing the scores
 	# classes = List of classes
 	# classCutOff = The score value seperating each of the classes (requires: len(classes)-1 == len(classCutOff))
@@ -27,6 +27,8 @@ def extract(inputfile,classes,classCutOff,wordTagCount,classCount,totalScores):
 		punctuation = r"[.,!?;]"
 		wordTags = re.findall("(\(([a-zA-Z0-9]|"+punctuation+")* ([a-zA-Z0-9]|"+punctuation+")*\))",tree)
 		for wordTag in wordTags:
+			if not usePosTags:
+				wordTag = [wordTag[0][1:-1].split(" ")[1]]
 			# Get rid of the brackets and split into word and tag
 			#[word, tag] = wordTag[0][1:-1].split(" ")
 			#TODO: Do we need to do anything with the tag for smoothing?
@@ -80,6 +82,7 @@ def average_scores(totalScores, wordClassCount):
 def selectFeatures(featureEntropy, N, wordTagCount):
 	selectedFeatures = dict()
 	ordered = sorted(featureEntropy, key=featureEntropy.get)
+	N = int(N)
 	for feature in ordered[-N:]:
 		selectedFeatures[feature] = wordTagCount[feature]
 	ignoredFeatures = [key for key in wordTagCount.keys() if key not in selectedFeatures.keys()]
@@ -120,8 +123,8 @@ def outputHistograms(inputfile, outputfile, classes, classCutOff, features):
 		f.write(",".join(str(x) for x in histograms[i])+","+getClass(scores[i],classCutOff,classes)+"\n")
 		i = i + 1
 
-def reduceFeatureSpace(inputFile,classes,classCutOff,wordTagCount,classCount,totalScores, N):
-	extract(inputFile,classes,classCutOff,wordTagCount,classCount,totalScores);
+def reduceFeatureSpace(inputFile,classes,classCutOff,wordTagCount,classCount,totalScores, N, usePosTags=True):
+	extract(inputFile,classes,classCutOff,wordTagCount,classCount,totalScores,usePosTags);
 	wordTag_entropy = word_entropy(classCount, wordTagCount)
 	newCounts, ignoredWordTags = selectFeatures(wordTag_entropy, N, wordTagCount)
 	return newCounts, ignoredWordTags

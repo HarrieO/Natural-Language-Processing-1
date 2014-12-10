@@ -3,11 +3,12 @@ import time, re
 import numpy as np
 import cPickle as pickle
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../discofeatures'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 import post
-import extractFeatures
+import extractFeatures, amueller_mlp
 from decisionstumps import *
 from sklearn import *
-sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 from treedataToJoosttrees import getPostsWithTrees
 from sklearn.metrics import *
 
@@ -15,8 +16,10 @@ from sklearn.metrics import *
 '''
 Settings
 '''
-forceExtractFeautres = True # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
-usePosTag = True
+forceExtractFeautres = False # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
+usePosTags = True
+resultsPath = '../../results/baseline'+("_improved" if usePosTags else "") +'_classifier_results.csv'
+maxFeatures = 9479 # 9479 words in training set, 10941 wordtags in training set
 
 def logRange(limit, n=10,start_at_one=[]):
 	"""
@@ -63,12 +66,12 @@ def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,sco
 				train_conf_matrix, test_conf_matrix)
 
 def getFeatures(trees, ignoredFeatures, features):
-	global usePosTag
+	global usePosTags
 	results = list()
 	i = 0
 	for tree in trees:
 		wordTags = getWordTagsFromTree(tree)
-		if usePosTag:
+		if usePosTags:
 			wordTags = [wordTag[0] for wordTag in wordTags]
 		else:
 			wordTags = [wordTag[0].split(" ")[1][:-1] for wordTag in wordTags]
@@ -82,7 +85,7 @@ def getFeatures(trees, ignoredFeatures, features):
 
 
 def getTrainingTestFeatures(features):
-	global forceExtractFeautres
+	global forceExtractFeautres, usePosTags
 	# Data structures
 	classes			= ['negative','neutral','positive']
 	classCutOff		= [-0.5,0.5]
@@ -92,7 +95,6 @@ def getTrainingTestFeatures(features):
 	fileTrainData 	= '../../datasets/preprocessed/baselineTrainSet'+str(features)+'.p'
 	fileTestData	= '../../datasets/preprocessed/baselineTestSet'+str(features)+'.p'
 
-
 	testData = getPostsWithTrees('../../datasets/preprocessed/')
 	
 	if os.path.isfile(fileTrainData) and os.path.isfile(fileTestData) and not forceExtractFeautres:
@@ -101,8 +103,9 @@ def getTrainingTestFeatures(features):
 		testFeatures = pickle.load(open(fileTestData,'rb'))
 	else:
 		# First extract the counts
-		counts, ignoredWordTags = reduceFeatureSpace(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'),classes,classCutOff,wordTagCount,classCount,totalScores, features)
-
+		counts, ignoredWordTags = reduceFeatureSpace(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'),classes,classCutOff,wordTagCount,classCount,totalScores, features, usePosTags)
+		print len(counts.keys())
+		print len(ignoredWordTags)
 		treesTrain = post.read_column(4,os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'))
 		trainFeatures = getFeatures(treesTrain,ignoredWordTags,counts.keys())
 
@@ -114,31 +117,26 @@ def getTrainingTestFeatures(features):
 		pickle.dump(testFeatures, open(fileTestData,'w+b'))
 
 
-# trainClasses = scoresToClass(trainScores,classCutOff,classes)
-# testClasses = scoresToClass(testScores,classCutOff,classes)
-# counts = {'neutral':0,'positive':0,'negative':0}
-# maxCounts = trainClasses.count('negative')
-# i = 0
-# Limit the class distribution
-# newTrainFeatures = list()
-# newTrainClasses = list()
-# while i<len(trainClasses):
-# 	if counts[trainClasses[i]]<maxCounts:
-# 		newTrainFeatures.append(trainFeatures[i])
-# 		newTrainClasses.append(trainClasses[i])
-# 		counts[trainClasses[i]]+=1
-# 	i += 1
-# print newTrainClasses[:10]
-# trainClasses = newTrainClasses
-# trainFeatures = newTrainFeatures
+	# trainScores = [float(row) for row in post.read_column(1,'../../datasets/preprocessed/train.csv')]
+	# trainClasses = scoresToClass(trainScores,classCutOff,classes)
+	# counts = {'neutral':0,'positive':0,'negative':0}
+	# maxCounts = trainClasses.count('negative')
+	# i = 0
+	# newTrainFeatures = list()
+	# newTrainClasses = list()
+	# while i<len(trainClasses):
+	# 	if counts[trainClasses[i]]<maxCounts:
+	# 		newTrainFeatures.append(trainFeatures[i])
+	# 		newTrainClasses.append(trainClasses[i])
+	# 		counts[trainClasses[i]]+=1
+	# 	i += 1
+	# print newTrainClasses[:10]
+	# trainClasses = newTrainClasses
+	# trainFeatures = newTrainFeatures
 
 	vectorizer = feature_extraction.DictVectorizer(sparse=False)
 	X     = vectorizer.fit_transform(trainFeatures)
 	Xtest = vectorizer.transform(testFeatures)
-	print "THIS IS IT"
-	print X[:10]
-	print Xtest[:10]
-	print "ABOve"
 	return X, Xtest
 
 def getLabels():
@@ -151,6 +149,19 @@ def getLabels():
 	testScores = [row.score for row in testData]
 	trainClasses = scoresToClass(trainScores,classCutOff,classes)
 	testClasses = scoresToClass(testScores,classCutOff,classes)
+
+
+	# counts = {'neutral':0,'positive':0,'negative':0}
+	# maxCounts = trainClasses.count('negative')
+	# i = 0
+	# newTrainClasses = list()
+	# while i<len(trainClasses):
+	# 	if counts[trainClasses[i]]<maxCounts:
+	# 		newTrainClasses.append(trainClasses[i])
+	# 		counts[trainClasses[i]]+=1
+	# 	i += 1
+	# trainClasses = newTrainClasses
+
 	return trainClasses, testClasses
 
 def sort_results_csv(input_file='../../results/baseline_classifier_results.csv',output_file=''):
@@ -190,7 +201,7 @@ def batch_run(test_settings):
 	1:number of features (left after feature deduction)
 	2:a string explaining aditional settings that you adjusted in the classifier
 	"""
-
+	global resultsPath
 	classes			= ['negative','neutral','positive']
 	#read in data
 	print "Reading data."
@@ -203,7 +214,7 @@ def batch_run(test_settings):
 	for settings in test_settings:
 
 		#load to csv file to append the results. Do this in the loop to update the file live
-		fd = open('../../results/baseline_classifier_results.csv','r+')
+		fd = open(resultsPath,'r+')
 
 		#import parameters
 		classifier 			= settings[0]
@@ -229,7 +240,7 @@ def batch_run(test_settings):
 			print "Fitting " + classifier_name
 			t0 = time.time()
 			print y[:20]
-			classifier.fit(X, y)
+			classifier.fit(X, y, max_epochs=200)
 			fit_time = time.time() - t0
 
 			#Predict labels
@@ -255,11 +266,11 @@ def batch_run(test_settings):
 
 		#save to csv file and sort csv file
 		fd.close()
-		sort_results_csv()
+		sort_results_csv(resultsPath)
 		
 
 def main():
-
+	global maxFeatures
 	#classifiers to test:
 	classifiers=[#gaussian_process.GaussianProcess(),
 				 #linear_model.LinearRegression(),
@@ -267,23 +278,22 @@ def main():
 				 #linear_model.Lasso(),
 				 # naive_bayes.GaussianNB(),
 				 # naive_bayes.MultinomialNB(),
-				 # naive_bayes.BernoulliNB(),
-				 svm.SVC(kernel='linear',class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
+				 # naive_bayes.BernoulliNB(), #,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}
+				 # svm.SVC(kernel='rbf',gamma=0.4,C=1000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
 				 # tree.DecisionTreeClassifier(),
 				 # ensemble.RandomForestClassifier(),
 				 # neighbors.nearest_centroid.NearestCentroid(),
 				 # #sklearn.ensemble.GradientBoostingClassifier(),
-				 # amueller_mlp.MLPClassifier(),
+				 amueller_mlp.MLPClassifier(n_hidden=600),
 				 # sklearn.ensemble.AdaBoostClassifier(),
 				 # sklearn.linear_model.Perceptron(n_iter=50)
 				 	]
 
 
 	# Maximum number of features: 261396
-	features_set = [335] # logRange(261396,15,1)
-	print features_set
+	features_set = logRange(maxFeatures,15,1)
 	#in this case, settings are empty for all classifiers
-	classifier_settings = 'linear class_weights';
+	classifier_settings = '';
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features, classifier_settings) for features in features_set for classifier in classifiers)
