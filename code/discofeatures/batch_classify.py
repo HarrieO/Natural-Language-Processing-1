@@ -146,8 +146,25 @@ def batch_run(test_settings):
 		#save to csv file and sort csv file
 		fd.close()
 		sort_results_csv()
-		
+
 def main():
+
+	#tuples of classifers to test, and a string with their settings (to store)
+	classifiers=[ (svm.SVC(kernel='poly'), 'kernel=poly'),
+				  (svm.SVC(kernel='linear'), 'kernel=linear')
+		]
+
+	# Maximum number of features: 261396
+	features_set = logRange(261396,3,1)
+
+	settings = [(classifier, features, classifier_settings) for classifier,classifier_settings in classifiers for features in features_set]
+
+	batch_run(settings)
+
+
+
+		
+def old_main():
 
 	#classifiers to test:
 	classifiers=[#gaussian_process.GaussianProcess(),
