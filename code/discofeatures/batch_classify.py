@@ -59,21 +59,20 @@ def sort_results_csv(input_file='../../results/classifier_results.csv',output_fi
 		#store sorted file
 		with open(output_file,'w') as fd:
 			fd.write(header)
-			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7],tup[8]) + "\n") for tup in table]
+			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7]) + "\n") for tup in table]
 
 
-def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,
-						features,classifier_settings='',train_conf_matrix='', test_conf_matrix=''):
+def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score_time,
+						features,train_conf_matrix='', test_conf_matrix=''):
 	"""
 	Get a string to store to csv file (also usefull for regexp)
 	"""
 
 	#add quotation marks for the strings, if needed
-	if classifier_name==""     or not classifier_name[0]=="'":     classifier_name     = "'" + classifier_name	    + "'"
-	if classifier_settings=="" or not classifier_settings[0]=="'": classifier_settings = "'" + classifier_settings	+ "'"
+	if classifier_id==""     or not classifier_id[0]=='"':     classifier_id     = '"' + classifier_id	    + '"'
 	
-	return "{0},{1},{2},{3},{4},{5},{6},{7},{8}".format(classifier_name, train_accuracy,
-				test_accuracy,fit_time,score_time,features, classifier_settings, 
+	return "{0},{1},{2},{3},{4},{5},{6},{7}".format(classifier_id, train_accuracy,
+				test_accuracy,fit_time,score_time,features, 
 				train_conf_matrix, test_conf_matrix)
 
 
@@ -83,7 +82,6 @@ def batch_run(test_settings):
 	Please provide settings as a tuple list:
 	0:classifier object
 	1:number of features (left after feature deduction)
-	2:a string explaining aditional settings that you adjusted in the classifier
 	"""
 
 	#read in data
@@ -104,11 +102,14 @@ def batch_run(test_settings):
 		#import parameters
 		classifier 			= settings[0]
 		features 			= settings[1]
-		classifier_settings = settings[2]
-		classifier_name 	= re.search(r".*'(.+)'.*", str(type(classifier))).groups()[0]
+
+		#converte the class name and properties into a string, be carefull for punctuation in csv
+		classifier_id = str(classifier)
+		classifier_id = classifier_id.replace('\n', ' ').replace('"',"'").replace(',',';')
+		classifier_id = ' '.join(classifier_id.split())
 		
 		#check if a experiment with the current settings was allready conducted (also move pointer to end of file)
-		regexp = settings_to_string(classifier_name,".*",".*",".*",".*",features,classifier_settings,".*",".*")
+		regexp = settings_to_string(classifier_id,".*",".*",".*",".*",features,".*",".*")
 		if len([1 for line in fd if re.search(regexp, line) != None]) > 0:
 			print "Experiment with current settings was allready conducted, skipping"
 
@@ -120,7 +121,7 @@ def batch_run(test_settings):
 				last_features = features
 
 			#fit classifier
-			print "Fitting " + classifier_name
+			print "Fitting " + classifier_id
 			t0 = time.time()
 			classifier.fit(X, y)
 			fit_time = time.time() - t0
@@ -139,8 +140,8 @@ def batch_run(test_settings):
 			test_conf_matrix  = np.array_str(confusion_matrix(r,r_pred) ).replace("\n",' ')
 
 			#store results
-			fd.write(settings_to_string(classifier_name,train_accuracy,
-				test_accuracy,fit_time,score_time,features,classifier_settings,
+			fd.write(settings_to_string(classifier_id,train_accuracy,
+				test_accuracy,fit_time,score_time,features,
 				train_conf_matrix, test_conf_matrix) + "\n")
 
 		#save to csv file and sort csv file
@@ -150,31 +151,27 @@ def batch_run(test_settings):
 def main():
 
 	#tuples of classifers to test, and a string with their settings (to store)
-	classifiers=[ (svm.SVC(kernel='poly'), 'kernel=poly'),
-				  (svm.SVC(kernel='linear'), 'kernel=linear'),
-				  #(gaussian_process.GaussianProcess(),''),
-				  #(linear_model.LinearRegression(),''),
-				  #(linear_model.Ridge(),''),
-				  #(linear_model.Lasso(),''),
-				  (naive_bayes.GaussianNB(),''),
-				  (naive_bayes.MultinomialNB(),''),
-				  (naive_bayes.BernoulliNB(),''),
-				  (tree.DecisionTreeClassifier(),''),
-				  (ensemble.RandomForestClassifier(),''),
-				  (neighbors.nearest_centroid.NearestCentroid(),''),
-				  #(sklearn.ensemble.GradientBoostingClassifier(),''),
-				  (amueller_mlp.MLPClassifier(),''),
-				  (sklearn.ensemble.AdaBoostClassifier(),''),
-				  (sklearn.linear_model.Perceptron(n_iter=50),'n_iter=50'),
-				  (svm.SVC(),'')
+	classifiers=[ amueller_mlp.MLPClassifier(),
+				  svm.SVC(kernel='poly'),
+				  svm.SVC(kernel='linear'),
+				  gaussian_process.GaussianProcess(),
+				  naive_bayes.GaussianNB(),
+				  naive_bayes.MultinomialNB(),
+				  naive_bayes.BernoulliNB(),
+				  tree.DecisionTreeClassifier(),
+				  ensemble.RandomForestClassifier(),
+				  neighbors.nearest_centroid.NearestCentroid(),
+				  sklearn.ensemble.GradientBoostingClassifier(),
+				  sklearn.ensemble.AdaBoostClassifier(),
+				  sklearn.linear_model.Perceptron(n_iter=50),
+				  svm.SVC()
 				 	]
-		]
 
 	# Maximum number of features: 261396
 	features_set = logRange(261396,3,1)
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
-	settings = ( (classifier, features, classifier_settings) for classifier,classifier_settings in classifiers for features in features_set)
+	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
 	batch_run(settings)
 
