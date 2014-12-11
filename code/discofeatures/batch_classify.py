@@ -62,6 +62,23 @@ def sort_results_csv(input_file='../../results/classifier_results.csv',output_fi
 			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7]) + "\n") for tup in table]
 
 
+def findRun(classifier_id,features):
+	"""
+	returns the numer of lines where the classifier /features combination occured
+	if it didn't occur, return empty
+	when one of the two features isn't set
+	"""
+
+	table = np.recfromcsv('../../results/classifier_results.csv',delimiter=',')
+	
+	#make sure table is allways iterable
+	if np.size(table)==1: table=list(table.flatten())
+
+	return [n for n,tup in enumerate(table) if tup[0]=='"' + classifier_id + '"' and tup[5]==features]
+
+
+
+
 def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score_time,
 						features,train_conf_matrix='', test_conf_matrix=''):
 	"""
@@ -96,9 +113,6 @@ def batch_run(test_settings):
 
 	for settings in test_settings:
 
-		#load to csv file to append the results. Do this in the loop to update the file live
-		fd = open('../../results/classifier_results.csv','r+')
-
 		#import parameters
 		classifier 			= settings[0]
 		features 			= settings[1]
@@ -108,12 +122,14 @@ def batch_run(test_settings):
 		classifier_id = classifier_id.replace('\n', ' ').replace('"',"'").replace(',',';')
 		classifier_id = ' '.join(classifier_id.split())
 		
-		#check if a experiment with the current settings was allready conducted (also move pointer to end of file)
-		regexp = settings_to_string(classifier_id,".*",".*",".*",".*",features,".*",".*")
-		if len([1 for line in fd if re.search(regexp, line) != None]) > 0:
+		#check if a experiment with the current settings was allready conducted
+		if findRun(classifier_id,features):
 			print "Experiment with current settings was allready conducted, skipping"
 
 		else:
+
+			#load to csv file to append the results. Do this in the loop to update the file live
+			fd = open('../../results/classifier_results.csv','a')
 
 			#do feature deduction if nesececary
 			if not last_features == features: 
@@ -144,27 +160,29 @@ def batch_run(test_settings):
 				test_accuracy,fit_time,score_time,features,
 				train_conf_matrix, test_conf_matrix) + "\n")
 
-		#save to csv file and sort csv file
-		fd.close()
-		sort_results_csv()
+			#save to csv file and sort csv file
+			fd.close()
+			sort_results_csv()
 
 def main():
 
 	#tuples of classifers to test, and a string with their settings (to store)
-	classifiers=[ amueller_mlp.MLPClassifier(),
-				  svm.SVC(kernel='poly'),
-				  svm.SVC(kernel='linear'),
-				  gaussian_process.GaussianProcess(),
-				  naive_bayes.GaussianNB(),
-				  naive_bayes.MultinomialNB(),
-				  naive_bayes.BernoulliNB(),
-				  tree.DecisionTreeClassifier(),
+	classifiers=[ amueller_mlp.MLPClassifier(n_hidden=200),
+				  amueller_mlp.MLPClassifier(n_hidden=400),
+				  amueller_mlp.MLPClassifier(n_hidden=800),
 				  ensemble.RandomForestClassifier(),
-				  neighbors.nearest_centroid.NearestCentroid(),
-				  sklearn.ensemble.GradientBoostingClassifier(),
 				  sklearn.ensemble.AdaBoostClassifier(),
 				  sklearn.linear_model.Perceptron(n_iter=50),
-				  svm.SVC()
+				  svm.SVC(kernel='poly'),
+				  svm.SVC(kernel='linear'),
+				  naive_bayes.GaussianNB(),
+				  neighbors.nearest_centroid.NearestCentroid(),
+				  svm.SVC(),
+				  tree.DecisionTreeClassifier(),
+				  #naive_bayes.MultinomialNB(),
+				  #naive_bayes.BernoulliNB(),
+				  sklearn.ensemble.GradientBoostingClassifier(),
+				  sklearn.ensemble.AdaBoostClassifier()
 				 	]
 
 	# Maximum number of features: 261396
