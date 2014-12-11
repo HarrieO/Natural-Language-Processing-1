@@ -36,7 +36,20 @@ def print_conf_matix(mat):
 	for n,row in enumerate(mat):
 		print "{0} |{1: >4}|{2: >4}|{3: >4}|".format(signs[n],row[0],row[1],row[2])
 
+def print_conf_matrices(mat_list):
 
+	if isinstance(mat_list[0],str): mat_list = [reproduce_conf_matrix(mat) for mat in mat_list]
+	num_mats = len(mat_list)
+
+	signs = ['+','0','-']
+
+	print "   __Predicted___   " * num_mats
+	print " _|__+_|__0_|__-_|  " * num_mats
+
+	for n in range(3):
+		for mat in mat_list:
+			print "|{0}|{1: >4}|{2: >4}|{3: >4}| ".format(signs[n],mat[n][0],mat[n][1],mat[n][2]),
+		print " "
 
 def get_result_table(filename='classifier_results.csv'):
 	"""
@@ -144,21 +157,21 @@ def main():
 
 
 
-	if raw_input('Plot graphs? (y/n):').lower()=='y':
-		if raw_input('Plot all graphs? (y/n):').lower()=='y':
+	if True: #raw_input('Plot graphs? (y/n):').lower()=='y':
+		if False: #raw_input('Plot all graphs? (y/n):').lower()=='y':
 			[plot_classifier_results(c_id) for c_id in classifier_id_list]
 		else:
 
-			index = int(raw_input('Which classifier? (index):'))
+			index = 3 #int(raw_input('Which classifier? (index):'))
 			c_id = classifier_id_list[index];
 			print "==============================================================================================================================="
 			print "=== " + c_id + " ==="
 			print "==============================================================================================================================="
 			
-			for row in table[table['classifier_id']==c_id]:
-				print 'Features: ', row['features'], 'Train conf.matrix:'
-				print_conf_matix(row['test_conf_matrix'])
+			print  "".join( ["Features:{0: >8}  |".format(f) for f in table[table['classifier_id']==c_id]['features']] )
+			print 
 
+			print_conf_matrices(table[table['classifier_id']==c_id]['test_conf_matrix'])
 
 			plot_classifier_results(c_id)
 
