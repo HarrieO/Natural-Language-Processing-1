@@ -144,12 +144,12 @@ def main():
 
 
 
-	if True: #raw_input('Plot graphs? (y/n):').lower()=='y':
-		if False: #raw_input('Plot all graphs? (y/n):').lower()=='y':
+	if raw_input('Plot graphs? (y/n):').lower()=='y':
+		if raw_input('Plot all graphs? (y/n):').lower()=='y':
 			[plot_classifier_results(c_id) for c_id in classifier_id_list]
 		else:
 
-			index = 3 #int(raw_input('Which classifier? (index):'))
+			index = int(raw_input('Which classifier? (index):'))
 			c_id = classifier_id_list[index];
 			print "==============================================================================================================================="
 			print "=== " + c_id + " ==="
