@@ -284,7 +284,7 @@ def main():
 				 # ensemble.RandomForestClassifier(),
 				 # neighbors.nearest_centroid.NearestCentroid(),
 				 # #sklearn.ensemble.GradientBoostingClassifier(),
-				 amueller_mlp.MLPClassifier(n_hidden=600),
+				 amueller_mlp.MLPClassifier(n_hidden=400),
 				 # sklearn.ensemble.AdaBoostClassifier(),
 				 # sklearn.linear_model.Perceptron(n_iter=50)
 				 	]
@@ -293,7 +293,7 @@ def main():
 	# Maximum number of features: 261396
 	features_set = logRange(maxFeatures,15,1)
 	#in this case, settings are empty for all classifiers
-	classifier_settings = '';
+	classifier_settings = 'n = 400';
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features, classifier_settings) for features in features_set for classifier in classifiers)
