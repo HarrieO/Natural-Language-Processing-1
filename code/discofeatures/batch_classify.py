@@ -186,7 +186,7 @@ def main():
 				 	]
 
 	# Maximum number of features: 261396
-	features_set = logRange(261396,3,1)
+	features_set = logRange(261396,15,1)
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
