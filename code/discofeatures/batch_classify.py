@@ -101,13 +101,15 @@ def batch_run(test_settings):
 	1:number of features (left after feature deduction)
 	"""
 
+	resultsfile = '../../results/classifier_results.csv'
+
 	#read in data
 	print "Reading data."
 	training   = read_data("../../datasets/preprocessed/trainset.csv")
 	test       = read_data("../../datasets/preprocessed/testset.csv")
 	y,r 	   = getLabels(training,test)
 
-	training,r = normalize_data(training,r)
+	#training,r = normalize_data(training,r)
 
 	#initialize
 	last_features = [];
@@ -130,7 +132,7 @@ def batch_run(test_settings):
 		else:
 
 			#load to csv file to append the results. Do this in the loop to update the file live
-			fd = open('../../results/classifier_results.csv','a')
+			fd = open(resultsfile,'a')
 
 			#do feature deduction if nesececary
 			if not last_features == features: 
@@ -163,7 +165,7 @@ def batch_run(test_settings):
 
 			#save to csv file and sort csv file
 			fd.close()
-			sort_results_csv()
+			sort_results_csv(input_file=resultsfile)
 
 def main():
 
