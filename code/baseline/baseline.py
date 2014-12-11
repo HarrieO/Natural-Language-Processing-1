@@ -8,18 +8,18 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 import post
 import extractFeatures, amueller_mlp
 from decisionstumps import *
-from sklearn import *
 from treedataToJoosttrees import getPostsWithTrees
 from sklearn.metrics import *
-
+import sklearn
+from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm, naive_bayes, decomposition, neighbors
 
 '''
 Settings
 '''
-forceExtractFeautres = False # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
+forceExtractFeautres = True # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
 usePosTags = True
 resultsPath = '../../results/baseline'+("_improved" if usePosTags else "") +'_classifier_results.csv'
-maxFeatures = 9479 # 9479 words in training set, 10941 wordtags in training set
+maxFeatures = 10941 # 9479 words in training set, 10941 wordtags in training set
 
 def logRange(limit, n=10,start_at_one=[]):
 	"""
@@ -51,19 +51,6 @@ def logRange(limit, n=10,start_at_one=[]):
 	else:
 		return logRange
 
-def settings_to_string(classifier_name,train_accuracy,test_accuracy,fit_time,score_time,
-						features,classifier_settings='',train_conf_matrix='', test_conf_matrix=''):
-	"""
-	Get a string to store to csv file (also usefull for regexp)
-	"""
-
-	#add quotation marks for the strings, if needed
-	if classifier_name==""     or not classifier_name[0]=="'":     classifier_name     = "'" + classifier_name	    + "'"
-	if classifier_settings=="" or not classifier_settings[0]=="'": classifier_settings = "'" + classifier_settings	+ "'"
-	
-	return "{0},{1},{2},{3},{4},{5},{6},{7},{8}".format(classifier_name, train_accuracy,
-				test_accuracy,fit_time,score_time,features, classifier_settings, 
-				train_conf_matrix, test_conf_matrix)
 
 def getFeatures(trees, ignoredFeatures, features):
 	global usePosTags
@@ -92,8 +79,8 @@ def getTrainingTestFeatures(features):
 	classCount 		= emptyClassCount(classes)
 	wordTagCount 	= dict()
 	totalScores		= dict()
-	fileTrainData 	= '../../datasets/preprocessed/baselineTrainSet'+str(features)+'.p'
-	fileTestData	= '../../datasets/preprocessed/baselineTestSet'+str(features)+'.p'
+	fileTrainData 	= '../../datasets/preprocessed/baselineTrainSet'+str(features)+str(usePosTags)+'.p'
+	fileTestData	= '../../datasets/preprocessed/baselineTestSet'+str(features)+str(usePosTags)+'.p'
 
 	testData = getPostsWithTrees('../../datasets/preprocessed/')
 	
@@ -190,7 +177,37 @@ def sort_results_csv(input_file='../../results/baseline_classifier_results.csv',
 		#store sorted file
 		with open(output_file,'w') as fd:
 			fd.write(header)
-			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7],tup[8]) + "\n") for tup in table]
+			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7]) + "\n") for tup in table]
+
+
+def findRun(classifier_id,features):
+	"""
+	returns the numer of lines where the classifier /features combination occured
+	if it didn't occur, return empty
+	when one of the two features isn't set
+	"""
+	global resultsPath
+	table = np.recfromcsv(resultsPath,delimiter=',')
+	
+	#make sure table is allways iterable
+	if np.size(table)==1: table=list(table.flatten())
+
+	return [n for n,tup in enumerate(table) if tup[0]=='"' + classifier_id + '"' and tup[5]==features]
+
+
+
+def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score_time,
+						features,train_conf_matrix='', test_conf_matrix=''):
+	"""
+	Get a string to store to csv file (also usefull for regexp)
+	"""
+
+	#add quotation marks for the strings, if needed
+	if classifier_id==""     or not classifier_id[0]=='"':     classifier_id     = '"' + classifier_id	    + '"'
+	
+	return "{0},{1},{2},{3},{4},{5},{6},{7}".format(classifier_id, train_accuracy,
+				test_accuracy,fit_time,score_time,features, 
+				train_conf_matrix, test_conf_matrix)
 
 
 def batch_run(test_settings):
@@ -213,21 +230,23 @@ def batch_run(test_settings):
 
 	for settings in test_settings:
 
-		#load to csv file to append the results. Do this in the loop to update the file live
-		fd = open(resultsPath,'r+')
 
 		#import parameters
 		classifier 			= settings[0]
 		features 			= settings[1]
-		classifier_settings = settings[2]
-		classifier_name 	= re.search(r".*'(.+)'.*", str(type(classifier))).groups()[0]
-		
-		#check if a experiment with the current settings was allready conducted (also move pointer to end of file)
-		regexp = settings_to_string(classifier_name,".*",".*",".*",".*",features,classifier_settings,".*",".*")
-		if len([1 for line in fd if re.search(regexp, line) != None]) > 0:
+		#converte the class name and properties into a string, be carefull for punctuation in csv
+		classifier_id = str(classifier)
+		classifier_id = classifier_id.replace('\n', ' ').replace('"',"'").replace(',',';')
+		classifier_id = ' '.join(classifier_id.split())
+
+		#check if a experiment with the current settings was allready conducted
+		if findRun(classifier_id,features):
 			print "Experiment with current settings was allready conducted, skipping"
 
 		else:
+
+			#load to csv file to append the results. Do this in the loop to update the file live
+			fd = open(resultsPath,'a')
 
 			#do feature deduction if nesececary
 			if not last_features == features: 
@@ -237,10 +256,10 @@ def batch_run(test_settings):
 		
 
 			#fit classifier
-			print "Fitting " + classifier_name
+			print "Fitting " + classifier_id
 			t0 = time.time()
 			print y[:20]
-			classifier.fit(X, y, max_epochs=200)
+			classifier.fit(X, y)
 			fit_time = time.time() - t0
 
 			#Predict labels
@@ -259,47 +278,55 @@ def batch_run(test_settings):
 			print(classification_report(y,y_pred, target_names=classes))
 			print "Testing"
 			print(classification_report(r,r_pred, target_names=classes))
+
 			#store results
-			fd.write(settings_to_string(classifier_name,train_accuracy,
-				test_accuracy,fit_time,score_time,features,classifier_settings,
+			fd.write(settings_to_string(classifier_id,train_accuracy,
+				test_accuracy,fit_time,score_time,features,
 				train_conf_matrix, test_conf_matrix) + "\n")
 
-		#save to csv file and sort csv file
-		fd.close()
-		sort_results_csv(resultsPath)
+			#save to csv file and sort csv file
+			fd.close()
+			sort_results_csv(resultsPath)
 		
 
 def main():
 	global maxFeatures
-	#classifiers to test:
-	classifiers=[#gaussian_process.GaussianProcess(),
-				 #linear_model.LinearRegression(),
-				 #linear_model.Ridge(),
-				 #linear_model.Lasso(),
-				 # naive_bayes.GaussianNB(),
-				 # naive_bayes.MultinomialNB(),
-				 # naive_bayes.BernoulliNB(), #,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}
-				 # svm.SVC(kernel='rbf',gamma=0.4,C=1000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
-				 # tree.DecisionTreeClassifier(),
-				 # ensemble.RandomForestClassifier(),
-				 # neighbors.nearest_centroid.NearestCentroid(),
-				 # #sklearn.ensemble.GradientBoostingClassifier(),
-				 amueller_mlp.MLPClassifier(n_hidden=400),
-				 # sklearn.ensemble.AdaBoostClassifier(),
-				 # sklearn.linear_model.Perceptron(n_iter=50)
-				 	]
 
+
+	#tuples of classifers to test, and a string with their settings (to store)
+	classifiers=[ amueller_mlp.MLPClassifier(n_hidden=200),
+				  amueller_mlp.MLPClassifier(n_hidden=400),
+				  amueller_mlp.MLPClassifier(n_hidden=800),
+				  sklearn.ensemble.RandomForestClassifier(),
+				  sklearn.ensemble.AdaBoostClassifier(),
+				  sklearn.linear_model.Perceptron(n_iter=50),
+				  svm.SVC(kernel='poly'),
+				  svm.SVC(kernel='linear'),
+				  sklearn.naive_bayes.GaussianNB(),
+				  sklearn.neighbors.nearest_centroid.NearestCentroid(),
+				  sklearn.svm.SVC(),
+				  sklearn.tree.DecisionTreeClassifier(),
+				  #sklearn.naive_bayes.MultinomialNB(),
+				  #sklearn.naive_bayes.BernoulliNB(),
+				  sklearn.ensemble.GradientBoostingClassifier(),
+				  sklearn.ensemble.AdaBoostClassifier(),
+				  # sklearn.svm.SVC(kernel='rbf',gamma=0.4,C=1000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
+				  # sklearn.svm.SVC(kernel='rbf',gamma=0.2,C=1000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
+				  # sklearn.svm.SVC(kernel='rbf',gamma=0.8,C=1000000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
+				  # sklearn.svm.SVC(kernel='rbf',gamma=0.2,C=1000000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
+				  # sklearn.svm.SVC(kernel='linear',gamma=0.2,C=1000000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
+				  # sklearn.svm.SVC(kernel='poly',gamma=0.2,C=1000000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960})
+				 	]
 
 	# Maximum number of features: 261396
 	features_set = logRange(maxFeatures,15,1)
-	#in this case, settings are empty for all classifiers
-	classifier_settings = 'n = 400';
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
-	settings = ( (classifier, features, classifier_settings) for features in features_set for classifier in classifiers)
+	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
-	#run
 	batch_run(settings)
+
+
 
 if __name__ == "__main__":
 
