@@ -1,7 +1,8 @@
 import sys, os
 import numpy as np
 import matplotlib.pyplot as plt
-from operator import add
+import textwrap
+from operator import add, itemgetter
 
 sys.path.append('../code')
 sys.path.append('../code/discofeatures')
@@ -9,93 +10,76 @@ sys.path.append('../code/discofeatures')
 import post
 from batch_classify import *
 
-
-def get_classifier_list():
+def reproduce_conf_matrix(mat_string):
 	"""
-	Returns the set of different classifiers that we have results of
+	Reproduce actual matrix from string as stored in csv file
 	"""
-	#get list with unique values for classifier (without the quotes at begin and end)
-	return [x[1:-1] for x in set(post.read_column(0,'classifier_results.csv'))]
+	#remove [[ and ]] at the beginning / end
+	mat_string = mat_string[2:-2]
 
-def get_classifier_table(classifier_name,sort_ind=5):
+	#remove multiple whitespaces
+	mat_string = ' '.join(mat_string.split())
+
+	#split to 2d array
+	mat = [row.split(' ') for row in mat_string.split('] [')]
+
+	#return as int 
+	return [[int(i) for i in row if not i==''] for row in mat]
+
+def print_conf_matix(mat):
+	if isinstance(mat,str): mat = reproduce_conf_matrix(mat)
+
+	signs = ['+','0','-']
+	print "   __Predicted___"
+	print " _|__+_|__0_|__-_|"
+
+	for n,row in enumerate(mat):
+		print "{0} |{1: >4}|{2: >4}|{3: >4}|".format(signs[n],row[0],row[1],row[2])
+
+
+
+def get_result_table(filename='classifier_results.csv'):
 	"""
-	Returns the results of the given classifier in a nested list.
-	Each nested list corresponds to a variabele, the table is sorted according to index in the csv file 
-	Default sort = column 5 (features)
+	Return recarray with results.
 	"""
 
-	classifier_settings = '.*' #not implemented yet
-
-	#get all lines with current classifier and current settings
-	regexp = settings_to_string(classifier_name,".*",".*",".*",".*",".*",classifier_settings,".*",".*")
-	with open('classifier_results.csv','r') as fd:
-		lines = [line for line in fd if re.search(regexp, line) != None]
-
-	table = [];
-
-	for line in lines:
-		v = line.split(',')
-		#v[0] #classifier
-		#v[1] #train_performance
-		#v[2] #test_performance
-		#v[3] #fit time
-		#v[4] #score time
-		#v[5] #features
-		#v[6] #settings
-		#v[7] #\n
-		row = [float(v[1]), float(v[2]),float(v[3]),float(v[4]),int(v[5])]
-		table.append(row)
-
-	#sort on index minus one because we dropped the first index above
-	table.sort(key=lambda x: x[sort_ind-1])
-
-	#transpose table for easy indexing (each nested list is a variabele)
-	table = [list(x) for x in zip(*table)]
-
-	return table
-
-def best_classifiers():
 	table = np.recfromcsv('classifier_results.csv',delimiter=',')
-	table = sorted(table, key=lambda tup: tup[2], reverse=True)
+	#remove quotation marks from 1th column
+	for i in range(table.size):
+		table[i]['classifier_id'] = table[i]['classifier_id'][1:-1]
 
 	return table
 
-def plot_classifier_results(classifier_name,plot_runtime=True):
+def plot_classifier_results(c_id,plot_runtime=True,table=[],compareAcc=[],compareLbl='Baseline'):
 	"""
 	Plots the performance of current classifier of different features,
 	Option to plot runtime as well
 	"""
 
-	table = get_classifier_table(classifier_name)
+	if not table: table = get_result_table()
 
-	#export for readability
-	train_p  = table[0]
-	test_p   = table[1]
-	fit_t    = table[2]
-	score_t  = table[3]
-	run_t    = map(add, fit_t, score_t)
-	features = table[4]
+	c_table =  table[table["classifier_id"]==c_id]
 
 	fig, ax1 = plt.subplots()
-	ax1.plot(features, train_p, 'b-s',label='Training data')
-	ax1.plot(features, test_p, 'r-s', label='Test data')
+	ax1.plot(c_table['features'], c_table['train_accuracy'], 'b-s',label='Training data')
+	ax1.plot(c_table['features'], c_table['test_accuracy'], 'r-s', label='Test data')
 	ax1.set_xlabel('# of features')
 	ax1.set_xscale('log')
 
 	ax1.yaxis.grid()
 	ax1.xaxis.grid()
 
-	if classifier_name == 'sklearn.linear_model.base.LinearRegression':
-		ax1.set_ylabel('Mean squared error')
-	else:
-		ax1.set_ylabel('Performance (proportion correct)')
-		ax1.set_ylim([0,1])
+	ax1.set_ylabel('Performance (proportion correct)')
+	ax1.set_ylim([0,1])
+
+	if compareAcc:
+		ax1.plot(c_table['features'],[compareAcc for _ in c_table['features']],'-',color='orange',label=compareLbl)
 
 	lines, labels = ax1.get_legend_handles_labels()
 	
 	if plot_runtime:
 		ax2 = ax1.twinx()
-		ax2.plot(features, run_t, 'g-8',label='Runtime')
+		ax2.plot(c_table['features'], map(add,c_table['fit_time'],c_table['score_time']), 'g-8',label='Runtime')
 		ax2.set_ylabel('Runtime (s)')
 		lines2, labels2 = ax2.get_legend_handles_labels()
 
@@ -104,37 +88,79 @@ def plot_classifier_results(classifier_name,plot_runtime=True):
 
 	ax1.legend(lines, labels)
 
-	plt.title(classifier_name)
+	plt.title("{0} ({1})".format(class_id_to_rowle(c_id)[0], class_id_list().index(c_id)))
 	plt.show()
 
+def class_id_to_rowle(c_id):
+	"""
+	Returns a rowle of (classifier name, classifier settings)
+	"""
+	return re.findall(r"(.*)\((.*)\)",c_id)[0]
 
+def class_id_list():
+	return list(set(post.read_column(0,'classifier_results.csv')))
 
 def main():
 
+	#all unique classifiers (and settings)
+	classifier_id_list = class_id_list()
 
-	classifier_list = get_classifier_list()
+	classifier_rowle_list = [class_id_to_rowle(c) for c in classifier_id_list] 
+
+	print [c for c,_ in classifier_rowle_list]
+
+	#return [x for x in set(post.read_column(0,'classifier_results.csv'))]
+
 
 	print "==============================================="
 	print "All classifiers:"
 	print "==============================================="
 	#print "\n".join([str(n)+". "+str(c) for n,c in enumerate(classifier_list)])
-	print "\n".join(classifier_list)
+	print "\n".join(["{0: >2}. {1}\n {2}...".format(n, c[0],
+		textwrap.fill(c[1], initial_indent='    > ', subsequent_indent='      ')) for n,c in enumerate(classifier_rowle_list)])
+	print 
+	#print "\n".join([str(n) + c[0] for n,c in enumerate(classifier_rowle_list])
+
+
+
 
 
 	best_n = 10
+
+	#get sorted table
+	table = get_result_table()
+	best_table = sorted(table, key=lambda row: row['test_accuracy'], reverse=True)[0:best_n]
 
 	print "\n\n"
 	print "==============================================="
 	print "Best {0} classifiers:".format(best_n)
 	print "==============================================="
-	print "\n".join(["{0} with features={1} and settings={2}. Test:{3}, Train:{4}".format(tup[0],tup[5],tup[6],tup[2],tup[1]) for tup in best_classifiers()[0:best_n]])
-	print "\n"
+
+	print "\n".join(["{0: >2}.{1: >27} ({2: >2}) with {3: >8} features. Train:{4:.4f}. Test{5:.4}.".format(n+1, class_id_to_rowle(row['classifier_id'])[0],
+										classifier_id_list.index(row['classifier_id']),
+										row['features'], row['train_accuracy'], row['test_accuracy'])
+									for n,row in enumerate(best_table)])
 
 
-	if raw_input('Plot graphs? (y/n):').lower()=='y':
-		[plot_classifier_results(classifier_name) for classifier_name in classifier_list]
 
 
+	if True: #raw_input('Plot graphs? (y/n):').lower()=='y':
+		if False: #raw_input('Plot all graphs? (y/n):').lower()=='y':
+			[plot_classifier_results(c_id) for c_id in classifier_id_list]
+		else:
+
+			index = 3 #int(raw_input('Which classifier? (index):'))
+			c_id = classifier_id_list[index];
+			print "==============================================================================================================================="
+			print "=== " + c_id + " ==="
+			print "==============================================================================================================================="
+			
+			for row in table[table['classifier_id']==c_id]:
+				print 'Features: ', row['features'], 'Train conf.matrix:'
+				print_conf_matix(row['test_conf_matrix'])
+
+
+			plot_classifier_results(c_id)
 
 if __name__ == '__main__':
 	main()

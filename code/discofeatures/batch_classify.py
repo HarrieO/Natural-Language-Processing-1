@@ -52,9 +52,9 @@ def sort_results_csv(input_file='../../results/classifier_results.csv',output_fi
 	if np.size(table) > 1:
 
 		#sort on features
-		table = sorted(table, key=lambda tup: tup[5])
+		table = sorted(table, key=lambda tup: tup['features'])
 		#sort on classifier
-		table = sorted(table, key=lambda tup: tup[0])
+		table = sorted(table, key=lambda tup: tup['classifier_id'])
 
 		#store sorted file
 		with open(output_file,'w') as fd:
