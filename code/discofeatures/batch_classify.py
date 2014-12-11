@@ -107,6 +107,7 @@ def batch_run(test_settings):
 	test       = read_data("../../datasets/preprocessed/testset.csv")
 	y,r 	   = getLabels(training,test)
 
+	training,r = normalize_data(training,r)
 
 	#initialize
 	last_features = [];
