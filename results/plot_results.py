@@ -56,7 +56,7 @@ def get_result_table(filename='classifier_results.csv'):
 	Return recarray with results.
 	"""
 
-	table = np.recfromcsv('classifier_results.csv',delimiter=',')
+	table = np.recfromcsv(filename,delimiter=',')
 	#remove quotation marks from 1th column
 	for i in range(table.size):
 		table[i]['classifier_id'] = table[i]['classifier_id'][1:-1]
@@ -69,7 +69,7 @@ def plot_classifier_results(c_id,plot_runtime=True,table=[],compareAcc=[],compar
 	Option to plot runtime as well
 	"""
 
-	if not table: table = get_result_table()
+	if not table==[]: table = get_result_table()
 
 	c_table =  table[table["classifier_id"]==c_id]
 
@@ -101,26 +101,29 @@ def plot_classifier_results(c_id,plot_runtime=True,table=[],compareAcc=[],compar
 
 	ax1.legend(lines, labels)
 
-	plt.title("{0} ({1})".format(class_id_to_rowle(c_id)[0], class_id_list().index(c_id)))
+	plt.title("{0} ({1})".format(class_id_to_tuple(c_id)[0], class_id_list().index(c_id)))
 	plt.show()
 
-def class_id_to_rowle(c_id):
+def class_id_to_tuple(c_id):
 	"""
-	Returns a rowle of (classifier name, classifier settings)
+	Returns a tuple of (classifier name, classifier settings)
 	"""
 	return re.findall(r"(.*)\((.*)\)",c_id)[0]
 
-def class_id_list():
-	return list(set(post.read_column(0,'classifier_results.csv')))
+def class_id_list(filename='classifier_results.csv'):
+	return list(set(post.read_column(0,filename)))
 
 def main():
 
+	#which data do we want to plot
+	filename = 'classifier_results.csv'
+
 	#all unique classifiers (and settings)
-	classifier_id_list = class_id_list()
+	classifier_id_list = class_id_list(filename=filename)
 
-	classifier_rowle_list = [class_id_to_rowle(c) for c in classifier_id_list] 
+	classifier_tuple_list = [class_id_to_tuple(c) for c in classifier_id_list] 
 
-	print [c for c,_ in classifier_rowle_list]
+	print [c for c,_ in classifier_tuple_list]
 
 	#return [x for x in set(post.read_column(0,'classifier_results.csv'))]
 
@@ -130,18 +133,16 @@ def main():
 	print "==============================================="
 	#print "\n".join([str(n)+". "+str(c) for n,c in enumerate(classifier_list)])
 	print "\n".join(["{0: >2}. {1}\n {2}...".format(n, c[0],
-		textwrap.fill(c[1], initial_indent='    > ', subsequent_indent='      ')) for n,c in enumerate(classifier_rowle_list)])
+		textwrap.fill(c[1], initial_indent='    > ', subsequent_indent='      ')) for n,c in enumerate(classifier_tuple_list)])
 	print 
-	#print "\n".join([str(n) + c[0] for n,c in enumerate(classifier_rowle_list])
-
-
+	#print "\n".join([str(n) + c[0] for n,c in enumerate(classifier_tuple_list])
 
 
 
 	best_n = 10
 
 	#get sorted table
-	table = get_result_table()
+	table = get_result_table(filename=filename)
 	best_table = sorted(table, key=lambda row: row['test_accuracy'], reverse=True)[0:best_n]
 
 	print "\n\n"
@@ -149,17 +150,16 @@ def main():
 	print "Best {0} classifiers:".format(best_n)
 	print "==============================================="
 
-	print "\n".join(["{0: >2}.{1: >27} ({2: >2}) with {3: >8} features. Train:{4:.4f}. Test{5:.4}.".format(n+1, class_id_to_rowle(row['classifier_id'])[0],
+	print "\n".join(["{0: >2}.{1: >27} ({2: >2}) with {3: >8} features. Train:{4:.4f}. Test{5:.4}.".format(n+1, class_id_to_tuple(row['classifier_id'])[0],
 										classifier_id_list.index(row['classifier_id']),
 										row['features'], row['train_accuracy'], row['test_accuracy'])
 									for n,row in enumerate(best_table)])
 
 
 
-
 	if raw_input('Plot graphs? (y/n):').lower()=='y':
 		if raw_input('Plot all graphs? (y/n):').lower()=='y':
-			[plot_classifier_results(c_id) for c_id in classifier_id_list]
+			[plot_classifier_results(c_id,table=table) for c_id in classifier_id_list]
 		else:
 
 			index = int(raw_input('Which classifier? (index):'))
@@ -168,10 +168,13 @@ def main():
 			print "=== " + c_id + " ==="
 			print "==============================================================================================================================="
 			
+			
 			print  "".join( ["Features:{0: >8}  |".format(f) for f in table[table['classifier_id']==c_id]['features']] )
-			print 
-
+			print "Confusion Matrices for training:"
+			print_conf_matrices(table[table['classifier_id']==c_id]['train_conf_matrix'])
+			print "Confusion Matrices for testing:"
 			print_conf_matrices(table[table['classifier_id']==c_id]['test_conf_matrix'])
+
 
 			plot_classifier_results(c_id)
 

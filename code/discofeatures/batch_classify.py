@@ -62,14 +62,14 @@ def sort_results_csv(input_file='../../results/classifier_results.csv',output_fi
 			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7]) + "\n") for tup in table]
 
 
-def findRun(classifier_id,features):
+def findRun(classifier_id,features,resultsfile = '../../results/classifier_results.csv'):
 	"""
 	returns the numer of lines where the classifier /features combination occured
 	if it didn't occur, return empty
 	when one of the two features isn't set
 	"""
 
-	table = np.recfromcsv('../../results/classifier_results.csv',delimiter=',')
+	table = np.recfromcsv(resultsfile,delimiter=',')
 	
 	#make sure table is allways iterable
 	if np.size(table)==1: table=list(table.flatten())
@@ -126,7 +126,7 @@ def batch_run(test_settings):
 		classifier_id = ' '.join(classifier_id.split())
 		
 		#check if a experiment with the current settings was allready conducted
-		if findRun(classifier_id,features):
+		if findRun(classifier_id,features,resultsfile=resultsfile):
 			print "Experiment with current settings was allready conducted, skipping"
 
 		else:
