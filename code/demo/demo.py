@@ -8,10 +8,12 @@ import numpy as np
 from threading import Thread
 from tornado.options import define, options, parse_command_line
 sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../discofeatures'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../baseline'))
 from settings import *
 from baselineExtended import compute_score
+from treeToFeatures import *
 
 
 if USE_BLLIP == True:
@@ -25,6 +27,9 @@ if USE_BLLIP == True:
 baselineModel = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../results/models/baseline0.5'+'.p'),'rb'))
 wordScores = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/wordScores.p'),'rb'))
 
+# Global variables used in the application
+featureMap = {}
+
 def getClassWord(word):
     global wordScores
     wordClass = "neutral"
@@ -35,12 +40,20 @@ def getClassWord(word):
             wordClass = 'impolite'
     return wordClass
 
+def loadDopFeatures():
+    global featureMap
+    with open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/featureSpace.txt')) as f:
+        for line in f:
+            i, tree = line.split(' ',1)
+            tree = tree.strip()
+            featureMap[tree] = i
+
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("index.html")
 class PolitenessHandler(tornado.web.RequestHandler):
     def post(self):
-        global USE_BLLIP, BLLIP_TYPE, rrp #, baselineModel, wordScores
+        global USE_BLLIP, USE_DOP, BLLIP_TYPE, rrp, featureMap #, baselineModel, wordScores
         sentence = self.get_argument("sentence", None)
         if USE_BLLIP == True:
             if BLLIP_TYPE == 'Python':
@@ -56,7 +69,11 @@ class PolitenessHandler(tornado.web.RequestHandler):
             tree = np.random.choice(example_trees, 1)
             print sentence
             sentence = sentence
-
+        print "Test"
+        print list(tree)
+        if USE_DOP:
+            features = convertTreeToVector(list(tree), featureMap)
+        print features
         scoreFound = compute_score(sentence,baselineModel)
         if scoreFound is None:
             scoreFound = 0
@@ -65,6 +82,7 @@ class PolitenessHandler(tornado.web.RequestHandler):
             classFound = 'polite'
         if scoreFound <= -0.5:
             classFound = 'impolite'
+        sentence = sentence+str(features)
         response = { 'sentences': [ {'sentence': " ".join(["<span class=\""+getClassWord(word)+"\">"+word+" "+"</span>" for word in re.findall(r"[\w']+|[\W]",sentence) if word != "" ]), 'sentenceClass': classFound, 'confidence': scoreFound } ]}
         self.write(response)
 
@@ -88,7 +106,7 @@ class bllip_loader(Thread):
         rrp.load_reranker_model(os.path.join(os.path.dirname(__file__), '../../lib/bllip/models/ec50spfinal/features.gz'), os.path.join(os.path.dirname(__file__), '../../lib/bllip/models/ec50spfinal/cvlm-l1c10P1-weights.gz'))
         print "Done loading model"
 
-
+loadDopFeatures()
 if __name__ == "__main__":
     application.listen(8888)
     if USE_BLLIP == True:

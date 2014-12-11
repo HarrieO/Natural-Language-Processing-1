@@ -5,15 +5,9 @@ import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 from bracketStringReader import BracketStringReader
 
-featureMap = {}
-with open('../../datasets/preprocessed/featureSpace.txt') as f:
-    for line in f:
-        i, tree = line.split(' ',1)
-        tree = tree.strip()
-        featureMap[tree] = i
 
 # takes the trees of a single post and returns a sparse feature vector
-def convertTreeToVector(treeStringsInput):
+def convertTreeToVector(treeStringsInput, featureMap):
     totalTrees = len(treeStringsInput)
     treeStrings = treeStringsInput[:]
     treeStrings.extend(treeStrings[:])
@@ -47,7 +41,17 @@ def convertTreeToVector(treeStringsInput):
 
     return featureVector
 
-print convertTreeToVector(["(S1 (S (NP (PRP You) (NN error)) (VP (VBZ seems) (S (VP (TO to) (VP (AUX have) (NP (NP (NN something)) (SBAR (S (VP (TO to) (VP (AUX do) (S (VP (TO to))) (PP (IN with) (NP (NP (DT the) (NN function) (POS 's)) (NN invocation)))))))))))) (. .)))",
+
+
+if __name__ == '__main__':
+    
+    featureMap = {}
+    with open('../../datasets/preprocessed/featureSpace.txt') as f:
+        for line in f:
+            i, tree = line.split(' ',1)
+            tree = tree.strip()
+            featureMap[tree] = i
+    print convertTreeToVector(["(S1 (S (NP (PRP You) (NN error)) (VP (VBZ seems) (S (VP (TO to) (VP (AUX have) (NP (NP (NN something)) (SBAR (S (VP (TO to) (VP (AUX do) (S (VP (TO to))) (PP (IN with) (NP (NP (DT the) (NN function) (POS 's)) (NN invocation)))))))))))) (. .)))",
 "(S1 (SQ (MD Can) (NP (PRP you)) (VP (VB tell) (NP (PRP us)) (SBAR (WHADVP (WRB where)) (S (VP (AUX is) (NP (NN line) (CD 26)))))) (. ?)))",
 "(S1 (S (VP (VBZ Looks) (SBAR (IN like) (S (NP (NNP Illustrator) (NNP CS4)) (VP (MD can) (VP (AUX be) (VP (VBN scripted) (PP (IN with) (NP (NNP JavaScript) (, ,) (NNP VBScript) (CC and) (NNP AppleScript))))))))) (. .)))",
-"(S1 (SQ (VP (MD Would) (VP (AUX be) (ADJP (JJ nice)) (SBAR (IN if) (S (NP (PRP you)) (VP (MD could) (VP (VB get) (NP (PRP$ your) (NNS hands)) (PP (IN on) (NP (NP (NP (DT the) (NN script)) (SBAR (S (NP (PRP they)) (VP (VBD used) (S (VP (TO to) (VP (VB create) (NP (DT these) (NN ring) (NNS maps))))))))) (, ,) (NP (NNP huh)))))))))) (. ?)))"])
+"(S1 (SQ (VP (MD Would) (VP (AUX be) (ADJP (JJ nice)) (SBAR (IN if) (S (NP (PRP you)) (VP (MD could) (VP (VB get) (NP (PRP$ your) (NNS hands)) (PP (IN on) (NP (NP (NP (DT the) (NN script)) (SBAR (S (NP (PRP they)) (VP (VBD used) (S (VP (TO to) (VP (VB create) (NP (DT these) (NN ring) (NNS maps))))))))) (, ,) (NP (NNP huh)))))))))) (. ?)))"],featureMap)
