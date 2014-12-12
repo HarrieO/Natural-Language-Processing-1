@@ -92,6 +92,23 @@ def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score
 				test_accuracy,fit_time,score_time,features, 
 				train_conf_matrix, test_conf_matrix)
 
+def even_split_correction(training,y):
+
+	print "Correcting split"
+
+	ind0 = [n for n,yi in enumerate(y) if yi==0]
+	ind1 = [n for n,yi in enumerate(y) if yi==1]
+	ind2 = [n for n,yi in enumerate(y) if yi==2]
+
+	maxN =  len(ind0) #hardcoded (this is the max)
+
+	ind0 = ind0[0:maxN]
+	ind1 = ind1[0:maxN]
+	ind2 = ind2[0:maxN]
+
+	use_ind = sorted(ind0 + ind1 + ind2)
+
+	return [training[i] for i in use_ind], [y[i] for i in use_ind]
 
 def batch_run(test_settings):
 	"""
@@ -101,7 +118,7 @@ def batch_run(test_settings):
 	1:number of features (left after feature deduction)
 	"""
 
-	resultsfile = '../../results/classifier_results.csv'
+	resultsfile = '../../results/classifier_results_split_corrected.csv'
 
 	#read in data
 	print "Reading data."
@@ -109,7 +126,7 @@ def batch_run(test_settings):
 	test       = read_data("../../datasets/preprocessed/testset.csv")
 	y,r 	   = getLabels(training,test)
 
-	#training,r = normalize_data(training,r)
+	training,y = even_split_correction(training,y)
 
 	#initialize
 	last_features = [];

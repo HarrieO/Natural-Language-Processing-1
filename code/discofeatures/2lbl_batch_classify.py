@@ -92,6 +92,26 @@ def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score
 				test_accuracy,fit_time,score_time,features, 
 				train_conf_matrix, test_conf_matrix)
 
+def get2Labels(training_data, test_data):
+
+	def giveLabel(score):
+		if post.score > 0:
+			return 'polite'
+		else:
+			return 'impolite'
+
+	target = [giveLabel(post.score) for post in training_data]
+	real   = [giveLabel(post.score) for post in test_data]
+
+	labelEncoder = preprocessing.LabelEncoder()
+
+	# train targets
+	y = labelEncoder.fit_transform(target)
+	# true values of test data
+	r = labelEncoder.transform(real)
+
+	return y,r
+
 
 def batch_run(test_settings):
 	"""
@@ -101,15 +121,13 @@ def batch_run(test_settings):
 	1:number of features (left after feature deduction)
 	"""
 
-	resultsfile = '../../results/classifier_results.csv'
+	resultsfile = '../../results/classifier_results_2lbl.csv'
 
 	#read in data
 	print "Reading data."
 	training   = read_data("../../datasets/preprocessed/trainset.csv")
 	test       = read_data("../../datasets/preprocessed/testset.csv")
-	y,r 	   = getLabels(training,test)
-
-	#training,r = normalize_data(training,r)
+	y,r 	   = get2Labels(training,test)
 
 	#initialize
 	last_features = [];

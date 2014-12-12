@@ -8,3 +8,5 @@ BLLIP_PATH = '/home/joostvandoorn.com/politenessdemo/bllip-parser'
 USE_BLLIP = True
 # Set to Python if the Python module of BLLIP is included otherwise use Default
 BLLIP_TYPE = 'Python'
+# If set to True the demo will use the DOP features
+USE_DOP = True
