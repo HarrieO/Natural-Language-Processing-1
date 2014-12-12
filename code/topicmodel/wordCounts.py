@@ -1,5 +1,5 @@
 import numpy as np
-import re, string, random, time
+import re, string, random, time, pickle
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../discofeatures'))
 from datapoint import *
@@ -39,7 +39,7 @@ class WordCounter(object):
         tagCount          = np.zeros(2)
 
         sentenceWords = []
-        data = data[:100]
+        #data = data[:100]
         for i, post in enumerate(data):
             # raw Strings
             rawWords   = post.content.split()
@@ -79,16 +79,16 @@ class WordCounter(object):
             sentenceTags.append(np.array(taggedWords)) # z tags in sentence
 
         tagsPerWord     = np.zeros((3,vocabularySize))
-        tagsPerSentence = np.zeros((2,numberOfSentences))
+        #tagsPerSentence = np.zeros((2,numberOfSentences))
         for (i, (words, tags)) in enumerate(zip(sentenceWords,sentenceTags)):
             for word, tag in zip(words,tags):
                 tagsPerWord[tag,word]  += 1 
-                tagsPerSentence[get_index(tag),i] += 1 
+                #tagsPerSentence[get_index(tag),i] += 1 
 
         self.sentenceWords       = sentenceWords
         self.sentenceTags        = sentenceTags
         self.tagsPerWord         = tagsPerWord # number of z tags per word
-        self.tagsPerSentence     = tagsPerSentence # number of z tags per sentences
+        #self.tagsPerSentence     = tagsPerSentence # number of z tags per sentences
         self.sentenceTags        = sentenceTags
         self.V                   = V # stores labels for z, 0 = negative, 1 = positive, 2 = neutral
         self.labelCount          = labelCount # C(0) = #negative sentences, C(1) = #positive sentences
@@ -127,7 +127,7 @@ class WordCounter(object):
     def addSentence(self, sentence, label):
         sent = self.convertSentence(sentence)
         tags = np.zeros((len(sent),1))
-        self.tagsPerSentence = np.concatenate((self.tagsPerSentence,np.zeros((2,1))),axis=1)
+        #self.tagsPerSentence = np.concatenate((self.tagsPerSentence,np.zeros((2,1))),axis=1)
         self.sentenceTags.append(tags)
         self.labelsPerSentence = np.append(self.labelsPerSentence,np.array([label]))
         self.labelCount[label] += 1
@@ -136,7 +136,7 @@ class WordCounter(object):
             self.V[z]   += 1
             tags[i] = z
             self.tagsPerWord[z,word]  += 1
-            self.tagsPerSentence[get_index(z),self.numberOfSentences] += 1
+            #self.tagsPerSentence[get_index(z),self.numberOfSentences] += 1
             self.tagCount[get_index(z)]+=1
         self.numberOfSentences += 1
         self.sentenceWords.append(sent)
@@ -176,43 +176,60 @@ class WordCounter(object):
             probs[i] = value*(self.beta -deltaVal +self.tagsPerWord[i,currentWord])/(-deltaVal+self.V[i]+Vi*self.beta)
         newLabel = pickIndexToLogProb(probs)
         self.changeLabel(n,m,newLabel)
-        return newLabel
+        #return newLabel
 
 
-print "Opening data"
+    def gibbs_sample_topic_model(self,num_its=2):
+        # burn = number of iterations used for burn-in
+        #samples_out = []
+        X = self.sentenceTags
+        for i in range(num_its):
+            n =random.randrange(len(X))
+            if len(X[n])==0:
+                continue
+            m = random.randrange(len(X[n]))
+            self.conditional_distribution((n,m))
 
-data = read_data("../../datasets/preprocessed/trainset.csv")
-data.extend(read_data("../../datasets/preprocessed/testset.csv"))
 
-print "Read data starting count"
+if __name__ == "__main__":
+    print "Opening data"
 
-start = time.time()
-wordCounter = WordCounter(data,giveLabel)
+    data = read_data("../../datasets/preprocessed/trainset.csv")
+    data.extend(read_data("../../datasets/preprocessed/testset.csv"))
 
-print "Took", time.time()-start, "seconds"
+    print "Read data starting count"
 
+    start = time.time()
+    wordCounter = WordCounter(data,giveLabel)
 
-def gibbs_sample_topic_model(wordCounter, interestSentInd,num_its=2):
-    # burn = number of iterations used for burn-in
-    samples_out = []
-    X = wordCounter.sentenceTags
-    for i in range(num_its):
-        for n in range(len(X)):
-            for m in range(len(X[n])):
-                wordCounter.conditional_distribution((n,m))
-        samples_out.append(wordCounter.sentenceTags[interestSentInd])
-    return samples_out
-print "Labeling before Gibss sampling: "
-for i in range(10):
-    print " ".join(wordCounter.getWords(wordCounter.sentenceWords[i]))
-    print wordCounter.sentenceTags[i]
+    print "Took", time.time()-start, "seconds"
+    #samples_out.append(wordCounter.sentenceTags[interestSentInd])
+    #return samples_out
+    print "Labeling before Gibss sampling: "
+    for i in range(10):
+        print " ".join(wordCounter.getWords(wordCounter.sentenceWords[i]))
+        print wordCounter.sentenceTags[i]
 
-start = time.time()
-num_its= 10
-print "Applying Gibbs sampling for", num_its, "iterations"
-gibbs_sample_topic_model(wordCounter, 5, num_its)
-print "Took", time.time()-start, "seconds"
-print "Labeling after Gibss sampling: "
-for i in range(10):
-    print " ".join(wordCounter.getWords(wordCounter.sentenceWords[i]))
-    print wordCounter.sentenceTags[i]
+    for num_its in [10,100,1000,10000,100000,200000]:
+        start = time.time()
+        print "Applying Gibbs sampling for", num_its, "iterations"
+        wordCounter.gibbs_sample_topic_model(num_its)
+        text = "topicModel"+str(num_its)+".txt"
+        f = open(text, 'r+')
+        pickle.dump(wordCounter,f)
+        f.close()
+        print "Took", time.time()-start, "seconds"
+
+    # print "Labeling after Gibss sampling: "
+    # for i in range(10):
+    #     print " ".join(wordCounter.getWords(wordCounter.sentenceWords[i]))
+    #     print wordCounter.sentenceTags[i]
+
+    # f = open('topicModel.txt', 'r+')
+    # wordCounter2 = pickle.load(f)
+    # f.close()
+    # print "Labeling after writing and reading: "
+    # for i in range(10):
+    #     print " ".join(wordCounter2.getWords(wordCounter2.sentenceWords[i]))
+    #     print wordCounter2.sentenceTags[i]
+    # f = open('topicModel.txt', 'r+')

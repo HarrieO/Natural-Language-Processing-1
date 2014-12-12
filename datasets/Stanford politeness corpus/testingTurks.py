@@ -82,7 +82,21 @@ def testTurksRandom(left=8, right =17):
 	percentage = (1.0-mistakes / float(len(scoresSElist)+len(scoresWIKlist))) * 100.0
 	print "For split (",left, ",", right, "), ", percentage, "% was classified correctly"
 	return percentage
-def testTurksAll(left=10, right =18):
+def testTurksAverage(left=8, right =17):
+	mistakes = 0
+	for i in range(len(scoresSElist)):
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresSE[turkIndex, 0], left, right)!= classFromScore(scoresSE[i])):
+				mistakes +=1
+	for i in range(len(scoresWIKlist)):
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresWIK[turkIndex, i], left, right)!= classFromScore(scoresWIK[i])):
+				mistakes +=1
+	percentage = (1.0- 0.2*mistakes / float(len(scoresSElist)+len(scoresWIKlist))) * 100.0
+	print "For split (",left, ",", right, "), ", percentage, "% was classified correctly"
+	return percentage
+
+def testTurksAll(left=11, right =18):
 	allCorrect = 0
 	for i in range(len(scoresSElist)):
 		mistake = False
@@ -101,18 +115,104 @@ def testTurksAll(left=10, right =18):
 	percentage = (1.0*allCorrect / float(len(scoresSElist)+len(scoresWIKlist))) * 100.0
 	print "For split (",left, ",", right, "), ", percentage, "% was classified correctly by all Turks"
 	return percentage
-testTurksAll()
 
+def testTurksAgree(left=11, right =18):
+	allCorrect = 0
+	for i in range(len(scoresSElist)):
+		mistake = False
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresSE[turkIndex, i], left, right)!= classFromTurkScore(turkScoresSE[0, i], left, right)):
+				mistake = True
+		if not mistake:
+			allCorrect+=1
+	for i in range(len(scoresWIKlist)):
+		mistake = False
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresWIK[turkIndex, i], left, right)!= classFromTurkScore(turkScoresWIK[0, i], left, right)):
+				mistake = True
+		if not mistake:
+			allCorrect+=1
+	percentage = (1.0*allCorrect / float(len(scoresSElist)+len(scoresWIKlist))) * 100.0
+	print "For split (",left, ",", right, "), ", percentage, "% was classified the same by all Turks"
+	return percentage
+
+def testTurksCorrectGivenAgree(left=11, right =18):
+	testedInstances = 0
+	correct = 0
+	for i in range(len(scoresSElist)):
+		mistake = False
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresSE[turkIndex, i], left, right)!= classFromTurkScore(turkScoresSE[0, i], left, right)):
+				mistake = True
+		if not mistake: 
+			testedInstances +=1
+			if (classFromTurkScore(turkScoresSE[0, i], left, right) == classFromScore(scoresSE[i])):
+				correct+=1
+	for i in range(len(scoresWIKlist)):
+		mistake = False
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresWIK[turkIndex, i], left, right)!= classFromTurkScore(turkScoresWIK[0, i], left, right)):
+				mistake = True
+		if not mistake: 
+			testedInstances +=1
+			if (classFromTurkScore(turkScoresWIK[0, i], left, right) == classFromScore(scoresWIK[i])):
+				correct+=1	
+	percentage = (1.0*correct / float(testedInstances)) * 100.0
+	occured = (1.0*testedInstances / float(len(scoresSElist)+len(scoresWIKlist))) * 100.0
+	print "For split (",left, ",", right, "), ", percentage, "% was classified correctly by all Turks, given they gave the same label, which occured ", occured, "% of the time."
+	return percentage, occured
+
+def giveDataPercentages():
+	neutral = 0
+	positive = 0
+	negative = 0
+	for i in range(len(scoresSElist)):
+		if scoresSE[i]>0.5:
+			positive +=1
+		elif scoresSE[i]<-0.5:
+			negative+=1
+		else:
+			neutral +=1
+	print "Neutral: ", 100.0*neutral/len(scoresSElist)
+	print "Polite: ", 100.0*positive/len(scoresSElist)
+	print "Impolite: ", 100.0*negative/len(scoresSElist)
+giveDataPercentages()
+testTurksAll()
+testTurksAgree()
+
+
+print "Evaluating average turk accuracy"
 bestI = 2
 bestJ = 13
 bestPercentage = 0
 for i in [6,7,8,9,10,11,12]:
 	for j in [13,14,15,16,17,18,19,20,22]:
-		percentage = testTurksRandom(i,j)
+		percentage = testTurksAverage(i,j)
 		if percentage > bestPercentage:
 			bestPercentage = percentage
 			bestI = i
 			bestJ = j
 
 print "Best (i,j) is ", (bestI,bestJ), ", best percentage is ", bestPercentage
+
+bestI = 2
+bestJ = 13
+bestPercentage = 0
+bestF1 = 0
+bestIF1 = 2
+bestJF1 = 13
+for i in [6,7,8,9,10,11,12]:
+	for j in [13,14,15,16,17,18,19,20,22]:
+		percentage, occured = testTurksCorrectGivenAgree(i,j)
+		f1 = 2.0*percentage*occured/(percentage+occured)
+		if percentage > bestPercentage:
+			bestPercentage = percentage
+			bestI = i
+			bestJ = j
+		if f1 > bestF1:
+			bestF1 = f1
+			bestIF1 = i
+			bestJF1 = j
+print "Best (i,j) is ", (bestI,bestJ), ", best percentage is ", bestPercentage
+print "Best (i,j) is ", (bestIF1,bestJF1), ", best F1 is ", bestF1
 
