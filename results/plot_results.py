@@ -69,7 +69,7 @@ def plot_classifier_results(c_id,plot_runtime=True,table=[],compareAcc=[],compar
 	Option to plot runtime as well
 	"""
 
-	if not table==[]: table = get_result_table()
+	if table==[]: table = get_result_table()
 
 	c_table =  table[table["classifier_id"]==c_id]
 
@@ -116,7 +116,7 @@ def class_id_list(filename='classifier_results.csv'):
 def main():
 
 	#which data do we want to plot
-	filename = 'classifier_results.csv'
+	filename = 'classifier_results_split_corrected.csv'
 
 	#all unique classifiers (and settings)
 	classifier_id_list = class_id_list(filename=filename)
@@ -143,6 +143,7 @@ def main():
 
 	#get sorted table
 	table = get_result_table(filename=filename)
+
 	best_table = sorted(table, key=lambda row: row['test_accuracy'], reverse=True)[0:best_n]
 
 	print "\n\n"
@@ -169,14 +170,14 @@ def main():
 			print "==============================================================================================================================="
 			
 			
-			print  "".join( ["Features:{0: >8}  |".format(f) for f in table[table['classifier_id']==c_id]['features']] )
+			print  "".join( ["Features:{0: >8}  |".format(f) for f in table[table['classifier_id']==c_id]['features']][3:12] )
 			print "Confusion Matrices for training:"
-			print_conf_matrices(table[table['classifier_id']==c_id]['train_conf_matrix'])
+			print_conf_matrices(table[table['classifier_id']==c_id]['train_conf_matrix'][3:12])
 			print "Confusion Matrices for testing:"
-			print_conf_matrices(table[table['classifier_id']==c_id]['test_conf_matrix'])
+			print_conf_matrices(table[table['classifier_id']==c_id]['test_conf_matrix'][3:12])
 
 
-			plot_classifier_results(c_id)
+			plot_classifier_results(c_id,table=table)
 
 if __name__ == '__main__':
 	main()
