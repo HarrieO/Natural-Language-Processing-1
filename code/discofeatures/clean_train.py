@@ -40,7 +40,7 @@ def feature2vector(train_data,test_data,feature_deduction=None):
 
 	return X, Xtest
 
-def getLabeledData(training_data, test_data,splitPoints=[],splitProportions=[0.25, 0.25]):
+def getLabels(training_data, test_data,splitPoints=[],splitProportions=[0.25, 0.25],verbose=True,returnEncoder=False):
 	"""
 	Returns labels for the data, splits data into proportions given by 
 	splitProportions = [propNegative, propPositive]
@@ -56,8 +56,8 @@ def getLabeledData(training_data, test_data,splitPoints=[],splitProportions=[0.2
 		ind2 = int(round(len(t) - len(t) * splitProportions[1]))
 		splitPoints = [t[ind1],t[ind2]]
 
-	#print "Split points:"
-	#print splitPoints
+	if verbose: print "Split points:"
+	if verbose: print splitPoints
 
 	def giveLabel(score):
 		if   post.score < splitPoints[0]:
@@ -77,52 +77,96 @@ def getLabeledData(training_data, test_data,splitPoints=[],splitProportions=[0.2
 	# true values of test data
 	r = labelEncoder.transform(real)
 
-	return y,r
+	if returnEncoder:
+		return y,r, labelEncoder
+	else:
+		return y,r
 
 def print_lbl_dist(y):
 	for l in set(y):
-		print "{0}:{1}".format(l, 1.0 * sum([1 for p in y if p==0])/len(y))
+		print "{0}:{1}".format(l, 1.0 * sum([1 for p in y if p==l])/len(y))
+
+
+def getProcessedData(method=2):
+	"""
+	Loads and labels the data in according to the selected method:
+	M0: 2lbls equal split
+	M1: 2lbls [0.25 0.75 0.25] split, discard neutral
+	M2: 3lbl [0.25 0.75 0.25] split
+	M3: 3lbl [1/3 1/3 1/3] split
+	M4: 3lbl [0.25 0.75 0.25] split: discard neutral to same size
+	"""
+
+	if not method in range(4+1):
+		print 'Invalid method. Please choose M0, M1, M2, M3, M4'
+		return
+
+	#read in data
+	print "Reading data..."
+	training   = read_data("../../datasets/preprocessed/trainset.csv")
+	test       = read_data("../../datasets/preprocessed/testset.csv")
+
+	#set to default (no data is discarded)
+	train_ind=[]
+
+
+	print 'Processing labeling according to method M{0}'.format(method)
+	if method==0:
+		y,r = getLabels(training,test,splitProportions=[0.5,0.5])
+	elif method ==1:
+		y,r,labelEncoder = getLabels(training,test,splitProportions=[0.25,0.25],returnEncoder=True)
+
+		train_ind = [n for n,yi in enumerate(y) if not yi==labelEncoder.transform('neutral') ] 
+		test_ind  = [n for n,ri in enumerate(r) if not ri==labelEncoder.transform('neutral') ] 
+
+		
+	elif method ==2:
+		y,r = getLabels(training,test,splitProportions=[0.25,0.25])
+	elif method ==3:
+		y,r = getLabels(training,test,splitProportions=[1.0/3,1.0/3])
+	elif method ==4:
+		y,r, labelEncoder = getLabels(training,test,splitProportions=[0.25,0.25],returnEncoder=True)
+		
+		#get indices for all classes for train and test
+		train_i = [n for n,yi in enumerate(y) if yi==labelEncoder.transform('impolite') ] 
+		train_n = [n for n,yi in enumerate(y) if yi==labelEncoder.transform('neutral') ] 
+		train_p = [n for n,yi in enumerate(y) if yi==labelEncoder.transform('polite') ] 
+		test_i  = [n for n,ri in enumerate(r) if ri==labelEncoder.transform('impolite') ] 
+		test_n  = [n for n,ri in enumerate(r) if ri==labelEncoder.transform('neutral') ] 
+		test_p  = [n for n,ri in enumerate(r) if ri==labelEncoder.transform('polite') ] 
+
+		# Resize neutral class to same size other classes
+		train_n = train_n[0:len(train_p)]
+		test_n  =  test_n[0:len(test_p)]
+
+		# fuse together and keep original order
+		train_ind = sorted(train_i + train_n + train_p)
+		test_ind  = sorted(test_i  + test_n  + test_p )
+
+	if train_ind:
+		#We only want to use the given indices
+		print 'Discarding irrelevant data . . .'
+
+		training  = [training[i] for i in train_ind]
+		y         = [       y[i] for i in train_ind]
+		test      = [    test[i] for i in test_ind]
+		r         = [       r[i] for i in test_ind]
+
+	return training, test, y,r	
+
 
 def main():
 	"""
-	Main function. Runs and tests naive bayes on the data
+	Main function. Demonstrates the label distributions under the 5 methods
 	"""
-	print "Reading training data."
-	training = read_data("../../datasets/preprocessed/trainset.csv")
-	test     = read_data("../../datasets/preprocessed/testset.csv")
 
-
-	X, Xtest = feature2vector(training,test,1000)
-	
-	print "Setting up target"
-
-	y,r = getLabeledData(training,test,splitProportions=[0.25,0.25])
-	print 'Train'
-	print_lbl_dist(y)
-	print 'Test'
-	print_lbl_dist(r)
-	y,r = getLabeledData(training,test,splitProportions=[0.5,0.5])
-	print 'Train'
-	print_lbl_dist(y)
-	print 'Test'
-	print_lbl_dist(r)
-	y,r = getLabeledData(training,test,splitProportions=[1.0/3,1.0/3])
-	print 'Train'
-	print_lbl_dist(y)
-	print 'Test'
-	print_lbl_dist(r)
-
-	return
-
-	print "Fitting classifier"
-
-	classifier = naive_bayes.GaussianNB()
-	classifier.fit(X, y)
-
-	print "Fit classifier, calculating scores"
-
-	print "Accuracy on test set:    ", classifier.score(Xtest,r)
-	print "Accuracy on training set:", classifier.score(X,y)
+	for i in range(5):
+		print 'Method {0}'.format(i)
+		_,_,y,r = getProcessedData(method=i)
+		print 'Train'
+		print_lbl_dist(y)
+		print 'Test'
+		print_lbl_dist(r)
 
 
 if __name__ == '__main__':
