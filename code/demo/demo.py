@@ -57,12 +57,9 @@ class PolitenessHandler(tornado.web.RequestHandler):
         sentence = self.get_argument("sentence", None)
         if USE_BLLIP == True:
             if BLLIP_TYPE == 'Python':
-                sentence = [rrp.simple_parse(str(sent)) for sent in split_sentences(sentence)]
-                tree = sentence[0]
-                sentence = sentence[0]
+                tree = [rrp.simple_parse(str(sent)) for sent in split_sentences(sentence)]
             else:
-                sentence = get_trees(sentence)
-                sentence = sentence[0]
+                tree = get_trees(sentence)
         else:
             example_trees = [ '(S1 (S (VP (VB Thank) (NP (PRP you)) (PP (IN for) (NP (DT the) (FW response.) (SQ (MD Would) (NP (PRP you)) (VP (AUX be) (ADJP (JJ willing) (S (VP (TO to) (VP (VB add) (NP (DT a) (JJ few) (JJR more) (NNS details)) (S (VP (TO to) (VP (VB explain) (ADVP (RBR further)))))))))))))) (. ?)))',
             '(S1 (SBARQ (WHNP (WDT That)) (SQ (AUX \'s) (NP (NP (DT the) (JJ only) (NN answer)) (SBAR (S (NP (PRP you)) (VP (AUX have)))) (. ?)) (ADVP (RB seriously)) (. ?) (SQ (MD can) (RB n\'t) (NP (PRP you)) (VP (AUX do) (ADVP (RB better))))) (. ?)))' ]
@@ -106,10 +103,19 @@ class bllip_loader(Thread):
         rrp.load_reranker_model(os.path.join(os.path.dirname(__file__), '../../lib/bllip/models/ec50spfinal/features.gz'), os.path.join(os.path.dirname(__file__), '../../lib/bllip/models/ec50spfinal/cvlm-l1c10P1-weights.gz'))
         print "Done loading model"
 
+
+class topicmode_loader(Thread):
+    def run(self):
+        global topicmodel
+        f = open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/topicModel.txt')), 'r+')
+        topicmodel = pickle.load(f)
+        f.close()
+
 loadDopFeatures()
 if __name__ == "__main__":
     application.listen(8888)
     if USE_BLLIP == True:
         if BLLIP_TYPE == 'Python':
             bllip_loader().start()
+    topicmode_loader.start()
     tornado.ioloop.IOLoop.instance().start()
