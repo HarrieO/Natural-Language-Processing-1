@@ -94,7 +94,7 @@ def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score
 
 def batch_run(test_settings,method=2):
 	"""
-	batch_runs classifiers and stores results in the file ../../results/classivier_results.csv
+	batch_runs classifiers and stores results in the file ../../results/M{method}_classivier_results.csv
 	Please provide settings as a tuple list:
 	0:classifier object
 	1:number of features (left after feature deduction)
