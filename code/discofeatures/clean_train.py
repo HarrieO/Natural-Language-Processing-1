@@ -40,15 +40,32 @@ def feature2vector(train_data,test_data,feature_deduction=None):
 
 	return X, Xtest
 
-def getLabels(training_data, test_data):
+def getLabeledData(training_data, test_data,splitPoints=[],splitProportions=[0.25, 0.25]):
+	"""
+	Returns labels for the data, splits data into proportions given by 
+	splitProportions = [propNegative, propPositive]
+	of absolute values given by splitPoints = [Negativepoint, Positivepoint]
+	"""
+
+
+	if not splitPoints:
+		# Calculate split points on the basis of proportions
+		t = [post.score for post in training_data]
+		t.sort()
+		ind1 = int(round(         len(t) * splitProportions[0]))
+		ind2 = int(round(len(t) - len(t) * splitProportions[1]))
+		splitPoints = [t[ind1],t[ind2]]
+
+	#print "Split points:"
+	#print splitPoints
 
 	def giveLabel(score):
-		if post.score > 0.5:
-			return 'polite'
-		elif post.score > -0.5:
-			return 'neutral'
-		else:
+		if   post.score < splitPoints[0]:
 			return 'impolite'
+		elif post.score >= splitPoints[1]:
+			return 'polite'
+		else:
+			return 'neutral'
 
 	target = [giveLabel(post.score) for post in training_data]
 	real   = [giveLabel(post.score) for post in test_data]
@@ -62,7 +79,9 @@ def getLabels(training_data, test_data):
 
 	return y,r
 
-
+def print_lbl_dist(y):
+	for l in set(y):
+		print "{0}:{1}".format(l, 1.0 * sum([1 for p in y if p==0])/len(y))
 
 def main():
 	"""
@@ -76,7 +95,24 @@ def main():
 	X, Xtest = feature2vector(training,test,1000)
 	
 	print "Setting up target"
-	y,r = getLabels(training,test)
+
+	y,r = getLabeledData(training,test,splitProportions=[0.25,0.25])
+	print 'Train'
+	print_lbl_dist(y)
+	print 'Test'
+	print_lbl_dist(r)
+	y,r = getLabeledData(training,test,splitProportions=[0.5,0.5])
+	print 'Train'
+	print_lbl_dist(y)
+	print 'Test'
+	print_lbl_dist(r)
+	y,r = getLabeledData(training,test,splitProportions=[1.0/3,1.0/3])
+	print 'Train'
+	print_lbl_dist(y)
+	print 'Test'
+	print_lbl_dist(r)
+
+	return
 
 	print "Fitting classifier"
 
