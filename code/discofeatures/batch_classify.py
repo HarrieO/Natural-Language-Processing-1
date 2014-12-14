@@ -78,7 +78,6 @@ def findRun(classifier_id,features,resultsfile = '../../results/classifier_resul
 
 
 
-
 def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score_time,
 						features,train_conf_matrix='', test_conf_matrix=''):
 	"""
@@ -93,23 +92,18 @@ def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score
 				train_conf_matrix, test_conf_matrix)
 
 
-def batch_run(test_settings):
+def batch_run(test_settings,method=2):
 	"""
-	batch_runs classifiers and stores results in the file ../../results/classivier_results.csv
+	batch_runs classifiers and stores results in the file ../../results/M{method}_classivier_results.csv
 	Please provide settings as a tuple list:
 	0:classifier object
 	1:number of features (left after feature deduction)
 	"""
 
-	resultsfile = '../../results/classifier_results.csv'
+	resultsfile = '../../results/M{0}_classifier_results.csv'.format(method)
 
-	#read in data
-	print "Reading data."
-	training   = read_data("../../datasets/preprocessed/trainset.csv")
-	test       = read_data("../../datasets/preprocessed/testset.csv")
-	y,r 	   = getLabels(training,test)
+	training, test, y,r = getProcessedData(method)
 
-	#training,r = normalize_data(training,r)
 
 	#initialize
 	last_features = [];
@@ -169,15 +163,17 @@ def batch_run(test_settings):
 
 def main():
 
+
 	#tuples of classifers to test, and a string with their settings (to store)
 	classifiers=[ amueller_mlp.MLPClassifier(n_hidden=200),
 				  amueller_mlp.MLPClassifier(n_hidden=400),
 				  amueller_mlp.MLPClassifier(n_hidden=800),
 				  ensemble.RandomForestClassifier(),
 				  sklearn.ensemble.AdaBoostClassifier(),
-				  sklearn.linear_model.Perceptron(n_iter=50),
+				  sklearn.linear_model.Perceptron(n_iter=60),
 				  svm.SVC(kernel='poly'),
 				  svm.SVC(kernel='linear'),
+				  svm.SVC(kernel='sigmoid'),
 				  naive_bayes.GaussianNB(),
 				  neighbors.nearest_centroid.NearestCentroid(),
 				  svm.SVC(),
@@ -194,8 +190,13 @@ def main():
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
-	batch_run(settings)
+	batch_run(settings,method=1)
+	batch_run(settings,method=2)
+	batch_run(settings,method=0)
+	batch_run(settings,method=3)
+	batch_run(settings,method=4)
 
+	
 
 
 if __name__ == '__main__':

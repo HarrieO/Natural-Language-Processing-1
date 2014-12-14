@@ -40,16 +40,31 @@ def print_conf_matrices(mat_list):
 
 	if isinstance(mat_list[0],str): mat_list = [reproduce_conf_matrix(mat) for mat in mat_list]
 	num_mats = len(mat_list)
+	num_classes =  len(mat_list[0])
 
-	signs = ['+','0','-']
+	if num_classes ==3:
+		signs = ['+','0','-']
 
-	print "   __Predicted___   " * num_mats
-	print " _|__+_|__0_|__-_|  " * num_mats
+		print "   __Predicted___   " * num_mats
+		print " _|__+_|__0_|__-_|  " * num_mats
 
-	for n in range(3):
-		for mat in mat_list:
-			print "|{0}|{1: >4}|{2: >4}|{3: >4}| ".format(signs[n],mat[n][0],mat[n][1],mat[n][2]),
-		print " "
+		for n in range(3):
+			for mat in mat_list:
+				print "|{0}|{1: >4}|{2: >4}|{3: >4}| ".format(signs[n],mat[n][0],mat[n][1],mat[n][2]),
+			print " "
+
+	elif num_classes ==2:
+
+		signs = ['+','-']
+
+		print "   Predicted   " * num_mats
+		print " _|__+_|__-_|  " * num_mats
+
+		for n in range(2):
+			for mat in mat_list:
+				print "|{0}|{1: >4}|{2: >4}| ".format(signs[n],mat[n][0],mat[n][1]),
+			print " "
+
 
 def get_result_table(filename='classifier_results.csv'):
 	"""
@@ -69,7 +84,7 @@ def plot_classifier_results(c_id,plot_runtime=True,table=[],compareAcc=[],compar
 	Option to plot runtime as well
 	"""
 
-	if not table==[]: table = get_result_table()
+	if table==[]: table = get_result_table()
 
 	c_table =  table[table["classifier_id"]==c_id]
 
@@ -101,7 +116,7 @@ def plot_classifier_results(c_id,plot_runtime=True,table=[],compareAcc=[],compar
 
 	ax1.legend(lines, labels)
 
-	plt.title("{0} ({1})".format(class_id_to_tuple(c_id)[0], class_id_list().index(c_id)))
+	plt.title("{0} ({1})".format(class_id_to_tuple(c_id)[0], class_id_list(table=c_table).index(c_id)))
 	plt.show()
 
 def class_id_to_tuple(c_id):
@@ -110,23 +125,31 @@ def class_id_to_tuple(c_id):
 	"""
 	return re.findall(r"(.*)\((.*)\)",c_id)[0]
 
-def class_id_list(filename='classifier_results.csv'):
-	return list(set(post.read_column(0,filename)))
+def class_id_list(filename='classifier_results.csv',table=[]):
+	if not table==[]:
+		return list(set(table['classifier_id']))
+	else:
+		return list(set(post.read_column(0,filename)))
 
 def main():
 
+	#which data do we want to plot:
+	print '           -   0   +'
+	print 'M0: 2lbl [50%     50%]'
+	print 'M1: 2lbl [25% 75% 25%] discard neutral'
+	print 'M2: 3lbl [25% 75% 25%]'
+	print 'M3: 3lbl [33% 33% 33%]'
+	print 'M4: 3lbl [25% 75% 25%] resize neutral'
+
 	#which data do we want to plot
-	filename = 'classifier_results.csv'
+	method = int(raw_input('Method:'))
+	filename = 'M{0}_classifier_results.csv'.format(method)
 
 	#all unique classifiers (and settings)
 	classifier_id_list = class_id_list(filename=filename)
 
+	#split into name and settings
 	classifier_tuple_list = [class_id_to_tuple(c) for c in classifier_id_list] 
-
-	print [c for c,_ in classifier_tuple_list]
-
-	#return [x for x in set(post.read_column(0,'classifier_results.csv'))]
-
 
 	print "==============================================="
 	print "All classifiers:"
@@ -143,6 +166,7 @@ def main():
 
 	#get sorted table
 	table = get_result_table(filename=filename)
+
 	best_table = sorted(table, key=lambda row: row['test_accuracy'], reverse=True)[0:best_n]
 
 	print "\n\n"
@@ -167,16 +191,16 @@ def main():
 			print "==============================================================================================================================="
 			print "=== " + c_id + " ==="
 			print "==============================================================================================================================="
-			
-			
-			print  "".join( ["Features:{0: >8}  |".format(f) for f in table[table['classifier_id']==c_id]['features']] )
+		
+
+			print  "".join( ["Features:{0: >8}  |".format(f) for f in table[table['classifier_id']==c_id]['features']])
 			print "Confusion Matrices for training:"
 			print_conf_matrices(table[table['classifier_id']==c_id]['train_conf_matrix'])
 			print "Confusion Matrices for testing:"
 			print_conf_matrices(table[table['classifier_id']==c_id]['test_conf_matrix'])
 
 
-			plot_classifier_results(c_id)
+			plot_classifier_results(c_id,table=table)
 
 if __name__ == '__main__':
 	main()

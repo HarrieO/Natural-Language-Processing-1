@@ -6,6 +6,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../discofeatures'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 import post
+import datapoint
 import extractFeatures, amueller_mlp
 from decisionstumps import *
 from treedataToJoosttrees import getPostsWithTrees
@@ -17,8 +18,8 @@ from sklearn import linear_model, preprocessing, feature_extraction, cross_valid
 Settings
 '''
 forceExtractFeautres = True # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
-usePosTags = True
-resultsPath = '../../results/baseline'+("_improved" if usePosTags else "") +'_classifier_results.csv'
+usePosTags = False
+resultsPath = '../../results/M{0}_baseline'+("_improved" if usePosTags else "") +'_results.csv'
 maxFeatures = 10941 # 9479 words in training set, 10941 wordtags in training set
 
 def logRange(limit, n=10,start_at_one=[]):
@@ -71,7 +72,7 @@ def getFeatures(trees, ignoredFeatures, features):
 	return results
 
 
-def getTrainingTestFeatures(features):
+def getTrainingTestFeatures(features, train_ind, test_ind):
 	global forceExtractFeautres, usePosTags
 	# Data structures
 	classes			= ['negative','neutral','positive']
@@ -98,7 +99,10 @@ def getTrainingTestFeatures(features):
 
 		treesTest = [" ".join(row.trees) for row in testData]
 		testFeatures = getFeatures(treesTest,ignoredWordTags,counts.keys())
-
+		if len(train_ind) > 0:
+			trainFeatures = [trainFeatures[ind] for ind in train_ind]
+			testFeatures = [testFeatures[ind] for ind in test_ind]
+		print len(trainFeatures)
 		# Store results in a pickle file
 		pickle.dump(trainFeatures, open(fileTrainData,'w+b'))
 		pickle.dump(testFeatures, open(fileTestData,'w+b'))
@@ -151,6 +155,7 @@ def getLabels():
 
 	return trainClasses, testClasses
 
+
 def sort_results_csv(input_file='../../results/baseline_classifier_results.csv',output_file=''):
 	"""
 	Sorts the results csv file and writes to the same file.
@@ -180,19 +185,20 @@ def sort_results_csv(input_file='../../results/baseline_classifier_results.csv',
 			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7]) + "\n") for tup in table]
 
 
-def findRun(classifier_id,features):
+def findRun(classifier_id,features,resultsfile = '../../results/classifier_results.csv'):
 	"""
 	returns the numer of lines where the classifier /features combination occured
 	if it didn't occur, return empty
 	when one of the two features isn't set
 	"""
-	global resultsPath
-	table = np.recfromcsv(resultsPath,delimiter=',')
+
+	table = np.recfromcsv(resultsfile,delimiter=',')
 	
 	#make sure table is allways iterable
 	if np.size(table)==1: table=list(table.flatten())
 
 	return [n for n,tup in enumerate(table) if tup[0]=='"' + classifier_id + '"' and tup[5]==features]
+
 
 
 
@@ -210,7 +216,7 @@ def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score
 				train_conf_matrix, test_conf_matrix)
 
 
-def batch_run(test_settings):
+def batch_run(test_settings,method=2):
 	"""
 	batch_runs classifiers and stores results in the file ../../results/classivier_results.csv
 	Please provide settings as a tuple list:
@@ -222,8 +228,7 @@ def batch_run(test_settings):
 	classes			= ['negative','neutral','positive']
 	#read in data
 	print "Reading data."
-	y,r 	   = getLabels()
-
+	train_ind, test_ind, y,r = getIndicesAndLabels(method)
 
 	#initialize
 	last_features = [];
@@ -240,17 +245,18 @@ def batch_run(test_settings):
 		classifier_id = ' '.join(classifier_id.split())
 
 		#check if a experiment with the current settings was allready conducted
-		if findRun(classifier_id,features):
+		if findRun(classifier_id,features,resultsfile=resultsPath.format(method)):
 			print "Experiment with current settings was allready conducted, skipping"
 
 		else:
 
 			#load to csv file to append the results. Do this in the loop to update the file live
-			fd = open(resultsPath,'a')
+			fd = open(resultsPath.format(method),'a')
 
 			#do feature deduction if nesececary
 			if not last_features == features: 
-				X, Xtest = getTrainingTestFeatures(features)
+				X, Xtest = getTrainingTestFeatures(features, train_ind, test_ind)
+				# This is a hack TODO: Fix the hack
 				last_features = features
 
 		
@@ -286,8 +292,121 @@ def batch_run(test_settings):
 
 			#save to csv file and sort csv file
 			fd.close()
-			sort_results_csv(resultsPath)
+			sort_results_csv(resultsPath.format(method))
 		
+
+
+## This is an absolute hack
+## TODO: Fix this to something reasonable
+def getIndicesAndLabels(method=2):
+	"""
+	Loads and labels the data in according to the selected method:
+	M0: 2lbls equal split
+	M1: 2lbls [0.25 0.75 0.25] split, discard neutral
+	M2: 3lbl [0.25 0.75 0.25] split
+	M3: 3lbl [1/3 1/3 1/3] split
+	M4: 3lbl [0.25 0.75 0.25] split: discard neutral to same size
+	"""
+
+	if not method in range(4+1):
+		print 'Invalid method. Please choose M0, M1, M2, M3, M4'
+		return
+
+	#read in data
+	print "Reading data..."
+	training   = datapoint.read_data("../../datasets/preprocessed/trainset.csv")
+	test       = datapoint.read_data("../../datasets/preprocessed/testset.csv")
+
+	#set to default (no data is discarded)
+	train_ind=[]
+	test_ind=[]
+
+	print 'Processing labeling according to method M{0}'.format(method)
+	if method==0:
+		y,r = getLabelsFix(training,test,splitProportions=[0.5,0.5])
+	elif method ==1:
+		y,r,labelEncoder = getLabelsFix(training,test,splitProportions=[0.25,0.25],returnEncoder=True)
+
+		train_ind = [n for n,yi in enumerate(y) if not yi==labelEncoder.transform('neutral') ] 
+		test_ind  = [n for n,ri in enumerate(r) if not ri==labelEncoder.transform('neutral') ] 
+
+		
+	elif method ==2:
+		y,r = getLabelsFix(training,test,splitProportions=[0.25,0.25])
+	elif method ==3:
+		y,r = getLabelsFix(training,test,splitProportions=[1.0/3,1.0/3])
+	elif method ==4:
+		y,r, labelEncoder = getLabelsFix(training,test,splitProportions=[0.25,0.25],returnEncoder=True)
+		
+		#get indices for all classes for train and test
+		train_i = [n for n,yi in enumerate(y) if yi==labelEncoder.transform('impolite') ] 
+		train_n = [n for n,yi in enumerate(y) if yi==labelEncoder.transform('neutral') ] 
+		train_p = [n for n,yi in enumerate(y) if yi==labelEncoder.transform('polite') ] 
+		test_i  = [n for n,ri in enumerate(r) if ri==labelEncoder.transform('impolite') ] 
+		test_n  = [n for n,ri in enumerate(r) if ri==labelEncoder.transform('neutral') ] 
+		test_p  = [n for n,ri in enumerate(r) if ri==labelEncoder.transform('polite') ] 
+
+		# Resize neutral class to same size other classes
+		train_n = train_n[0:len(train_p)]
+		test_n  =  test_n[0:len(test_p)]
+
+		# fuse together and keep original order
+		train_ind = sorted(train_i + train_n + train_p)
+		test_ind  = sorted(test_i  + test_n  + test_p )
+
+	if train_ind:
+		#We only want to use the given indices
+		print 'Discarding irrelevant data . . .'
+
+		training  = [training[i] for i in train_ind]
+		y         = [       y[i] for i in train_ind]
+		test      = [    test[i] for i in test_ind]
+		r         = [       r[i] for i in test_ind]
+
+	return train_ind, test_ind, y,r	
+
+## This is another stupid hack
+def getLabelsFix(training_data, test_data,splitPoints=[],splitProportions=[0.25, 0.25],verbose=True,returnEncoder=False):
+	"""
+	Returns labels for the data, splits data into proportions given by 
+	splitProportions = [propNegative, propPositive]
+	or absolute values given by splitPoints = [Negativepoint, Positivepoint]
+	"""
+
+
+	if not splitPoints:
+		# Calculate split points on the basis of proportions
+		t = [post.score for post in training_data]
+		t.sort()
+		ind1 = int(round(         len(t) * splitProportions[0]))
+		ind2 = int(round(len(t) - len(t) * splitProportions[1]))
+		splitPoints = [t[ind1],t[ind2]]
+
+	if verbose: print "Split points:"
+	if verbose: print splitPoints
+
+	def giveLabel(score):
+		if   post.score < splitPoints[0]:
+			return 'impolite'
+		elif post.score >= splitPoints[1]:
+			return 'polite'
+		else:
+			return 'neutral'
+
+	target = [giveLabel(post.score) for post in training_data]
+	real   = [giveLabel(post.score) for post in test_data]
+
+	labelEncoder = preprocessing.LabelEncoder()
+
+	# train targets
+	y = labelEncoder.fit_transform(target)
+	# true values of test data
+	r = labelEncoder.transform(real)
+
+	if returnEncoder:
+		return y,r, labelEncoder
+	else:
+		return y,r
 
 def main():
 	global maxFeatures
@@ -299,23 +418,18 @@ def main():
 				  amueller_mlp.MLPClassifier(n_hidden=800),
 				  sklearn.ensemble.RandomForestClassifier(),
 				  sklearn.ensemble.AdaBoostClassifier(),
-				  sklearn.linear_model.Perceptron(n_iter=50),
-				  svm.SVC(kernel='poly'),
-				  svm.SVC(kernel='linear'),
+				  sklearn.linear_model.Perceptron(n_iter=60),
+				  sklearn.svm.SVC(kernel='poly'),
+				  sklearn.svm.SVC(kernel='linear'),
+				  sklearn.svm.SVC(kernel='sigmoid'),
 				  sklearn.naive_bayes.GaussianNB(),
 				  sklearn.neighbors.nearest_centroid.NearestCentroid(),
 				  sklearn.svm.SVC(),
 				  sklearn.tree.DecisionTreeClassifier(),
-				  #sklearn.naive_bayes.MultinomialNB(),
-				  #sklearn.naive_bayes.BernoulliNB(),
+				  #naive_bayes.MultinomialNB(),
+				  #naive_bayes.BernoulliNB(),
 				  sklearn.ensemble.GradientBoostingClassifier(),
-				  sklearn.ensemble.AdaBoostClassifier(),
-				  # sklearn.svm.SVC(kernel='rbf',gamma=0.4,C=1000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
-				  # sklearn.svm.SVC(kernel='rbf',gamma=0.2,C=1000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
-				  # sklearn.svm.SVC(kernel='rbf',gamma=0.8,C=1000000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
-				  # sklearn.svm.SVC(kernel='rbf',gamma=0.2,C=1000000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
-				  # sklearn.svm.SVC(kernel='linear',gamma=0.2,C=1000000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960}),
-				  # sklearn.svm.SVC(kernel='poly',gamma=0.2,C=1000000000,class_weight={'positive':(4960+1830+1973)/1973,'negative':(4960+1830+1973)/1830,'neutral':(4960+1830+1973)/4960})
+				  sklearn.ensemble.AdaBoostClassifier()
 				 	]
 
 	# Maximum number of features: 261396
@@ -324,7 +438,10 @@ def main():
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
-	batch_run(settings)
+	batch_run(settings, 0)
+	batch_run(settings, 1)
+	batch_run(settings, 2)
+	batch_run(settings, 3)
 
 
 
