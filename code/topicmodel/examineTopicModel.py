@@ -11,13 +11,21 @@ print "After 100000 iterations"
 f = open('topicModel100000.txt', 'r+')
 wordCounter = pickle.load(f)
 f.close()
-
+"""
 for i in range(10):
     print " ".join(wordCounter.getWords(wordCounter.sentenceWords[i]))
     print wordCounter.sentenceTags[i]
 print wordCounter.V[0]
 print wordCounter.V[1]
+"""
+print wordCounter.wordTagsForSentence("You are an idiot!",0, 1)
+print wordCounter.wordTagsForSentence("You are an idiot!",0, 2)
+print wordCounter.wordTagsForSentence("You are an idiot!",1, 0)
+print wordCounter.wordTagsForSentence("You are an idiot!",1, 10)
+print wordCounter.wordTagsForSentence("You are an idiot!",1, 5)
 
+
+"""
 f = open('topicModel10.txt', 'r+')
 wordCounter = pickle.load(f)
 f.close()
@@ -27,3 +35,4 @@ for i in range(10):
     print wordCounter.sentenceTags[i]
 print wordCounter.V[0]
 print wordCounter.V[1]
+"""

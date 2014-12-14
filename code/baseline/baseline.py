@@ -99,9 +99,9 @@ def getTrainingTestFeatures(features, train_ind, test_ind):
 
 		treesTest = [" ".join(row.trees) for row in testData]
 		testFeatures = getFeatures(treesTest,ignoredWordTags,counts.keys())
-
-		trainFeatures = [trainFeatures[ind] for ind in train_ind]
-		testFeatures = [testFeatures[ind] for ind in test_ind]
+		if len(train_ind) > 0:
+			trainFeatures = [trainFeatures[ind] for ind in train_ind]
+			testFeatures = [testFeatures[ind] for ind in test_ind]
 		print len(trainFeatures)
 		# Store results in a pickle file
 		pickle.dump(trainFeatures, open(fileTrainData,'w+b'))
@@ -319,7 +319,7 @@ def getIndicesAndLabels(method=2):
 
 	#set to default (no data is discarded)
 	train_ind=[]
-
+	test_ind=[]
 
 	print 'Processing labeling according to method M{0}'.format(method)
 	if method==0:
@@ -438,6 +438,7 @@ def main():
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
+	batch_run(settings, 0)
 	batch_run(settings, 1)
 	batch_run(settings, 2)
 	batch_run(settings, 3)
