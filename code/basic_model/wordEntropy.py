@@ -125,7 +125,7 @@ if __name__ == "__main__":
 	for feature in ordered:
 	 	file.write(str(feature)+','+str(wordCounts[feature])+','+str(wordGain[feature])+ '\n')
 	file.close()
-	writeLatexTable([ordered, wordCounts, wordGain, reverseOrdered, wordCounts, wordGain], ["Word", "Mean score", "Information gain","Word", "Mean score", "Information gain"], 20, [0,3], 4)
+	writeLatexTable([ordered, wordCounts, wordGain, reverseOrdered, wordCounts, wordGain], ["Word", "Mean score", "Information gain","Word", "Mean score", "Information gain"], 25, [0,3], 4)
 
 
 
