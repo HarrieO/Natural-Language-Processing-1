@@ -13,6 +13,7 @@ from treedataToJoosttrees import getPostsWithTrees
 from sklearn.metrics import *
 import sklearn
 from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm, naive_bayes, decomposition, neighbors
+from sklearn.externals import joblib
 
 '''
 Settings
@@ -53,16 +54,22 @@ def logRange(limit, n=10,start_at_one=[]):
 		return logRange
 
 
-def getFeatures(trees, ignoredFeatures, features):
-	global usePosTags
+def getFeaturesForSentence(sentence, extractionModel, usePosTags):
+	trainFeatures = getFeatures([sentence],extractionModel['ignoredWordTags'],extractionModel['countKeys'], usePosTags, False)
+	return extractionModel['vectorizer'].transform(trainFeatures)
+
+def getFeatures(trees, ignoredFeatures, features, usePosTags, loadedAsTree = True):
 	results = list()
 	i = 0
 	for tree in trees:
-		wordTags = getWordTagsFromTree(tree)
-		if usePosTags:
-			wordTags = [wordTag[0] for wordTag in wordTags]
+		if loadedAsTree:
+			wordTags = getWordTagsFromTree(tree)
+			if usePosTags:
+				wordTags = [wordTag[0] for wordTag in wordTags]
+			else:
+				wordTags = [wordTag[0].split(" ")[1][:-1] for wordTag in wordTags]
 		else:
-			wordTags = [wordTag[0].split(" ")[1][:-1] for wordTag in wordTags]
+			wordTags = re.findall(r"[\w']+|[\W]",tree)
 		# results.append(extractFeatures.extract_features_word(wordTags, ignoredFeatures, features))
 		results.append(dict(extractFeatures.extract_features_word(wordTags, ignoredFeatures, features)))
 		# print str(float(i)/float(len(trees)))
@@ -95,10 +102,10 @@ def getTrainingTestFeatures(features, train_ind, test_ind):
 		print len(counts.keys())
 		print len(ignoredWordTags)
 		treesTrain = post.read_column(4,os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/discotrain.csv'))
-		trainFeatures = getFeatures(treesTrain,ignoredWordTags,counts.keys())
+		trainFeatures = getFeatures(treesTrain,ignoredWordTags,counts.keys(), usePosTags)
 
 		treesTest = [" ".join(row.trees) for row in testData]
-		testFeatures = getFeatures(treesTest,ignoredWordTags,counts.keys())
+		testFeatures = getFeatures(treesTest,ignoredWordTags,counts.keys(), usePosTags)
 		if len(train_ind) > 0:
 			trainFeatures = [trainFeatures[ind] for ind in train_ind]
 			testFeatures = [testFeatures[ind] for ind in test_ind]
@@ -128,6 +135,7 @@ def getTrainingTestFeatures(features, train_ind, test_ind):
 	vectorizer = feature_extraction.DictVectorizer(sparse=False)
 	X     = vectorizer.fit_transform(trainFeatures)
 	Xtest = vectorizer.transform(testFeatures)
+	pickle.dump({'ignoredWordTags': ignoredWordTags, 'countKeys': counts.keys(), 'vectorizer': vectorizer}, open('../../results/models/last_extraction.p','w+b'))
 	return X, Xtest
 
 def getLabels():
@@ -245,7 +253,7 @@ def batch_run(test_settings,method=2):
 		classifier_id = ' '.join(classifier_id.split())
 
 		#check if a experiment with the current settings was allready conducted
-		if findRun(classifier_id,features,resultsfile=resultsPath[:].format(method)):
+		if False and findRun(classifier_id,features,resultsfile=resultsPath[:].format(method)):
 			print "Experiment with current settings was allready conducted, skipping"
 
 		else:
@@ -266,6 +274,7 @@ def batch_run(test_settings,method=2):
 			t0 = time.time()
 			print y[:20]
 			classifier.fit(X, y)
+			joblib.dump(classifier, '../../results/models/last_classifier.p') 
 			fit_time = time.time() - t0
 
 			#Predict labels
@@ -413,32 +422,17 @@ def main():
 
 
 	#tuples of classifers to test, and a string with their settings (to store)
-	classifiers=[ amueller_mlp.MLPClassifier(n_hidden=200),
-				  amueller_mlp.MLPClassifier(n_hidden=400),
-				  amueller_mlp.MLPClassifier(n_hidden=800),
-				  sklearn.ensemble.RandomForestClassifier(),
-				  sklearn.ensemble.AdaBoostClassifier(),
-				  sklearn.linear_model.Perceptron(n_iter=60),
-				  sklearn.svm.SVC(kernel='poly'),
-				  sklearn.svm.SVC(kernel='linear'),
-				  sklearn.svm.SVC(kernel='sigmoid'),
-				  sklearn.naive_bayes.GaussianNB(),
-				  sklearn.neighbors.nearest_centroid.NearestCentroid(),
-				  sklearn.svm.SVC(),
-				  sklearn.tree.DecisionTreeClassifier(),
-				  #naive_bayes.MultinomialNB(),
-				  #naive_bayes.BernoulliNB(),
-				  sklearn.ensemble.GradientBoostingClassifier(),
-				  sklearn.ensemble.AdaBoostClassifier()
+	classifiers=[ 
+				  sklearn.svm.SVC()
 				 	]
 
 	# Maximum number of features: 261396
-	features_set = logRange(maxFeatures,15,1)
+	features_set = [10940]
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
-	batch_run(settings, 2)
+	batch_run(settings, 1)
 	batch_run(settings, 3)
 	batch_run(settings, 4)
 
