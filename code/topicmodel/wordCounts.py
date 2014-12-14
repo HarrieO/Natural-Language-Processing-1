@@ -25,7 +25,7 @@ def pickIndexToLogProb(probs):
     return 0
 
 class WordCounter(object):
-    def __init__(self, data, giveLabel, alpha=(0.5,0.5),beta=0.5):
+    def __init__(self, data, giveLabel, alpha=(5,2),beta=0.5):
         V = np.zeros((3,1)) 
 
         wordmap           = {}
@@ -34,7 +34,7 @@ class WordCounter(object):
         invwordmap        = [] 
         vocabularySize    = 0
         numberOfSentences = len(data)
-        labelsPerSentence = np.zeros((numberOfSentences,1))
+        labelsPerSentence = np.zeros(numberOfSentences)
         labelCount        = np.zeros((2,1))
         tagCount          = np.zeros(2)
 
@@ -102,6 +102,17 @@ class WordCounter(object):
         self.alpha               = alpha
         self.beta                = beta
 
+    def wordTagsForSentence(self,sentence, sentenceTag,num_its=100):
+        # sentenceTag: 0 = impolite, 1 = polite
+        # sentence = string with sentence
+        self.addSentence(sentence, sentenceTag)
+        n = len(self.sentenceTags)-1
+        numWords = len(self.sentenceTags[n])-1
+        for i in range(num_its):
+            m = random.randrange(numWords)
+            self.conditional_distribution((n,m))
+        return self.sentenceTags[n] # list of tags
+
     # convert indices back to words
     def getWords(self,wordArray):
         return [self.invwordmap[i] for i in wordArray]
@@ -126,13 +137,18 @@ class WordCounter(object):
     # adds sentence to WordCounter
     def addSentence(self, sentence, label):
         sent = self.convertSentence(sentence)
-        tags = np.zeros((len(sent),1))
+        tags = np.zeros(len(sent))
         #self.tagsPerSentence = np.concatenate((self.tagsPerSentence,np.zeros((2,1))),axis=1)
-        self.sentenceTags.append(tags)
         self.labelsPerSentence = np.append(self.labelsPerSentence,np.array([label]))
         self.labelCount[label] += 1
         for i, word in enumerate(sent):
-            z       = random.choice([2]+[label])
+            if word in self.averageScorePerWord:
+                if abs(self.averageScorePerWord[word]) > 0.3:
+                    z = label
+                else:
+                    z = 2
+            else:
+                z = random.choice([2]+[label])
             self.V[z]   += 1
             tags[i] = z
             self.tagsPerWord[z,word]  += 1
@@ -160,12 +176,13 @@ class WordCounter(object):
     # 0 = negative, 1 = positive, 2 = neutral
     # return X_i ~ p(z_i|Z_{-i}=X_{-i}))
     def conditional_distribution(self,dimension):
+        self.beta =0.00001
         (n,m) = dimension
         currentWord = self.sentenceWords[n][m]
         currentTag = self.sentenceTags[n][m]
         probs = np.zeros(3) # probabilty for labels 0,1,2
         total = self.alpha[0]+self.alpha[1]+self.tagCount[0]+self.tagCount[1]-1.0
-        for i in [self.labelsPerSentence[n][0],2]:
+        for i in [self.labelsPerSentence[n],2]:
             delta = get_index(i)
             if currentTag == i:
                 deltaVal=1.0
@@ -180,8 +197,6 @@ class WordCounter(object):
 
 
     def gibbs_sample_topic_model(self,num_its=2):
-        # burn = number of iterations used for burn-in
-        #samples_out = []
         X = self.sentenceTags
         for i in range(num_its):
             n =random.randrange(len(X))
