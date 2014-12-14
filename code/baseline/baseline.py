@@ -245,13 +245,13 @@ def batch_run(test_settings,method=2):
 		classifier_id = ' '.join(classifier_id.split())
 
 		#check if a experiment with the current settings was allready conducted
-		if findRun(classifier_id,features,resultsfile=resultsPath.format(method)):
+		if findRun(classifier_id,features,resultsfile=resultsPath[:].format(method)):
 			print "Experiment with current settings was allready conducted, skipping"
 
 		else:
 
 			#load to csv file to append the results. Do this in the loop to update the file live
-			fd = open(resultsPath.format(method),'a')
+			fd = open(resultsPath[:].format(method),'a')
 
 			#do feature deduction if nesececary
 			if not last_features == features: 
@@ -292,7 +292,7 @@ def batch_run(test_settings,method=2):
 
 			#save to csv file and sort csv file
 			fd.close()
-			sort_results_csv(resultsPath.format(method))
+			sort_results_csv(resultsPath[:].format(method))
 		
 
 
@@ -438,10 +438,9 @@ def main():
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
-	batch_run(settings, 0)
-	batch_run(settings, 1)
 	batch_run(settings, 2)
 	batch_run(settings, 3)
+	batch_run(settings, 4)
 
 
 
