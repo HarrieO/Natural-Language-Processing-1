@@ -42,13 +42,13 @@ class WordCounter(object):
         #data = data[:100]
         for i, post in enumerate(data):
             # raw Strings
-            rawWords   = post.content.split()
+            rawWords   = re.findall(r"[\w']+|[\W]",post.content)
             label      = giveLabel(post.score)
             labelsPerSentence[i] = label
             labelCount[label]   += 1
             # indices of words after removal of non alphanumeric characters
             cleanWords  = []
-            for m,word in enumerate(post.content.split()):
+            for m,word in enumerate(rawWords):
                 word = pattern.sub('', word).lower()
                 if len(word) > 0:
                     if word not in wordmap:
@@ -127,7 +127,7 @@ class WordCounter(object):
     # converts string to indices array
     def convertSentence(self, sentence):
         cleanWords = []
-        for word in sentence.split():
+        for word in re.findall(r"[\w']+|[\W]",sentence):
             word = pattern.sub('', word).lower()
             if len(word) > 0:
                 self.addWord(word)
