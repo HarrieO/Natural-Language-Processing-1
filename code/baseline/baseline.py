@@ -19,9 +19,12 @@ from sklearn.externals import joblib
 Settings
 '''
 forceExtractFeautres = True # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
-usePosTags = False
+usePosTags = True
 resultsPath = '../../results/M{0}_baseline'+("_improved" if usePosTags else "") +'_results.csv'
-maxFeatures = 10941 # 9479 words in training set, 10941 wordtags in training set
+if usePosTags:
+	maxFeatures = 10941 # 9479 words in training set, 10941 wordtags in training set
+else:
+	maxFeatures = 9479
 
 def logRange(limit, n=10,start_at_one=[]):
 	"""
@@ -253,7 +256,7 @@ def batch_run(test_settings,method=2):
 		classifier_id = ' '.join(classifier_id.split())
 
 		#check if a experiment with the current settings was allready conducted
-		if False and findRun(classifier_id,features,resultsfile=resultsPath[:].format(method)):
+		if findRun(classifier_id,features,resultsfile=resultsPath[:].format(method)):
 			print "Experiment with current settings was allready conducted, skipping"
 
 		else:
@@ -422,17 +425,25 @@ def main():
 
 
 	#tuples of classifers to test, and a string with their settings (to store)
-	classifiers=[ 
-				  sklearn.svm.SVC()
-				 	]
-
+	classifiers=[ amueller_mlp.MLPClassifier(n_hidden=200),
+				  amueller_mlp.MLPClassifier(n_hidden=400),
+				  amueller_mlp.MLPClassifier(n_hidden=800),
+				  sklearn.ensemble.RandomForestClassifier(),
+				  #sklearn.ensemble.AdaBoostClassifier(),
+				  sklearn.linear_model.Perceptron(n_iter=60),
+				  #svm.SVC(kernel='poly'),
+				  #svm.SVC(kernel='linear'),
+				  #svm.SVC(kernel='sigmoid'),
+				  naive_bayes.GaussianNB(),
+				  #neighbors.nearest_centroid.NearestCentroid(),
+				  #svm.SVC(),
+				  sklearn.tree.DecisionTreeClassifier()]
 	# Maximum number of features: 261396
-	features_set = [10940]
+	features_set = logRange(261396,15,1)
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
-	batch_run(settings, 1)
 	batch_run(settings, 3)
 	batch_run(settings, 4)
 
