@@ -10,3 +10,5 @@ USE_BLLIP = True
 BLLIP_TYPE = 'Python'
 # If set to True the demo will use the DOP features
 USE_DOP = True
+# Classifier
+USE_CLASSIFIER = 'baseline'
