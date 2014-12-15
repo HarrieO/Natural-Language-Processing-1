@@ -7,9 +7,9 @@ from scipy.misc import logsumexp
 pattern = re.compile('[\W_]+', re.UNICODE)
 from wordCounts import *
 
-f = open('topicModel10.txt', 'r+')
+f = open('topicModel1000.txt', 'r+')
 wordCounter = pickle.load(f)
 f.close()
 
-f = open('topicModel10LINUX.txt', 'w+b')
+f = open('topicModel1000LINUX.txt', 'w+b')
 pickle.dump(wordCounter,f)
