@@ -19,7 +19,7 @@ from sklearn.externals import joblib
 Settings
 '''
 forceExtractFeautres = True # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
-usePosTags = True
+usePosTags = False
 resultsPath = '../../results/M{0}_baseline'+("_improved" if usePosTags else "") +'_results.csv'
 if usePosTags:
 	maxFeatures = 10941 # 9479 words in training set, 10941 wordtags in training set
@@ -138,7 +138,7 @@ def getTrainingTestFeatures(features, train_ind, test_ind):
 	vectorizer = feature_extraction.DictVectorizer(sparse=False)
 	X     = vectorizer.fit_transform(trainFeatures)
 	Xtest = vectorizer.transform(testFeatures)
-	pickle.dump({'ignoredWordTags': ignoredWordTags, 'countKeys': counts.keys(), 'vectorizer': vectorizer}, open('../../results/models/last_extraction.p','w+b'))
+	pickle.dump({'ignoredWordTags': ignoredWordTags, 'countKeys': counts.keys(), 'vectorizer': vectorizer}, open('../../results/models/last_gamma_extraction.p','w+b'))
 	return X, Xtest
 
 def getLabels():
@@ -277,7 +277,7 @@ def batch_run(test_settings,method=2):
 			t0 = time.time()
 			print y[:20]
 			classifier.fit(X, y)
-			joblib.dump(classifier, '../../results/models/last_classifier.p') 
+			joblib.dump(classifier, '../../results/models/baseline_gamma_classifier.p') 
 			fit_time = time.time() - t0
 
 			#Predict labels
@@ -425,26 +425,28 @@ def main():
 
 
 	#tuples of classifers to test, and a string with their settings (to store)
-	classifiers=[ amueller_mlp.MLPClassifier(n_hidden=200),
-				  amueller_mlp.MLPClassifier(n_hidden=400),
-				  amueller_mlp.MLPClassifier(n_hidden=800),
-				  sklearn.ensemble.RandomForestClassifier(),
+	classifiers=[ 
+				  # amueller_mlp.MLPClassifier(n_hidden=200),
+				  # amueller_mlp.MLPClassifier(n_hidden=400),
+				  # amueller_mlp.MLPClassifier(n_hidden=800),
+				  # sklearn.ensemble.RandomForestClassifier(),
 				  #sklearn.ensemble.AdaBoostClassifier(),
-				  sklearn.linear_model.Perceptron(n_iter=60),
-				  #svm.SVC(kernel='poly'),
-				  #svm.SVC(kernel='linear'),
-				  #svm.SVC(kernel='sigmoid'),
-				  naive_bayes.GaussianNB(),
+				  # sklearn.linear_model.Perceptron(n_iter=60),
+				  # svm.SVC(kernel='poly'),
+				  # svm.SVC(kernel='linear'),
+				  svm.SVC(kernel='rbf', class_weight='auto', gamma=0.2),
+				  # naive_bayes.GaussianNB(),
 				  #neighbors.nearest_centroid.NearestCentroid(),
-				  #svm.SVC(),
-				  sklearn.tree.DecisionTreeClassifier()]
+				  # sklearn.svm.SVC(),
+				  # sklearn.tree.DecisionTreeClassifier()
+				  ]
 	# Maximum number of features: 261396
-	features_set = logRange(261396,15,1)
+	features_set = [9479]#logRange(maxFeatures,15,1)
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
-	batch_run(settings, 3)
+	#batch_run(settings, 3)
 	batch_run(settings, 4)
 
 

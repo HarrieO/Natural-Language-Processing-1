@@ -20,8 +20,8 @@ if USE_CLASSIFIER == 'basic_model':
 elif USE_CLASSIFIER == 'baseline':
     sys.path.append(os.path.join(os.path.dirname(__file__), '../baseline'))
     import baseline
-    classifier = joblib.load(os.path.join(os.path.dirname(__file__), '../../results/models/classifier.p')) 
-    extraction = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../results/models/extraction.p'),'rb'))
+    classifier = joblib.load(os.path.join(os.path.dirname(__file__), '../../results/models/baseline_linear_classifier.p')) 
+    extraction = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../results/models/last_extraction.p'),'rb'))
 if USE_DOP:
     from treeToFeatures import *
 from wordCounts import *
@@ -40,6 +40,7 @@ baselineModel = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../
 
 # Global variables used in the application
 featureMap = {}
+patternRemove = re.compile('[\W_]+', re.UNICODE)
 
 def getClassFromNumber(label):
     wordClass = 'neutral'
@@ -62,21 +63,20 @@ class MainHandler(tornado.web.RequestHandler):
         self.render("index.html")
 class PolitenessHandler(tornado.web.RequestHandler):
     def post(self):
-        global USE_BLLIP, USE_DOP, BLLIP_TYPE, USE_CLASSIFIER, rrp, featureMap, topicmodel, classifier, extraction #, baselineModel, wordScores
+        global USE_BLLIP, USE_DOP, BLLIP_TYPE, USE_CLASSIFIER, rrp, featureMap, topicmodel, classifier, extraction, patternRemove #, baselineModel, wordScores
         sentence = self.get_argument("sentence", None)
+        tree = None
         if USE_BLLIP == True:
             if BLLIP_TYPE == 'Python':
                 tree = [rrp.simple_parse(str(sent)) for sent in split_sentences(sentence)]
             else:
                 tree = get_trees(sentence)
         else:
-            example_trees = [ '(S1 (S (VP (VB Thank) (NP (PRP you)) (PP (IN for) (NP (DT the) (FW response.) (SQ (MD Would) (NP (PRP you)) (VP (AUX be) (ADJP (JJ willing) (S (VP (TO to) (VP (VB add) (NP (DT a) (JJ few) (JJR more) (NNS details)) (S (VP (TO to) (VP (VB explain) (ADVP (RBR further)))))))))))))) (. ?)))',
-            '(S1 (SBARQ (WHNP (WDT That)) (SQ (AUX \'s) (NP (NP (DT the) (JJ only) (NN answer)) (SBAR (S (NP (PRP you)) (VP (AUX have)))) (. ?)) (ADVP (RB seriously)) (. ?) (SQ (MD can) (RB n\'t) (NP (PRP you)) (VP (AUX do) (ADVP (RB better))))) (. ?)))' ]
-            tree = np.random.choice(example_trees, 1)
+            # example_trees = [ '(S1 (S (VP (VB Thank) (NP (PRP you)) (PP (IN for) (NP (DT the) (FW response.) (SQ (MD Would) (NP (PRP you)) (VP (AUX be) (ADJP (JJ willing) (S (VP (TO to) (VP (VB add) (NP (DT a) (JJ few) (JJR more) (NNS details)) (S (VP (TO to) (VP (VB explain) (ADVP (RBR further)))))))))))))) (. ?)))',
+            # '(S1 (SBARQ (WHNP (WDT That)) (SQ (AUX \'s) (NP (NP (DT the) (JJ only) (NN answer)) (SBAR (S (NP (PRP you)) (VP (AUX have)))) (. ?)) (ADVP (RB seriously)) (. ?) (SQ (MD can) (RB n\'t) (NP (PRP you)) (VP (AUX do) (ADVP (RB better))))) (. ?)))' ]
+            # tree = np.random.choice(example_trees, 1)
             print sentence
             sentence = sentence
-        print "Test"
-        print list(tree)
         features = ""
         if USE_DOP:
             features = convertTreeToVector(list(tree), featureMap)
@@ -99,29 +99,35 @@ class PolitenessHandler(tornado.web.RequestHandler):
         elif USE_CLASSIFIER == 'baseline':
             # Baseline
             featuresBaseline = baseline.getFeaturesForSentence(sentence, extraction, False)
+            print featuresBaseline
             label = classifier.predict(featuresBaseline)[0]
             print label
             if label == 2:
                 label = 1
+            elif label == 1:
+                label = 2
             classFound = getClassFromNumber(label)
         elif USE_CLASSIFIER == 'dopclassifier':
             # Dop feature
             print ""
 
-        sentence = sentence+str(features)
+
         sentenceWords = list(enumerate([word for word in re.findall(r"[\w']+|[\W]",sentence) if not word==" "]))
 
         tags = [2]*len(sentenceWords)
-
-        if topicmodel != None:
-            print "?"
-            result = topicmodel.wordTagsForSentence(sentence, label, num_its = 2)
-            print result
-            tags[:len(result)] = result
+        if topicmodel != None and label != 2:
+            result = topicmodel.wordTagsForSentence(sentence, label)
+            sentence = sentence+str(features)
+            n = 0
+            for (i, word) in sentenceWords:
+                word = patternRemove.sub('', str(word)).lower()
+                if len(word) > 0 and n<len(result):
+                    tags[i] = result[n]
+                    n += 1
 
         response = { 'sentences': [ {'sentence': " ".join(["<span class=\""+getClassFromNumber(tags[i])+"\">"+word+" "+"</span>" for (i, word) in sentenceWords if word != "" ]), 'sentenceClass': classFound, 'confidence': scoreFound } ]}
         self.write(response)
-        topicmode_trainer().start()
+        # topicmode_trainer().start()
 
 application = tornado.web.Application([
     (r"/politeness/", MainHandler),
@@ -149,7 +155,7 @@ class topicmode_loader(Thread):
         global topicmodel
 
         print "Topic model"
-        f = open(os.path.join(os.path.dirname(__file__), '../../results/models/topicModel10.txt'), 'r+b')
+        f = open(os.path.join(os.path.dirname(__file__), '../../results/models/topicModel1000.txt'), 'r+b')
         topicmodel = pickle.load(f)
         f.close()
         print "Topic model end"
