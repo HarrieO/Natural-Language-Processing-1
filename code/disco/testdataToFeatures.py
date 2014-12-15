@@ -18,7 +18,7 @@ with open('../../datasets/preprocessed/indicesToTrees.txt') as f:
 treeposts = read_posts('../../datasets/preprocessed/test.csv')
 
 indices = []
-with open('../../datasets/preprocessed/test_comment_indices.txt') as f:
+with open('../../datasets/preprocessed/test_indices.txt') as f:
     for line in f:
         indices.append(int(line))
 
@@ -26,7 +26,7 @@ vectorizer = feature_extraction.DictVectorizer(sparse=True)
 
 treeStrings = [ line[:-1] for line in io.open('../../datasets/preprocessed/test_trees.txt', encoding='utf-8')]
 print "Total of", len(treeStrings), "trees in test set."
-treeStrings.extend(treeStrings[:])
+# treeStrings.extend([ line[:-1] for line in io.open('../../datasets/preprocessed/trees.txt', encoding='utf-8')])
 
 text = BracketStringReader(treeStrings)
 print "Made treebank"
