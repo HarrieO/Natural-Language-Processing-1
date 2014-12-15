@@ -1,7 +1,7 @@
-import sys, os
 import numpy as np
 import matplotlib.pyplot as plt
 import textwrap
+import sys, os
 from operator import add, itemgetter
 
 sys.path.append('../code')
@@ -64,6 +64,31 @@ def print_conf_matrices(mat_list):
 			for mat in mat_list:
 				print "|{0}|{1: >4}|{2: >4}| ".format(signs[n],mat[n][0],mat[n][1]),
 			print " "
+
+def print_all_conf_mats(train_mat_list,test_mat_list,features_list):
+	"""
+	Prints a row of matrices that keeping track of terminal width
+	"""
+	num_classes =  len(train_mat_list[0])
+	num_mats = len(train_mat_list)
+
+	if num_classes ==2:
+		mat_width = 15
+	else:
+		mat_width = 19
+	max_mats = int(os.popen('stty size', 'r').read().split()[1])/mat_width
+	rows =  int(np.ceil(1.0 * num_mats/max_mats))
+
+	for r in range(rows):
+		ind0 = r * max_mats
+		ind1 = ind0 + max_mats
+
+		print  "".join( ["Features:{0: >8}  |".format(f) for f in features_list[ind0:ind1] ])
+		print "Training data:"
+		print_conf_matrices(train_mat_list[ind0:ind1])
+		print "Test data"
+		print_conf_matrices(test_mat_list[ind0:ind1])
+		print "\n\n\n"
 
 
 def get_result_table(filename='classifier_results.csv'):
@@ -135,15 +160,21 @@ def main():
 
 	#which data do we want to plot:
 	print '           -   0   +'
-	print 'M0: 2lbl [50%     50%]'
-	print 'M1: 2lbl [25% 75% 25%] discard neutral'
-	print 'M2: 3lbl [25% 75% 25%]'
+	print 'M0: 2lbl [50%     50%]                    '
+	print 'M1: 2lbl [25% 50% 25%] discard neutral    >>> [50%     50%]'
+	print 'M2: 3lbl [25% 50% 25%]'
 	print 'M3: 3lbl [33% 33% 33%]'
-	print 'M4: 3lbl [25% 75% 25%] resize neutral'
-
-	#which data do we want to plot
+	print 'M4: 3lbl [25% 50% 25%] resize neutral     >>> [33% 33% 33%]'
 	method = int(raw_input('Method:'))
-	filename = 'M{0}_classifier_results.csv'.format(method)
+
+	print '0: DOP features'
+	print '1: baseline'
+	print "2: baseline 'improved'"
+	feature_classifiers = ['classifier','baseline','baseline_improved']
+	f = int(raw_input('Type of features/classifier:'))
+	
+	#which data do we want to plot
+	filename = 'M{0}_{1}_results.csv'.format(method,feature_classifiers[f])
 
 	#all unique classifiers (and settings)
 	classifier_id_list = class_id_list(filename=filename)
@@ -192,13 +223,9 @@ def main():
 			print "=== " + c_id + " ==="
 			print "==============================================================================================================================="
 		
-
-			print  "".join( ["Features:{0: >8}  |".format(f) for f in table[table['classifier_id']==c_id]['features']])
-			print "Confusion Matrices for training:"
-			print_conf_matrices(table[table['classifier_id']==c_id]['train_conf_matrix'])
-			print "Confusion Matrices for testing:"
-			print_conf_matrices(table[table['classifier_id']==c_id]['test_conf_matrix'])
-
+			print_all_conf_mats(table[table['classifier_id']==c_id]['train_conf_matrix'],
+						        table[table['classifier_id']==c_id]['test_conf_matrix'],
+						        table[table['classifier_id']==c_id]['features'] )
 
 			plot_classifier_results(c_id,table=table)
 
