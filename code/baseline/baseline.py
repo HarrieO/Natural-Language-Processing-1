@@ -21,7 +21,10 @@ Settings
 forceExtractFeautres = True # If we want to extract features or not, otherwise load a Pickle file with preprocessed files, if the files are found
 usePosTags = False
 resultsPath = '../../results/M{0}_baseline'+("_improved" if usePosTags else "") +'_results.csv'
-maxFeatures = 10941 # 9479 words in training set, 10941 wordtags in training set
+if usePosTags:
+	maxFeatures = 10941 # 9479 words in training set, 10941 wordtags in training set
+else:
+	maxFeatures = 9479
 
 def logRange(limit, n=10,start_at_one=[]):
 	"""
@@ -427,12 +430,11 @@ def main():
 				 	]
 
 	# Maximum number of features: 261396
-	features_set = [10940]
+	features_set = logRange(261396,15,1)
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
-	batch_run(settings, 1)
 	batch_run(settings, 3)
 	batch_run(settings, 4)
 
