@@ -169,19 +169,19 @@ def main():
 				  amueller_mlp.MLPClassifier(n_hidden=400),
 				  amueller_mlp.MLPClassifier(n_hidden=800),
 				  ensemble.RandomForestClassifier(),
-				  sklearn.ensemble.AdaBoostClassifier(),
+				  #sklearn.ensemble.AdaBoostClassifier(),
 				  sklearn.linear_model.Perceptron(n_iter=60),
-				  svm.SVC(kernel='poly'),
-				  svm.SVC(kernel='linear'),
-				  svm.SVC(kernel='sigmoid'),
-				  naive_bayes.GaussianNB(),
-				  neighbors.nearest_centroid.NearestCentroid(),
-				  svm.SVC(),
+				  #svm.SVC(kernel='poly'),
+				  #svm.SVC(kernel='linear'),
+				  #svm.SVC(kernel='sigmoid'),
+				  #naive_bayes.GaussianNB(),
+				  #neighbors.nearest_centroid.NearestCentroid(),
+				  #svm.SVC(),
 				  tree.DecisionTreeClassifier(),
 				  #naive_bayes.MultinomialNB(),
 				  #naive_bayes.BernoulliNB(),
-				  sklearn.ensemble.GradientBoostingClassifier(),
-				  sklearn.ensemble.AdaBoostClassifier()
+				  #sklearn.ensemble.GradientBoostingClassifier(),
+				  #sklearn.ensemble.AdaBoostClassifier()
 				 	]
 
 	# Maximum number of features: 261396
@@ -190,12 +190,11 @@ def main():
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features) for features in features_set for classifier  in classifiers )
 
+	batch_run(settings,method=4)
 	batch_run(settings,method=1)
+	batch_run(settings,method=3)
 	batch_run(settings,method=2)
 	batch_run(settings,method=0)
-	batch_run(settings,method=3)
-	batch_run(settings,method=4)
-
 	
 
 
