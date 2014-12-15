@@ -66,7 +66,7 @@ class WordCounter(object):
 
         sentenceTags  = []
         for i, words in enumerate(sentenceWords):
-            label = labelsPerSentence[i,0]
+            label = labelsPerSentence[i]
             taggedWords = []
             for m,word in enumerate(words):
                 if abs(averageScorePerWord[word]) > 0.3:
