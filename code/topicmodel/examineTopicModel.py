@@ -7,8 +7,8 @@ from scipy.misc import logsumexp
 pattern = re.compile('[\W_]+', re.UNICODE)
 from wordCounts import *
 
-print "After 100000 iterations"
-f = open('topicModel100000.txt', 'r+')
+print "After 10 iterations"
+f = open('topicModel10.txt', 'r+')
 wordCounter = pickle.load(f)
 f.close()
 """
