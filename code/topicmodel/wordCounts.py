@@ -199,7 +199,7 @@ class WordCounter(object):
             else:
                 deltaVal = 0.0
             value = (self.tagCount[delta]+self.alpha[delta]-1.0)/total
-            Vi = sum(self.tagsPerWord[i,:]>0)
+            Vi = np.sum(np.array(self.tagsPerWord[i,:])>0)
             probs[i] = value*(self.beta -deltaVal +self.tagsPerWord[i,currentWord])/(-deltaVal+self.V[i]+Vi*self.beta)
         newLabel = pickIndexToLogProb(probs)
         self.changeLabel(n,m,newLabel)
@@ -219,7 +219,7 @@ class WordCounter(object):
             else:
                 deltaVal = 0.0
             value = (self.tagCount[delta]+self.alpha[delta]-1.0)/total
-            Vi = sum(self.tagsPerWord[i,:]>0)
+            Vi = np.sum(np.array(self.tagsPerWord[i,:])>0)
             probs[i] = value*(self.beta -deltaVal +self.tagsPerWord[i,currentWord])/(-deltaVal+self.V[i]+Vi*self.beta)
         newLabel = np.argmax(probs)
         if (newLabel +label == 1):
