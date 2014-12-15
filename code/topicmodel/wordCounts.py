@@ -24,6 +24,15 @@ def pickIndexToLogProb(probs):
     print "sum is ", np.sum(probs)
     return 0
 
+def pickBestIndex(probs):
+    bestProb =0
+    bestIndex =0
+    for i in range(probs.shape[0]):
+        if probs[i]> bestProb:
+            bestProb = probs[i]
+            bestIndex = i
+    return bestIndex
+
 class WordCounter(object):
     def __init__(self, data, giveLabel, alpha=(5,2),beta=0.5):
         V = np.zeros((3,1)) 
@@ -102,16 +111,22 @@ class WordCounter(object):
         self.alpha               = alpha
         self.beta                = beta
 
-    def wordTagsForSentence(self,sentence, sentenceTag,num_its=100):
+    def wordTagsForSentence(self,sentence, sentenceTag,gibbsSampling = False,num_its=100):
         # sentenceTag: 0 = impolite, 1 = polite
         # sentence = string with sentence
         self.addSentence(sentence, sentenceTag)
         n = len(self.sentenceTags)-1
-        numWords = len(self.sentenceTags[n])-1
-        for i in range(num_its):
-            m = random.randrange(numWords)
-            self.conditional_distribution((n,m))
-        return self.sentenceTags[n] # list of tags
+        numWords = len(self.sentenceTags[n])
+        if gibbsSampling:
+            for i in range(num_its):
+                m = random.randrange(numWords)
+                self.conditional_distribution((n,m))
+            return self.sentenceTags[n] # list of tags
+        else:
+            for m in range(numWords):
+                self.conditional_distribution_ML((n,m))
+            return self.sentenceTags[n] # list of tags
+
 
     # convert indices back to words
     def getWords(self,wordArray):
@@ -195,7 +210,24 @@ class WordCounter(object):
         self.changeLabel(n,m,newLabel)
         #return newLabel
 
-
+    def conditional_distribution_ML(self,dimension):
+        self.beta =0.00001
+        (n,m) = dimension
+        currentWord = self.sentenceWords[n][m]
+        currentTag = self.sentenceTags[n][m]
+        probs = np.zeros(3) # probabilty for labels 0,1,2
+        total = self.alpha[0]+self.alpha[1]+self.tagCount[0]+self.tagCount[1]-1.0
+        for i in [self.labelsPerSentence[n],2]:
+            delta = get_index(i)
+            if currentTag == i:
+                deltaVal=1.0
+            else:
+                deltaVal = 0.0
+            value = (self.tagCount[delta]+self.alpha[delta]-1.0)/total
+            Vi = sum(self.tagsPerWord[i,:]>0)
+            probs[i] = value*(self.beta -deltaVal +self.tagsPerWord[i,currentWord])/(-deltaVal+self.V[i]+Vi*self.beta)
+        newLabel = pickBestIndex(probs)
+        self.changeLabel(n,m,newLabel)
     def gibbs_sample_topic_model(self,num_its=2):
         X = self.sentenceTags
         for i in range(num_its):
