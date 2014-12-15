@@ -113,6 +113,9 @@ def plot_classifier_results(c_id,plot_runtime=True,table=[],compareAcc=[],compar
 
 	c_table =  table[table["classifier_id"]==c_id]
 
+	for x,y in zip(c_table['features'],c_table['test_accuracy']):
+		print x,y
+
 	fig, ax1 = plt.subplots()
 	ax1.plot(c_table['features'], c_table['train_accuracy'], 'b-s',label='Training data')
 	ax1.plot(c_table['features'], c_table['test_accuracy'], 'r-s', label='Test data')
