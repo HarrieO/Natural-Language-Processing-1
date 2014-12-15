@@ -22,7 +22,8 @@ elif USE_CLASSIFIER == 'baseline':
     import baseline
     classifier = joblib.load(os.path.join(os.path.dirname(__file__), '../../results/models/classifier.p')) 
     extraction = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../results/models/extraction.p'),'rb'))
-from treeToFeatures import *
+if USE_DOP:
+    from treeToFeatures import *
 from wordCounts import *
 
 
@@ -35,7 +36,7 @@ if USE_BLLIP == True:
 
 topicmodel = None
 baselineModel = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../results/models/baseline0.5'+'.p'),'rb'))
-wordScores = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/wordScores.p'),'rb'))
+#wordScores = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/wordScores.p'),'rb'))
 
 # Global variables used in the application
 featureMap = {}
@@ -103,13 +104,17 @@ class PolitenessHandler(tornado.web.RequestHandler):
             if label == 2:
                 label = 1
             classFound = getClassFromNumber(label)
+        elif USE_CLASSIFIER == 'dopclassifier':
+            # Dop feature
+            print ""
 
         sentence = sentence+str(features)
         sentenceWords = list(enumerate([word for word in re.findall(r"[\w']+|[\W]",sentence) if not word==" "]))
 
         tags = [2]*len(sentenceWords)
 
-        if topicmodel:
+        if topicmodel != None:
+            print "?"
             result = topicmodel.wordTagsForSentence(sentence, label, num_its = 2)
             print result
             tags[:len(result)] = result
@@ -142,19 +147,23 @@ class bllip_loader(Thread):
 class topicmode_loader(Thread):
     def run(self):
         global topicmodel
-        f = open(os.path.join(os.path.dirname(__file__), '../../results/models/topicModel100000.txt'), 'r+')
+
+        print "Topic model"
+        f = open(os.path.join(os.path.dirname(__file__), '../../results/models/topicModel10.txt'), 'r+b')
         topicmodel = pickle.load(f)
         f.close()
+        print "Topic model end"
 
 class topicmode_trainer(Thread):
     def run(self):
         global topicmodel
-        num_its = 10
-        n = len(topicmodel.sentenceTags)-1
-        numWords = len(topicmodel.sentenceTags[n])-1
-        for i in range(num_its):
-            m = random.randrange(numWords)
-            topicmodel.conditional_distribution((n,m))
+        if topicmodel != None:
+            num_its = 10
+            n = len(topicmodel.sentenceTags)-1
+            numWords = len(topicmodel.sentenceTags[n])-1
+            for i in range(num_its):
+                m = random.randrange(numWords)
+                topicmodel.conditional_distribution((n,m))
 
 loadDopFeatures()
 if __name__ == "__main__":

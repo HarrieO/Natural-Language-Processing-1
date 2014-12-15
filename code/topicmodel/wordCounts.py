@@ -49,7 +49,7 @@ class WordCounter(object):
             # indices of words after removal of non alphanumeric characters
             cleanWords  = []
             for m,word in enumerate(rawWords):
-                word = pattern.sub('', word).lower()
+                word = pattern.sub('', str(word)).lower()
                 if len(word) > 0:
                     if word not in wordmap:
                         invwordmap.append(word)
@@ -136,7 +136,7 @@ class WordCounter(object):
     def convertSentence(self, sentence):
         cleanWords = []
         for word in re.findall(r"[\w']+|[\W]",sentence):
-            word = pattern.sub('', word).lower()
+            word = pattern.sub('', str(word)).lower()
             if len(word) > 0:
                 self.addWord(word)
                 cleanWords.append(self.wordmap[word])
@@ -255,7 +255,7 @@ if __name__ == "__main__":
         print "Applying Gibbs sampling for", num_its, "iterations"
         wordCounter.gibbs_sample_topic_model(num_its)
         text = "topicModel"+str(num_its)+".txt"
-        f = open(text, 'r+')
+        f = open(text, 'r+b')
         pickle.dump(wordCounter,f)
         f.close()
         print "Took", time.time()-start, "seconds"
@@ -265,11 +265,11 @@ if __name__ == "__main__":
     #     print " ".join(wordCounter.getWords(wordCounter.sentenceWords[i]))
     #     print wordCounter.sentenceTags[i]
 
-    # f = open('topicModel.txt', 'r+')
+    # f = open('topicModel.txt', 'r+b')
     # wordCounter2 = pickle.load(f)
     # f.close()
     # print "Labeling after writing and reading: "
     # for i in range(10):
     #     print " ".join(wordCounter2.getWords(wordCounter2.sentenceWords[i]))
     #     print wordCounter2.sentenceTags[i]
-    # f = open('topicModel.txt', 'r+')
+    # f = open('topicModel.txt', 'r+b')
