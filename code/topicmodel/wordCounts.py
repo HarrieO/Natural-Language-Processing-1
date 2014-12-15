@@ -117,7 +117,7 @@ class WordCounter(object):
             return self.sentenceTags[n] # list of tags
         else:
             for m in range(numWords):
-                self.conditional_distribution_ML((n,m))
+                self.conditional_distribution_MAP((n,m))
             return self.sentenceTags[n] # list of tags
 
 
@@ -165,6 +165,7 @@ class WordCounter(object):
             #self.tagsPerSentence[get_index(z),self.numberOfSentences] += 1
             self.tagCount[get_index(z)]+=1
         self.numberOfSentences += 1
+        #print self.getWords(sent), " initially tagged as ", tags
         self.sentenceWords.append(sent)
         self.sentenceTags.append(tags)
 
@@ -204,13 +205,14 @@ class WordCounter(object):
         self.changeLabel(n,m,newLabel)
         #return newLabel
 
-    def conditional_distribution_ML(self,dimension):
+    def conditional_distribution_MAP(self,dimension):
         (n,m) = dimension
         currentWord = self.sentenceWords[n][m]
         currentTag = self.sentenceTags[n][m]
+        label =self.labelsPerSentence[n]
         probs = np.zeros(3) # probabilty for labels 0,1,2
         total = self.alpha[0]+self.alpha[1]+self.tagCount[0]+self.tagCount[1]-1.0
-        for i in [self.labelsPerSentence[n],2]:
+        for i in [0,1,2]:
             delta = get_index(i)
             if currentTag == i:
                 deltaVal=1.0
@@ -220,7 +222,11 @@ class WordCounter(object):
             Vi = sum(self.tagsPerWord[i,:]>0)
             probs[i] = value*(self.beta -deltaVal +self.tagsPerWord[i,currentWord])/(-deltaVal+self.V[i]+Vi*self.beta)
         newLabel = np.argmax(probs)
+        if (newLabel +label == 1):
+            newLabel = 2
+        #print self.invwordmap[currentWord], " ", currentTag, " -> ",newLabel, "; probs: ",probs
         self.changeLabel(n,m,newLabel)
+
     def gibbs_sample_topic_model(self,num_its=2):
         X = self.sentenceTags
         for i in range(num_its):
@@ -249,6 +255,13 @@ if __name__ == "__main__":
     for i in range(10):
         print " ".join(wordCounter.getWords(wordCounter.sentenceWords[i]))
         print wordCounter.sentenceTags[i]
+
+    start = time.time()
+    text = "topicModel.txt"
+    f = open(text, 'r+b')
+    pickle.dump(wordCounter,f)
+    f.close()
+    print "Took", time.time()-start, "seconds"
 
     for num_its in [10,100,1000,10000,100000,200000]:
         start = time.time()
