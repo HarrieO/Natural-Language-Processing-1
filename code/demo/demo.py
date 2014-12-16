@@ -155,7 +155,7 @@ class topicmode_loader(Thread):
         global topicmodel
 
         print "Topic model"
-        f = open(os.path.join(os.path.dirname(__file__), '../../results/models/topicModel1000.txt'), 'r+b')
+        f = open(os.path.join(os.path.dirname(__file__), '../../results/models/topicModel200000.txt'), 'r+b')
         topicmodel = pickle.load(f)
         f.close()
         print "Topic model end"
