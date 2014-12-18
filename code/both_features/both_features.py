@@ -18,7 +18,7 @@ def getNumBothFeatures(num_total_features):
 	#load in the entropy for dop and word features
 	word_entropy = [ (0,float(score)) for score in post.read_column(1,'word_entropy.csv') if not score=='']
 	#word_entropy = [ (0,float(score)) for score in post.read_column(2,'../../datasets/preprocessed/informationGainWords.txt') if not score=='']
-	DOPf_entropy = [ (1,-float(score)) for score in post.read_column(1,'../../datasets/preprocessed/informationGain.txt') if not score=='']
+	DOPf_entropy = [ (1,float(score)) for score in post.read_column(1,'../../datasets/preprocessed/informationGain.txt') if not score=='']
 
 
 	feature_list  = sorted(word_entropy + DOPf_entropy,key=lambda tup: tup[1])
@@ -88,7 +88,7 @@ if __name__ == '__main__':
 	#########    DEBUG  DOP/WORDS Entropy   ###########
 
 	word_entropy = [ (0,float(score)) for score in post.read_column(1,'word_entropy.csv') if not score=='']
-	DOPf_entropy = [ (1,-float(score)) for score in post.read_column(1,'../../datasets/preprocessed/informationGain.txt') if not score=='']
+	DOPf_entropy = [ (1,float(score)) for score in post.read_column(1,'../../datasets/preprocessed/informationGain.txt') if not score=='']
 
 
 	feature_list  = sorted(word_entropy + DOPf_entropy,key=lambda tup: tup[1])
