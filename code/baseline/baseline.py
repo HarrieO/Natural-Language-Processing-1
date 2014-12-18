@@ -83,6 +83,8 @@ def getFeatures(trees, ignoredFeatures, features, usePosTags, loadedAsTree = Tru
 
 
 def getTrainingTestFeatures(features, train_ind, test_ind):
+
+
 	global forceExtractFeautres, usePosTags
 	# Data structures
 	classes			= ['negative','neutral','positive']

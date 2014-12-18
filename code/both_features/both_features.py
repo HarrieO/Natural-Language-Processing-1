@@ -38,18 +38,28 @@ def getBothFeatureData(num_word_features,num_DOP_features,method=2):
 	#Load training, post data, labels and indices of datapoints that we use
 	training, test, y,r,train_ind, test_ind = getProcessedData(method=method,returnIndices=True)
 
-	# get dop features
-	print ">>> Getting Word-count Features"
-	X_w, Xtest_w = baseline.getTrainingTestFeatures(num_word_features, train_ind, test_ind)
+	if num_word_features > 0:
+		# get word features
+		print ">>> Getting {0} Word-count Features".format(num_word_features)
+		X_w, Xtest_w = baseline.getTrainingTestFeatures(num_word_features, train_ind, test_ind)
 
-	# get words
-	print ">>> Getting DOP-count featurs"
-	X_d, Xtest_d = feature2vector(training,test,num_DOP_features)
+	if num_DOP_features > 0:
+		# get dop features
+		print ">>> Getting {0} DOP-count featurs".format(num_DOP_features)
+		X_d, Xtest_d = feature2vector(training,test,num_DOP_features)
 
-	# Fuse vectors
-	print ">>> Fusing features"
-	X     = np.concatenate((X_w,X_d),axis=1)
-	Xtest = np.concatenate((Xtest_w,Xtest_d),axis=1)
+	#Determine which features to return
+	if num_word_features == 0:
+		X 	  = X_d
+		Xtest = Xtest_d
+	elif num_DOP_features == 0:
+		Xtest = X_w
+		Xtest = Xtest_w
+	else:
+		# Fuse vectors
+		print ">>> Fusing features"
+		X     = np.concatenate((X_w,X_d),axis=1)
+		Xtest = np.concatenate((Xtest_w,Xtest_d),axis=1)
 
 	return X, Xtest, y, r
 
@@ -110,6 +120,6 @@ if __name__ == '__main__':
 	plt.ylabel('Proportion of word features')
 	plt.show()
 
-	for features in [1000,4000,10000,20000,200000]:
+	for features in [1,2,3,4,10, 1000,4000,10000,20000,200000]:
 		
 		print "Top {0} features: {1} words. {2} dop.".format(features, *getNumBothFeatures(features))

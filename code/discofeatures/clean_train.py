@@ -1,9 +1,5 @@
 #!/usr/bin/env python2
 # coding=utf-8
-import os, sys, csv
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '../discofeatures'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '../baseline'))
 import gc
 import numpy as np
 from sklearn import linear_model, preprocessing, feature_extraction, cross_validation, ensemble, svm, naive_bayes, decomposition

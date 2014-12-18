@@ -93,7 +93,7 @@ if __name__ == '__main__':
 				  #svm.SVC(kernel='sigmoid'),
 				  #naive_bayes.GaussianNB(),
 				  #neighbors.nearest_centroid.NearestCentroid(),
-				  #svm.SVC(),
+				  svm.SVC(),
 				  tree.DecisionTreeClassifier(),
 				  #naive_bayes.MultinomialNB(),
 				  #naive_bayes.BernoulliNB(),
