@@ -60,27 +60,23 @@ if __name__ == '__main__':
 
 	################## MAIN CODE ############
 
-	#for features in [1000,4000,10000,20000,200000]:
-		
-	#	print "Top {0} features: {1} words. {2} dop.".format(features, *getNumBothFeatures(features))
+	# method = 4
+	# num_total_features = 1000
+
+	# X, Xtest, y, r = getBothFeatureData( *getNumBothFeatures(num_total_features) , method=method)
+
+	# print np.shape(X)
+	# print np.shape(y)
+
+	# print np.shape(Xtest)
+	# print np.shape(r)
+
+	# Train classifers etc.
 
 
-	method = 4
-	num_total_features = 1000
 
-	X, Xtest, y, r = getBothFeatureData( *getNumBothFeatures(num_total_features) , method=method)
-	#num_DOP_features = 5
-	#num_word_features = 4  
-	#X, Xtest, y, r = getBothFeatureData(num_word_features,num_DOP_features,method)
+	#########    DEBUG  DOP/WORDS Entropy   ###########
 
-	print np.shape(X)
-	print np.shape(y)
-
-	print np.shape(Xtest)
-	print np.shape(r)
-
-
-	#########    DEBUG ###########
 	word_entropy = [ (0,float(score)) for score in post.read_column(1,'word_entropy.csv') if not score=='']
 	DOPf_entropy = [ (1,-float(score)) for score in post.read_column(1,'../../datasets/preprocessed/informationGain.txt') if not score=='']
 
@@ -88,9 +84,32 @@ if __name__ == '__main__':
 	feature_list  = sorted(word_entropy + DOPf_entropy,key=lambda tup: tup[1])
 	feature_types = [tup[0] for tup in feature_list]
 
-	features_list = range(1, len(word_entropy)+len(DOPf_entropy),1000)
+	features_list    = range(1, len(word_entropy)+len(DOPf_entropy)-1,1000)
+	num_wordf_list   = [      feature_types[0:features].count(0) 		  for features in features_list]
+	num_DOPf_list    = [	  feature_types[0:features].count(1)  		  for features in features_list]
 	word_proportions = [1.0 * feature_types[0:features].count(0)/features for features in features_list]
-	print len(features_list)
-	print len(word_proportions)
-	plt.plot(features,word_proportions)
+
+
+	print "Word features: {0}".format(len(word_entropy))
+	print "DOP  features: {0}".format(len(DOPf_entropy))
+
+
+	plt.plot(features_list,num_wordf_list,'r',label='# Word features')
+	plt.plot(features_list,num_DOPf_list,'g',label='#DOP features')
+	plt.xscale('log')
+	plt.yscale('log')
+	plt.xlabel('total # of features')
+	plt.ylabel('# of features')
+	plt.legend()
 	plt.show()
+
+
+	plt.plot(features_list,word_proportions)
+	plt.xscale('log')
+	plt.xlabel('total # of features')
+	plt.ylabel('Proportion of word features')
+	plt.show()
+
+	for features in [1000,4000,10000,20000,200000]:
+		
+		print "Top {0} features: {1} words. {2} dop.".format(features, *getNumBothFeatures(features))
