@@ -72,7 +72,7 @@ print type(wordTag_entropy)
 entropy_sorted_words=wordTag_entropy;
 print len(entropy_sorted_words)
 
-writer = csv.writer(open('word_entropy.csv', 'wb'))
+writer = csv.writer(open('../../datasets/preprocessed/word_entropy.csv', 'w+b'))
 for i in sorted(wordTag_entropy, key=wordTag_entropy.get, reverse=True):
 	writer.writerow([i, wordTag_entropy[i]])
 #for key, value in entropy_sorted_words.items():
