@@ -9,32 +9,6 @@ import post
 import numpy as np
 import matplotlib.pyplot as plt
 
-word_entropy = [ (0,float(score)) for score in post.read_column(1,'word_entropy.csv') if not score=='']
-#word_entropy = [ (0,float(score)) for score in post.read_column(2,'../../datasets/preprocessed/informationGainWords.txt') if not score=='']
-DOPf_entropy = [ (1,-float(score)) for score in post.read_column(1,'../../datasets/preprocessed/informationGain.txt') if not score=='']
-
-print len(word_entropy)
-
-feature_list  = sorted(word_entropy + DOPf_entropy,key=lambda tup: tup[1])
-feature_types = [tup[0] for tup in feature_list]
-
-for line in word_entropy[0:10]:
-	print line
-
-
-for features in [1000,4000,10000,20000,200000]:
-	word_features     = feature_types[0:features].count(0)
-	DOP_features      = feature_types[0:features].count(1) 
-
-	print "Top {0} features: {1} words. {2} dop.".format(features, DOP_features, word_features)
-
-features_list = range(1, len(word_entropy)+len(DOPf_entropy),1000)
-word_proportions = [1.0 * feature_types[0:features].count(0)/features for features in features_list]
-print len(features_list)
-print len(word_proportions)
-plt.plot(word_proportions, features)
-plt.show()
-
 
 def getNumBothFeatures(num_total_features):
 	"""
