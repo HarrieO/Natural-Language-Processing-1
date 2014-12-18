@@ -170,7 +170,9 @@ def main():
 	print '0: DOP features'
 	print '1: baseline'
 	print "2: baseline 'improved'"
-	feature_classifiers = ['classifier','baseline','baseline_improved']
+	print "3: word+DOP features"
+
+	feature_classifiers = ['classifier','baseline','baseline_improved','combined_features']
 	f = int(raw_input('Type of features/classifier:'))
 	
 	#which data do we want to plot
