@@ -53,7 +53,7 @@ def getBothFeatureData(num_word_features,num_DOP_features,method=2):
 		X 	  = X_d
 		Xtest = Xtest_d
 	elif num_DOP_features == 0:
-		Xtest = X_w
+		X     = X_w
 		Xtest = Xtest_w
 	else:
 		# Fuse vectors
