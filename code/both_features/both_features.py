@@ -57,7 +57,7 @@ def getBothFeatureData(num_word_features,num_DOP_features,method=2):
 		Xtest = Xtest_w
 	else:
 		# Fuse vectors
-		print ">>> Fusing features"
+		print ">>> Fusing features to {0}".format(num_DOP_features+num_word_features)
 		X     = np.concatenate((X_w,X_d),axis=1)
 		Xtest = np.concatenate((Xtest_w,Xtest_d),axis=1)
 
