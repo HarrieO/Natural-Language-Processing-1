@@ -7,7 +7,7 @@ import sklearn
 from featureDeduction import FeatureDeduction
 from datapoint import *
 
-def feature2vector(train_data,test_data,feature_deduction=None):
+def feature2vector(train_data,test_data,feature_deduction=None,returnVectorizer = False):
 	"""
 	Takes train and test_data data as read from the csv file.
 	Returns X and Xtest_data, sparse matrices.
@@ -38,7 +38,10 @@ def feature2vector(train_data,test_data,feature_deduction=None):
 	featureMatrix = None
 	testMatrix = None
 
-	return X, Xtest
+	if returnVectorizer:
+		return X, Xtest, vectorizer
+	else:
+		return X, Xtest
 
 def getLabels(training_data, test_data,splitPoints=[],splitProportions=[0.25, 0.25],verbose=True,returnEncoder=False):
 	"""
@@ -87,7 +90,7 @@ def print_lbl_dist(y):
 		print "{0}:{1}".format(l, 1.0 * sum([1 for p in y if p==l])/len(y))
 
 
-def getProcessedData(method=2):
+def getProcessedData(method=2,returnIndices=False):
 	"""
 	Loads and labels the data in according to the selected method:
 	M0: 2lbls equal split
@@ -111,6 +114,7 @@ def getProcessedData(method=2):
 
 
 	print 'Processing labeling according to method M{0}'.format(method)
+
 	if method==0:
 		y,r = getLabels(training,test,splitProportions=[0.5,0.5])
 	elif method ==1:
@@ -152,13 +156,14 @@ def getProcessedData(method=2):
 		test      = [    test[i] for i in test_ind]
 		r         = [       r[i] for i in test_ind]
 
-	return training, test, y,r	
+	if returnIndices:
+		return training, test, y,r,train_ind, test_ind	
+	else:
+		return training, test, y,r	
 
 
-def main():
-	"""
-	Main function. Demonstrates the label distributions under the 5 methods
-	"""
+if __name__ == '__main__':
+	##	Main function. Demonstrates the label distributions under the 5 methods
 
 	for i in range(5):
 		print 'Method {0}'.format(i)
@@ -167,9 +172,3 @@ def main():
 		print_lbl_dist(y)
 		print 'Test'
 		print_lbl_dist(r)
-
-
-if __name__ == '__main__':
-	
-	main()
-
