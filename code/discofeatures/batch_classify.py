@@ -2,6 +2,7 @@ from sklearn import *
 from clean_train import *
 import time, re, amueller_mlp
 from sklearn.metrics import *
+import numpy as np
 
 def logRange(limit, n=10,start_at_one=[]):
 	"""
@@ -52,17 +53,22 @@ def sort_results_csv(input_file='../../results/classifier_results.csv',output_fi
 	if np.size(table) > 1:
 
 		#sort on features
-		table = sorted(table, key=lambda tup: tup['features'])
-		#sort on classifier
-		table = sorted(table, key=lambda tup: tup['classifier_id'])
+		if 'word_features' in table.dtype.names:
+			table.sort(order=['word_features','dop_features','classifier_id'])
+		else:
+			table.sort(order=['features','classifier_id'])
+
 
 		#store sorted file
 		with open(output_file,'w') as fd:
 			fd.write(header)
-			[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7]) + "\n") for tup in table]
+			if 'word_features' in table.dtype.names:
+				[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7],tup[8],tup[9]) + "\n") for tup in table]
+			else:
+				[fd.write(settings_to_string(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7]) + "\n") for tup in table]
 
 
-def findRun(classifier_id,features,resultsfile = '../../results/classifier_results.csv'):
+def findRun(classifier_id,features=None,resultsfile = '../../results/classifier_results.csv',word_features=None,dop_features=None):
 	"""
 	returns the numer of lines where the classifier /features combination occured
 	if it didn't occur, return empty
@@ -74,12 +80,16 @@ def findRun(classifier_id,features,resultsfile = '../../results/classifier_resul
 	#make sure table is allways iterable
 	if np.size(table)==1: table=list(table.flatten())
 
-	return [n for n,tup in enumerate(table) if tup[0]=='"' + classifier_id + '"' and tup[5]==features]
+	if dop_features>=0 and word_features>=0:
+		return [n for n,tup in enumerate(table) if tup['classifier_id']=='"' + classifier_id + '"'
+													and tup['dop_features']==dop_features and tup['word_features']==word_features]
+	else:
+		return [n for n,tup in enumerate(table) if tup['classifier_id']=='"' + classifier_id + '"' and tup['features']==features]
 
 
 
 def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score_time,
-						features,train_conf_matrix='', test_conf_matrix=''):
+						features,train_conf_matrix='', test_conf_matrix='',dop_features=None,word_features=None):
 	"""
 	Get a string to store to csv file (also usefull for regexp)
 	"""
@@ -87,9 +97,14 @@ def settings_to_string(classifier_id,train_accuracy,test_accuracy,fit_time,score
 	#add quotation marks for the strings, if needed
 	if classifier_id==""     or not classifier_id[0]=='"':     classifier_id     = '"' + classifier_id	    + '"'
 	
-	return "{0},{1},{2},{3},{4},{5},{6},{7}".format(classifier_id, train_accuracy,
-				test_accuracy,fit_time,score_time,features, 
-				train_conf_matrix, test_conf_matrix)
+	if dop_features >=0 and word_features >=0:
+		return "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}".format(classifier_id, train_accuracy,
+					test_accuracy,fit_time,score_time,features, 
+					train_conf_matrix, test_conf_matrix, dop_features, word_features)
+	else:
+		return "{0},{1},{2},{3},{4},{5},{6},{7}".format(classifier_id, train_accuracy,
+					test_accuracy,fit_time,score_time,features, 
+					train_conf_matrix, test_conf_matrix)
 
 
 def batch_run(test_settings,method=2):
