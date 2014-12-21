@@ -13,7 +13,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../disco'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../discofeatures'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../topicmodel'))
+from wordCounts import *
 from settings import *
+
+# Based on the setttings we load the apropiate files for each of the models
 if USE_CLASSIFIER == 'basic_model':
     sys.path.append(os.path.join(os.path.dirname(__file__), '../basic_model'))
     from baselineExtended import compute_score
@@ -24,23 +27,15 @@ elif USE_CLASSIFIER == 'baseline':
     extraction = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../results/models/last_extraction.p'),'rb'))
 if USE_DOP:
     from treeToFeatures import *
-from wordCounts import *
 
-
+# If the BLLIP parser is ued include the bllip parser
 if USE_BLLIP == True:
+    # There are two ways to use the bllip parser, the python version performs better
     if BLLIP_TYPE == 'Python':
         from bllipparser import RerankingParser, tokenize
         from get_trees import split_sentences
     else:
         from get_trees import *
-
-topicmodel = None
-baselineModel = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../results/models/baseline0.5'+'.p'),'rb'))
-#wordScores = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/wordScores.p'),'rb'))
-
-# Global variables used in the application
-featureMap = {}
-patternRemove = re.compile('[\W_]+', re.UNICODE)
 
 def getClassFromNumber(label):
     wordClass = 'neutral'
@@ -50,47 +45,39 @@ def getClassFromNumber(label):
         wordClass = 'impolite'
     return wordClass
 
-def loadDopFeatures():
-    global featureMap
-    with open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/featureSpace.txt')) as f:
-        for line in f:
-            i, tree = line.split(' ',1)
-            tree = tree.strip()
-            featureMap[tree] = i
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("index.html")
+
 class PolitenessHandler(tornado.web.RequestHandler):
     def post(self):
-        global USE_BLLIP, USE_DOP, BLLIP_TYPE, USE_CLASSIFIER, rrp, featureMap, topicmodel, classifier, extraction, patternRemove #, baselineModel, wordScores
-        sentence = self.get_argument("sentence", None)
+        global USE_BLLIP, USE_DOP, BLLIP_TYPE, USE_CLASSIFIER, rrp, featureMap, topicmodel, classifier, extraction, patternRemove
+        label = 0
+        scoreFound = None
         tree = None
+        sentence = self.get_argument("sentence", None)
+        features = ""
+
         if USE_BLLIP == True:
             if BLLIP_TYPE == 'Python':
                 tree = [rrp.simple_parse(str(sent)) for sent in split_sentences(sentence)]
             else:
                 tree = get_trees(sentence)
         else:
-            # example_trees = [ '(S1 (S (VP (VB Thank) (NP (PRP you)) (PP (IN for) (NP (DT the) (FW response.) (SQ (MD Would) (NP (PRP you)) (VP (AUX be) (ADJP (JJ willing) (S (VP (TO to) (VP (VB add) (NP (DT a) (JJ few) (JJR more) (NNS details)) (S (VP (TO to) (VP (VB explain) (ADVP (RBR further)))))))))))))) (. ?)))',
-            # '(S1 (SBARQ (WHNP (WDT That)) (SQ (AUX \'s) (NP (NP (DT the) (JJ only) (NN answer)) (SBAR (S (NP (PRP you)) (VP (AUX have)))) (. ?)) (ADVP (RB seriously)) (. ?) (SQ (MD can) (RB n\'t) (NP (PRP you)) (VP (AUX do) (ADVP (RB better))))) (. ?)))' ]
-            # tree = np.random.choice(example_trees, 1)
-            print sentence
             sentence = sentence
-        features = ""
+
         if USE_DOP:
             features = convertTreeToVector(list(tree), featureMap)
-            print features
+
         # Classifier
-        label = 0
-        scoreFound = None
         if USE_CLASSIFIER == 'basic_model':
             scoreFound = compute_score(sentence,baselineModel)
             if scoreFound is None:
                 scoreFound = 0
             classFound = 'neutral'
             label = 0
-            if scoreFound >= 0.5: #-0.38765975611068004, 0.4548283398341303]
+            if scoreFound >= 0.5:
                 classFound = 'polite'
                 label = 1
             if scoreFound <= -0.5:
@@ -109,6 +96,7 @@ class PolitenessHandler(tornado.web.RequestHandler):
             classFound = getClassFromNumber(label)
         elif USE_CLASSIFIER == 'dopclassifier':
             # Dop feature
+            # Not implemented in the demo
             print ""
 
 
@@ -127,18 +115,7 @@ class PolitenessHandler(tornado.web.RequestHandler):
 
         response = { 'sentences': [ {'sentence': " ".join(["<span class=\""+getClassFromNumber(tags[i])+"\">"+word+" "+"</span>" for (i, word) in sentenceWords if word != "" ]), 'sentenceClass': classFound, 'confidence': scoreFound } ]}
         self.write(response)
-        # topicmode_trainer().start()
 
-application = tornado.web.Application([
-    (r"/politeness/", MainHandler),
-    (r"/politeness/classify/", PolitenessHandler)],
-    template_path=os.path.join(os.path.dirname(__file__), "templates"),
-    static_path=os.path.join(os.path.dirname(__file__), "static"),
-    xsrf_cookies=True,
-    debug=True,
-    static_url_prefix="/politeness/static/"
-
-)
 
 class bllip_loader(Thread):
     def run(self):
@@ -153,12 +130,20 @@ class bllip_loader(Thread):
 class topicmode_loader(Thread):
     def run(self):
         global topicmodel
-
         print "Topic model"
         f = open(os.path.join(os.path.dirname(__file__), '../../results/models/topicModel200000.txt'), 'r+b')
         topicmodel = pickle.load(f)
         f.close()
         print "Topic model end"
+
+class dop_features_loader(Thread):
+    def run(self):
+        global featureMap
+        with open(os.path.join(os.path.dirname(__file__), '../../datasets/preprocessed/featureSpace.txt')) as f:
+            for line in f:
+                i, tree = line.split(' ',1)
+                tree = tree.strip()
+                featureMap[tree] = i
 
 class topicmode_trainer(Thread):
     def run(self):
@@ -171,11 +156,32 @@ class topicmode_trainer(Thread):
                 m = random.randrange(numWords)
                 topicmodel.conditional_distribution((n,m))
 
-loadDopFeatures()
+# Global variables used in the application
+featureMap = {}
+patternRemove = re.compile('[\W_]+', re.UNICODE)
+topicmodel = None
+baselineModel = None
+
+application = tornado.web.Application([
+    (r"/politeness/", MainHandler),
+    (r"/politeness/classify/", PolitenessHandler)],
+    template_path=os.path.join(os.path.dirname(__file__), "templates"),
+    static_path=os.path.join(os.path.dirname(__file__), "static"),
+    xsrf_cookies=True,
+    debug=True,
+    static_url_prefix="/politeness/static/"
+
+)
+
 if __name__ == "__main__":
+    # Here we start the web server, and in seperate threads load data and models
     application.listen(8888)
+    if USE_CLASSIFIER == 'basic_model':
+        baselineModel = pickle.load(open(os.path.join(os.path.dirname(__file__), '../../results/models/baseline0.5'+'.p'),'rb'))
     if USE_BLLIP == True:
         if BLLIP_TYPE == 'Python':
             bllip_loader().start()
+    if USE_DOP:
+        dop_features_loader().start()
     topicmode_loader().start()
     tornado.ioloop.IOLoop.instance().start()
