@@ -112,6 +112,7 @@ def plot_classifier_results(c_id,plot_runtime=True,table=[],compareAcc=[],compar
 	if table==[]: table = get_result_table()
 
 	c_table =  table[table["classifier_id"]==c_id]
+	table.sort(order='features')
 
 	fig, ax1 = plt.subplots()
 	ax1.plot(c_table['features'], c_table['train_accuracy'], 'b-s',label='Training data')
@@ -207,10 +208,16 @@ def main():
 	print "Best {0} classifiers:".format(best_n)
 	print "==============================================="
 
-	print "\n".join(["{0: >2}.{1: >27} ({2: >2}) with {3: >8} features. Train:{4:.4f}. Test{5:.4}.".format(n+1, class_id_to_tuple(row['classifier_id'])[0],
-										classifier_id_list.index(row['classifier_id']),
-										row['features'], row['train_accuracy'], row['test_accuracy'])
-									for n,row in enumerate(best_table)])
+	if f == 3:
+		print "\n".join(["{0: >2}.{1: >27} ({2: >2}) with {3: >8} word-features, {4: >8} dop-features. Train:{5:.4f}. Test{6:.4}.".format(n+1, class_id_to_tuple(row['classifier_id'])[0],
+											classifier_id_list.index(row['classifier_id']),
+											row['word_features'],row['dop_features'], row['train_accuracy'], row['test_accuracy'])
+										for n,row in enumerate(best_table)])
+	else:
+		print "\n".join(["{0: >2}.{1: >27} ({2: >2}) with {3: >8} features. Train:{4:.4f}. Test{5:.4}.".format(n+1, class_id_to_tuple(row['classifier_id'])[0],
+											classifier_id_list.index(row['classifier_id']),
+											row['features'], row['train_accuracy'], row['test_accuracy'])
+										for n,row in enumerate(best_table)])
 
 
 

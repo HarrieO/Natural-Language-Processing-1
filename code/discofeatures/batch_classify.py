@@ -54,9 +54,9 @@ def sort_results_csv(input_file='../../results/classifier_results.csv',output_fi
 
 		#sort on features
 		if 'word_features' in table.dtype.names:
-			table.sort(order=['word_features','dop_features','classifier_id'])
+			table.sort(order=['classifier_id','features','dop_features','word_features'])
 		else:
-			table.sort(order=['features','classifier_id'])
+			table.sort(order=['classifier_id','features'])
 
 
 		#store sorted file

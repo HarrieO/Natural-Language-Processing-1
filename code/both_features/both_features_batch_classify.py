@@ -105,8 +105,11 @@ if __name__ == '__main__':
 
 	# Maximum number of features: 261396 DOP, 9478 WORDS
 	#features_set = logRange(261395+9478,15,1)
+	#features_set = [(w,d) for d in [ 1,      4,     11,     27,     63,    146,    336,    774,
+    #     1779,   4087] for w in [96,  242,  607, 1517, 3793, 9477] ]
+
 	features_set = [(w,d) for d in [ 1,      4,     11,     27,     63,    146,    336,    774,
-         1779,   4087,   9389,  21568,  49543, 113799, 261394] for w in [96,  242,  607, 1517, 3793, 9477] ]
+       		  1779,   4087] for w in [5000] ]
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features[0], features[1]) for features in features_set for classifier  in classifiers )
