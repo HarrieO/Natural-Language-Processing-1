@@ -84,19 +84,19 @@ def both_features_batch_run(test_settings,method=2):
 if __name__ == '__main__':
 
 	#tuples of classifers to test, and a string with their settings (to store)
-	classifiers=[ amueller_mlp.MLPClassifier(n_hidden=200),
-				  amueller_mlp.MLPClassifier(n_hidden=400),
-				  amueller_mlp.MLPClassifier(n_hidden=800),
-				  ensemble.RandomForestClassifier(),
+	classifiers=[ #amueller_mlp.MLPClassifier(n_hidden=200),
+				  #amueller_mlp.MLPClassifier(n_hidden=400),
+				  #amueller_mlp.MLPClassifier(n_hidden=800),
+				  #ensemble.RandomForestClassifier(),
 				  #sklearn.ensemble.AdaBoostClassifier(),
-				  sklearn.linear_model.Perceptron(n_iter=60),
+				  #sklearn.linear_model.Perceptron(n_iter=60),
 				  #svm.SVC(kernel='poly'),
 				  svm.SVC(kernel='linear'),
 				  #svm.SVC(kernel='sigmoid'),
 				  #naive_bayes.GaussianNB(),
 				  #neighbors.nearest_centroid.NearestCentroid(),
-				  svm.SVC(),
-				  tree.DecisionTreeClassifier(),
+				  #svm.SVC(),
+				  #tree.DecisionTreeClassifier(),
 				  #naive_bayes.MultinomialNB(),
 				  #naive_bayes.BernoulliNB(),
 				  #sklearn.ensemble.GradientBoostingClassifier(),
@@ -105,11 +105,13 @@ if __name__ == '__main__':
 
 	# Maximum number of features: 261396 DOP, 9478 WORDS
 	#features_set = logRange(261395+9478,15,1)
-	#features_set = [(w,d) for d in [ 1,      4,     11,     27,     63,    146,    336,    774,
-    #     1779,   4087] for w in [96,  242,  607, 1517, 3793, 9477] ]
+	#print logRange(261395,15,1)
+	features_set = [(w,d) for w in [1, 4, 20, 96,  242,  607, 1517, 3793, 9477]
+	for d in [ 1,      4,     11,     27,     63,    146,    336,    774,
+	     1779,   4087, 9389,  21568,  49543, 113799, 261394]  ]
 
-	features_set = [(w,d) for d in [ 1,      4,     11,     27,     63,    146,    336,    774,
-       		  1779,   4087] for w in [5000] ]
+	#features_set = [(w,d) for d in [ 1,      4,     11,     27,     63,    146,    336,    774,
+    #   		  1779,   4087] for w in [5000] ]
 
 	#combine combinatorial (factory because we dont want to duplicate all the classifiers)
 	settings = ( (classifier, features[0], features[1]) for features in features_set for classifier  in classifiers )
