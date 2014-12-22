@@ -56,9 +56,9 @@ for i in [3,4,5,6,7]:
 		turkScoresWIK[i-3,k]= turkListWIK[k]
 
 def classFromScore(score):
-	if score>0.5:
+	if score>0.4548283398341303: 
 		return 1
-	elif score <-0.5:
+	elif score <-0.38765975611068004:
 		return -1
 	else:
 		return 0
@@ -167,7 +167,7 @@ def giveDataPercentages():
 	positive = 0
 	negative = 0
 	for i in range(len(scoresSElist)):
-		if scoresSE[i]>0.5:
+		if scoresSE[i]>0.5: 
 			positive +=1
 		elif scoresSE[i]<-0.5:
 			negative+=1
@@ -176,12 +176,55 @@ def giveDataPercentages():
 	print "Neutral: ", 100.0*neutral/len(scoresSElist)
 	print "Polite: ", 100.0*positive/len(scoresSElist)
 	print "Impolite: ", 100.0*negative/len(scoresSElist)
-giveDataPercentages()
-testTurksAll()
-testTurksAgree()
+
+def testTurksAverageOnEqualSet(left=8, right =17):
+	examples = np.zeros(3)
+	mistakes = np.zeros(3)
+	for i in range(len(scoresSElist)):
+		label = classFromScore(scoresSE[i])
+		examples[label] +=1
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresSE[turkIndex, 0], left, right)!= label):
+				mistakes[label] +=1
+	for i in range(len(scoresWIKlist)):
+		examples[label] +=1
+		label = classFromScore(scoresWIK[i])
+		for turkIndex in [0,1,2,3,4]:
+			if( classFromTurkScore(turkScoresWIK[turkIndex, i], left, right)!= label):
+				mistakes[label] +=1
+	percentage = (1.0- 0.2* mistakes / examples) * 100.0
+	print "For split (",left, ",", right, "), ", percentage, "% was classified correctly, with mean ", np.mean(percentage)
+	return np.mean(percentage)
 
 
-print "Evaluating average turk accuracy"
+#giveDataPercentages()
+#testTurksAverageOnEqualSet()
+#testTurksAll()
+#testTurksAgree()
+
+
+print "Evaluating average turk accuracy on equal sets"
+bestI = 2
+bestJ = 13
+bestPercentage = 0
+for i in [6,7,8,9,10,11,12]:
+	for j in [13,14,15,16,17,18,19,20,22]:
+		percentage = testTurksAverageOnEqualSet(i,j)
+		if percentage > bestPercentage:
+			bestPercentage = percentage
+			bestI = i
+			bestJ = j
+for i in [13,14,15]:
+	for j in [16,17,18,19,20,22]:
+		percentage = testTurksAverageOnEqualSet(i,j)
+		if percentage > bestPercentage:
+			bestPercentage = percentage
+			bestI = i
+			bestJ = j
+print "Best (i,j) is ", (bestI,bestJ), ", best percentage is ", bestPercentage
+
+
+print "Evaluating average turk accuracy on 25-50-25 split"
 bestI = 2
 bestJ = 13
 bestPercentage = 0
