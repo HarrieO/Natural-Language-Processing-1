@@ -69,10 +69,14 @@ class WordCounter(object):
             label = labelsPerSentence[i]
             taggedWords = []
             for m,word in enumerate(words):
-                if averageScorePerWord[word] > 0.3 and label ==1:
+                if averageScorePerWord[word] > 0.2 and label ==1:
                     z = 1
-                elif averageScorePerWord[word] < -0.3 and label ==0:
+                elif averageScorePerWord[word] > 0.1 and label ==1:
+                    z = random.choice([1,2])
+                elif averageScorePerWord[word] < -0.2 and label ==0:
                     z = 0
+                elif averageScorePerWord[word] < -0.1 and label ==0:
+                    z = random.choice([0,2])
                 else:
                     z = 2
                 V[z] += 1
@@ -263,7 +267,7 @@ if __name__ == "__main__":
     f.close()
     print "Took", time.time()-start, "seconds"
 
-    for num_its in [10,100,1000,10000,100000,200000]:
+    for num_its in [200000,1000000,10000000]:
         start = time.time()
         print "Applying Gibbs sampling for", num_its, "iterations"
         wordCounter.gibbs_sample_topic_model(num_its)
