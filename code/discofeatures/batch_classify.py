@@ -187,7 +187,7 @@ def main():
 				  #sklearn.ensemble.AdaBoostClassifier(),
 				  sklearn.linear_model.Perceptron(n_iter=60),
 				  #svm.SVC(kernel='poly'),
-				  #svm.SVC(kernel='linear'),
+				  svm.SVC(kernel='linear'),
 				  #svm.SVC(kernel='sigmoid'),
 				  #naive_bayes.GaussianNB(),
 				  #neighbors.nearest_centroid.NearestCentroid(),

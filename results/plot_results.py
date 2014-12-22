@@ -145,6 +145,72 @@ def plot_classifier_results(c_id,plot_runtime=True,table=[],compareAcc=[],compar
 	plt.title("{0} ({1})".format(class_id_to_tuple(c_id)[0], class_id_list(table=c_table).index(c_id)))
 	plt.show()
 
+def plot_classifier_both_features_heatmap(c_id,table=[]):
+	if table==[]: table = get_result_table()
+
+	#allowed values/ which we want to plot
+	d_list = [ 1,      4,     11,     27,     63,    146,    336,    774,  1779,   4087, 9389,  21568,  49543, 113799, 261394]
+	w_list = [1, 4,20, 96, 242,  607, 1517, 3793, 9477] 
+
+	c_table =  table[table["classifier_id"]==c_id]
+
+	c_table.sort(order='test_accuracy')
+
+	word_features = c_table['word_features']
+	dop_features  = c_table['dop_features']
+	test_scores	  = c_table['test_accuracy']
+
+
+	remove_ind =  [n for n,w in enumerate(word_features) if  not w in w_list]
+	remove_ind += [n for n,d in enumerate(dop_features)  if not d in d_list]
+
+	word_features = np.array([w for n,w in enumerate(word_features) if not n in remove_ind])
+	dop_features  = np.array([d for n,d in enumerate(dop_features)  if not n in remove_ind])
+	test_scores   = np.array([t for n,t in enumerate(test_scores)   if not n in remove_ind])
+
+	#categorize
+	#bins = 5
+	#categories = []
+	#cat_ranges = []
+	#splitsize = 1.0/bins*len(test_scores)
+	#for i in range(bins-1):
+	#	start_ind = int(round(i*splitsize))
+	#	stop_ind  = int(round((i+1)*splitsize))
+	#	cat_ranges.append((test_scores[start_ind],test_scores[stop_ind]))
+		#print test_scores[int(round(i*splitsize)),int(round((i+1)*splitsize))]
+
+
+	#print test_scores.min()
+	#print test_scores.max()
+
+	scores = (test_scores - 0.35) / 0.2
+	#scores = (test_scores - test_scores.min()) / test_scores.ptp()
+	colors = plt.cm.coolwarm(scores)
+	sizes = [40*4**s for s in scores]
+
+	plt.scatter(word_features,dop_features,s=sizes,c=colors)
+	plt.xscale('log')
+	plt.yscale('log')
+	plt.xlabel('# word features')
+	plt.ylabel('# DOP features')
+	#plt.xlim([0, max(dop_features)])
+	#plt.ylim([0, max(word_features)])
+	plt.title('Test accuracy for linear SVM')
+	plt.show()
+	#plt.pcolor(data)
+
+	# plot legend
+	fig, ax = plt.subplots()
+	labels  = np.linspace(0.35,0.55,5)
+	scores = (labels - 0.35) / 0.2
+	#scores  = [0,0.1,0.2, 0.3,0.4, 0.5, 0.6,0.7, 0.8,0.9,1.0]
+	colors  = plt.cm.coolwarm(scores)
+	sizes   = [40*4**s for s in scores]
+	for n,l in enumerate(labels):
+		ax.scatter(0,0,c=colors[n],s=sizes[n],label='{0}'.format(l))
+	plt.legend(title='Test accuracy:',scatterpoints=1)
+	plt.show()
+
 def class_id_to_tuple(c_id):
 	"""
 	Returns a tuple of (classifier name, classifier settings)
@@ -236,7 +302,10 @@ def main():
 						        table[table['classifier_id']==c_id]['test_conf_matrix'],
 						        table[table['classifier_id']==c_id]['features'] )
 
-			plot_classifier_results(c_id,table=table)
+			#plot_classifier_results(c_id,table=table)
+
+			if f == 3:
+				plot_classifier_both_features_heatmap(c_id,table=table)
 
 if __name__ == '__main__':
 	main()
