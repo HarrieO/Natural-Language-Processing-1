@@ -20,3 +20,9 @@ The file examineTopicModel contains code that shows how to work with the topic m
 -- Information gain / entropy computations --
 The code for entropy computation can be found in computeEntropy, wordEntropy and reduceFeatures. The latter file is used to create informationGain.txt files containing 
 the features ranked on information gain. The wordEntropy file contains the code which was used to generate Table 1.
+
+-- Disco ---
+Used to convert the data to DOP features, this code uses the BLLIP parsers, you will have to install it yourself and change some of the code for it to work locally. However, the results of each step are saved in sentences and trees in the datasets/preprocessed folder, so you can perform part of this code. Also based on the Disco-dop implementation by Andreas, as referenced in our report.
+
+-- DiscoFeatures --
+The code based on data converted to DOP features, used for classification and feature reduction for the DOP based data.
