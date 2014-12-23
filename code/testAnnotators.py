@@ -35,23 +35,23 @@ def make_list(col1,col2,col3, indices):
 
 # Read all data
 #sentencesSE  = np.array(read_column(2,'stack-exchange.annotated.csv')) # sentences
-scoresSElist = read_column(13,'stack-exchange.annotated.csv') # mean score
+scoresSElist = read_column(13,'../datasets/Stanford politeness corpus/stack-exchange.annotated.csv') # mean score
 scoresSE     = np.zeros(len(scoresSElist))
 for i in range(len(scoresSElist)):
 	scoresSE[i] = scoresSElist[i]
 turkScoresSE = np.zeros([5,len(scoresSElist)])
 for i in [3,4,5,6,7]:
-	turkListSE = read_column(i,'stack-exchange.annotated.csv') # mean score
+	turkListSE = read_column(i,'../datasets/Stanford politeness corpus/stack-exchange.annotated.csv') # mean score
 	for k in range(len(turkListSE)):
 		turkScoresSE[i-3,k]= turkListSE[k]
 #sentencesWIK  = np.array(read_column(2,'wikipedia.annotated.csv')) # sentences
-scoresWIKlist = read_column(13,'wikipedia.annotated.csv') # mean score
+scoresWIKlist = read_column(13,'../datasets/Stanford politeness corpus/wikipedia.annotated.csv') # mean score
 scoresWIK     = np.zeros(len(scoresWIKlist))
 for i in range(len(scoresWIKlist)):
 	scoresWIK[i] = scoresWIKlist[i]
 turkScoresWIK = np.zeros([5,len(scoresWIKlist)])
 for i in [3,4,5,6,7]:
-	turkListWIK = read_column(i,'wikipedia.annotated.csv') # mean score
+	turkListWIK = read_column(i,'../datasets/Stanford politeness corpus/wikipedia.annotated.csv') # mean score
 	for k in range(len(turkListWIK)):
 		turkScoresWIK[i-3,k]= turkListWIK[k]
 

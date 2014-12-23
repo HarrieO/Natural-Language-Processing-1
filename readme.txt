@@ -7,6 +7,11 @@ Carla Groenland 10208429 carla.groenland@gmail.com
 
 CODE DESCRIPTION
 
+-- Data preprocessing / examination --
+convert_data is used to create train.csv and test.csv from the Stanford data set.
+testAnnotators is used to evaluate the data.
+
+
 -- Topic Model --
 The files wordCounts and wordCountsRandom can be used to create topic models with initialization using mean scores or random initialization respectively. 
 Gibbs sampling can be applied for various numbers of iterations, where the topic models are written to topicModel(Random)#NUM_ITS.txt. 
