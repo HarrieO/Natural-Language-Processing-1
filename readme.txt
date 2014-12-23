@@ -13,5 +13,5 @@ Gibbs sampling can be applied for various numbers of iterations, where the topic
 The file examineTopicModel contains code that shows how to work with the topic models, which was used to generate Table 4.
 
 -- Information gain / entropy computations --
-The code for entropy computation can be found in computeEntropy, wordEntropy and reduceDatapoints. The latter file is used to create informationGain.txt files containing 
+The code for entropy computation can be found in computeEntropy, wordEntropy and reduceFeatures. The latter file is used to create informationGain.txt files containing 
 the features ranked on information gain. The wordEntropy file contains the code which was used to generate Table 1.
