@@ -1,9 +1,0 @@
-job
-unemployment
-employment
-hire
-hired
-fired
-interview
-work
-paycheck
